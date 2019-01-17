@@ -1,0 +1,1059 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" name="pbx" targetNamespace="http://innovaphone.com/pbx" xmlns:inno="http://innovaphone.com/pbx" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <documentation>This is the innovaphone PBX WSDL file version 500 (as returned in VersionResponse)</documentation>
+    <types>
+        <xsd:schema targetNamespace="http://innovaphone.com/pbx" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+            <xsd:complexType name="Info">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="type" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="vali" type="xsd:int"/>
+
+                    <xsd:element maxOccurs="1" minOccurs="1" name="vals" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="InfoArray">
+                <xsd:complexContent>
+                    <xsd:restriction base="SOAP-ENC:Array">
+                        <xsd:sequence>
+                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="item" type="inno:Info"/>
+                        </xsd:sequence>
+
+                        <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="inno:Info[]"/>
+                    </xsd:restriction>
+                </xsd:complexContent>
+            </xsd:complexType>
+
+            <xsd:complexType name="No">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="type" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="cn" type="xsd:string"/>
+
+                    <xsd:element maxOccurs="1" minOccurs="1" name="dn" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="e164" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="h323" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="NoArray">
+                <xsd:complexContent>
+                    <xsd:restriction base="SOAP-ENC:Array">
+                        <xsd:sequence>
+
+                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="item" type="inno:No"/>
+                        </xsd:sequence>
+                        <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="inno:No[]"/>
+                    </xsd:restriction>
+                </xsd:complexContent>
+            </xsd:complexType>
+
+            <xsd:complexType name="Group">
+                <xsd:sequence>
+
+                    <xsd:element maxOccurs="1" minOccurs="1" name="group" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="active" type="xsd:boolean"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="GroupArray">
+                <xsd:complexContent>
+                    <xsd:restriction base="SOAP-ENC:Array">
+                        <xsd:sequence>
+                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="item" type="inno:Group"/>
+
+                        </xsd:sequence>
+                        <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="inno:Group[]"/>
+                    </xsd:restriction>
+                </xsd:complexContent>
+            </xsd:complexType>
+            
+            <xsd:complexType name="Device">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="hw" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="text" type="xsd:string"/>
+
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="DeviceArray">
+                <xsd:complexContent>
+                    <xsd:restriction base="SOAP-ENC:Array">
+                        <xsd:sequence>
+                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="item" type="inno:Device"/>
+                        </xsd:sequence>
+                        <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="inno:Device[]"/>
+
+                    </xsd:restriction>
+                </xsd:complexContent>
+            </xsd:complexType>
+
+            <xsd:complexType name="CallInfo">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="user" type="xsd:int"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="call" type="xsd:int"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="reg" type="xsd:int"/>
+
+                    <xsd:element maxOccurs="1" minOccurs="1" name="active" type="xsd:boolean"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="state" type="xsd:int"/>
+
+                    <xsd:element maxOccurs="1" minOccurs="1" name="No" type="inno:NoArray"/>
+
+                    <xsd:element maxOccurs="1" minOccurs="1" name="msg" type="xsd:string"/>
+
+                    <xsd:element maxOccurs="1" minOccurs="1" name="info" type="inno:InfoArray"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="CallInfoArray">
+                <xsd:complexContent>
+                    <xsd:restriction base="SOAP-ENC:Array">
+                        <xsd:sequence>
+                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="item" type="inno:CallInfo"/>
+                        </xsd:sequence>
+                        <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="inno:CallInfo[]"/>
+                    </xsd:restriction>
+                </xsd:complexContent>
+
+            </xsd:complexType>
+
+          <xsd:simpleType name="PresenceStatus">
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="open"/>
+              <xsd:enumeration value="closed"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+          <xsd:simpleType name="PresenceActivity">
+
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="appointment"/>
+              <xsd:enumeration value="away"/>
+              <xsd:enumeration value="breakfast"/>
+              <xsd:enumeration value="busy"/>
+              <xsd:enumeration value="dinner"/>
+              <xsd:enumeration value="holiday"/>
+              <xsd:enumeration value="in-transit"/>
+              <xsd:enumeration value="looking-for-work"/>
+
+              <xsd:enumeration value="lunch"/>
+              <xsd:enumeration value="meal"/>
+              <xsd:enumeration value="meeting"/>
+              <xsd:enumeration value="on-the-phone"/>
+              <xsd:enumeration value="other"/>
+              <xsd:enumeration value="performance"/>
+              <xsd:enumeration value="permanent-absence"/>
+              <xsd:enumeration value="playing"/>
+              <xsd:enumeration value="presentation"/>
+
+              <xsd:enumeration value="shopping"/>
+              <xsd:enumeration value="sleeping"/>
+              <xsd:enumeration value="spectator"/>
+              <xsd:enumeration value="steering"/>
+              <xsd:enumeration value="travel"/>
+              <xsd:enumeration value="tv"/>
+              <xsd:enumeration value="unknown"/>
+              <xsd:enumeration value="vacation"/>
+              <xsd:enumeration value="working"/>
+
+              <xsd:enumeration value="worship"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+          <xsd:complexType name="Presence">
+            <xsd:sequence>
+              <xsd:element maxOccurs="1" minOccurs="1" name="status" type="inno:PresenceStatus"/>
+              <xsd:element maxOccurs="1" minOccurs="0" name="activity" type="inno:PresenceActivity"/>
+              <xsd:element maxOccurs="1" minOccurs="0" name="note" type="xsd:string"/>
+            </xsd:sequence>
+
+          </xsd:complexType>
+            <xsd:complexType name="UserInfo">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="guid" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="active" type="xsd:boolean"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="state" type="xsd:int"/>
+
+                    <xsd:element maxOccurs="1" minOccurs="1" name="channel" type="xsd:int"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="alert" type="xsd:int"/>
+
+                    <xsd:element maxOccurs="1" minOccurs="1" name="cn" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="dn" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="type" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="e164" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="h323" type="xsd:string"/>
+
+                    <xsd:element maxOccurs="1" minOccurs="1" name="presence" type="inno:Presence"/>
+
+                    <xsd:element maxOccurs="1" minOccurs="0" name="loc" type="xsd:string"/>
+
+                    <xsd:element maxOccurs="1" minOccurs="0" name="node" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="nodenum" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="object" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="cfg" type="xsd:boolean"/>
+
+                    <xsd:element maxOccurs="1" minOccurs="0" name="groups" type="inno:GroupArray"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="info" type="inno:InfoArray"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="UserInfoArray">
+                <xsd:complexContent>
+                    <xsd:restriction base="SOAP-ENC:Array">
+                        <xsd:sequence>
+                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="item" type="inno:UserInfo"/>
+                        </xsd:sequence>
+                        <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="inno:UserInfo[]"/>
+                    </xsd:restriction>
+                </xsd:complexContent>
+
+            </xsd:complexType>
+
+            <xsd:complexType name="RegInfo">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="active" type="xsd:boolean"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="user" type="xsd:int"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="reg" type="xsd:int"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="hw" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="soap" type="xsd:string"/>
+
+                    <xsd:element maxOccurs="1" minOccurs="1" name="info" type="inno:InfoArray"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="RegInfoArray">
+                <xsd:complexContent>
+                    <xsd:restriction base="SOAP-ENC:Array">
+                        <xsd:sequence>
+                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="item" type="inno:RegInfo"/>
+                        </xsd:sequence>
+
+                        <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="inno:RegInfo[]"/>
+                    </xsd:restriction>
+                </xsd:complexContent>
+            </xsd:complexType>
+
+            <xsd:complexType name="AnyInfo">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="user" type="inno:UserInfoArray"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="call" type="inno:CallInfoArray"/>
+
+                    <xsd:element maxOccurs="1" minOccurs="0" name="reg" type="inno:RegInfoArray"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="info" type="inno:InfoArray"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+        </xsd:schema>
+    </types>
+
+    <message name="VersionRequest">
+        <documentation>Queries the PBX for various version information</documentation>
+
+    </message>
+    <message name="VersionResponse">
+        <documentation>Returns various version information</documentation>
+        <part name="WSDLVersion" type="xsd:int">
+            <documentation>defines the supported innovaphone PBX WSDL file version, function return value e.g. in C#</documentation>
+        </part>
+        <part name="GatekeeperID" type="xsd:string">
+            <documentation>the PBX's gatekeeper ID</documentation>
+
+        </part>
+        <part name="Location" type="xsd:string">
+            <documentation>the PBX's location name</documentation>
+        </part>
+        <part name="FirmwareVersion" type="xsd:string">
+            <documentation>the PBX's platform firmware version (e.g. "V5.00 hotfix IP400[03-5315]")</documentation>
+
+        </part>
+        <part name="SerialNumber" type="xsd:string">
+            <documentation>the PBX's platform serial number (e.g. "00-90-33-00-00-2d")</documentation>
+        </part>
+    </message>
+
+    <message name="EchoRequest">
+
+        <part name="session" type="xsd:int"/>
+        <part name="key" type="xsd:int"/>
+    </message>
+    <message name="EchoResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+
+    <message name="AdminRequest">
+        <part name="xml" type="xsd:string"/>
+
+    </message>
+    <message name="AdminResponse">
+        <part name="return" type="xsd:string"/>
+    </message>
+
+    <message name="InitializeRequest">
+        <part name="user" type="xsd:string"/>
+        <part name="appl" type="xsd:string"/>
+        <part name="v" type="xsd:boolean"/>
+
+        <part name="v501" type="xsd:boolean"/>
+        <part name="v700" type="xsd:boolean"/>
+        <part name="v800" type="xsd:boolean"/>
+        <part name="vx1000" type="xsd:boolean"/>
+    </message>
+    <message name="InitializeResponse">
+        <part name="return" type="xsd:int"/>
+        <part name="key" type="xsd:int"/>
+    </message>
+
+    <message name="EndRequest">
+        <part name="session" type="xsd:int"/>
+    </message>
+    <message name="EndResponse"/>
+
+    <message name="PollRequest">
+        <part name="session" type="xsd:int"/>
+    </message>
+    <message name="PollResponse">
+
+        <part name="return" type="inno:AnyInfo"/>
+    </message>
+
+    <message name="LicenseRequest">
+        <part name="session" type="xsd:int"/>
+        <part name="name" type="xsd:string"/>
+    </message>
+    <message name="LicenseResponse">
+        <part name="return" type="xsd:string"/>
+
+    </message>
+
+    <message name="CallsRequest">
+        <part name="session" type="xsd:int"/>
+        <part name="user" type="xsd:string"/>
+    </message>
+    <message name="CallsResponse">
+        <part name="return" type="inno:CallInfoArray"/>
+    </message>
+
+    
+    <message name="DevicesRequest">
+        <part name="session" type="xsd:int"/>
+        <part name="user" type="xsd:string"/>
+    </message>
+    <message name="DevicesResponse">
+        <part name="return" type="inno:DeviceArray"/>
+    </message>
+
+    <message name="UserInitializeRequest">
+
+        <part name="session" type="xsd:int"/>
+        <part name="user" type="xsd:string"/>
+        <part name="xfer" type="xsd:boolean"/>
+        <part name="disc" type="xsd:boolean"/>
+        <part name="hw" type="xsd:string"/>
+    </message>
+    <message name="UserInitializeResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+
+    <message name="UserEndRequest">
+        <part name="user" type="xsd:int"/>
+    </message>
+    <message name="UserEndResponse"/>
+
+    <message name="UserCallRequest">
+        <part name="user" type="xsd:int"/>
+        <part name="cn" type="xsd:string"/>
+        <part name="e164" type="xsd:string"/>
+
+        <part name="h323" type="xsd:string"/>
+        <part name="reg" type="xsd:int"/>
+        <part name="info" type="inno:InfoArray"/>
+        <part name="rc" type="xsd:int"/>
+        <part name="srce164" type="xsd:string"/>
+    </message>
+    <message name="UserCallResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+
+    <message name="UserClearRequest">
+        <part name="call" type="xsd:int"/>
+        <part name="cause" type="xsd:int"/>
+        <part name="info" type="inno:InfoArray"/>
+    </message>
+    <message name="UserClearResponse"/>
+
+    <message name="UserConnectRequest">
+        <part name="call" type="xsd:int"/>
+    </message>
+    <message name="UserConnectResponse"/>
+
+    <message name="UserRcRequest">
+        <part name="call" type="xsd:int"/>
+        <part name="rc" type="xsd:int"/>
+    </message>
+    <message name="UserRcResponse"/>
+
+    <message name="UserInfoRequest">
+        <part name="call" type="xsd:int"/>
+        <part name="recv" type="xsd:boolean"/>
+        <part name="cdpn" type="xsd:string"/>
+        <part name="key" type="xsd:string"/>
+        <part name="dsp" type="xsd:string"/>
+    </message>
+    <message name="UserInfoResponse"/>
+
+    <message name="UserDTMFRequest">
+        <part name="call" type="xsd:int"/>
+        <part name="recv" type="xsd:boolean"/>
+        <part name="dtmf" type="xsd:string"/>
+    </message>
+    <message name="UserDTMFResponse"/>
+
+    <message name="UserUUIRequest">
+        <part name="call" type="xsd:int"/>
+        <part name="recv" type="xsd:boolean"/>
+
+        <part name="uui" type="xsd:string"/>
+    </message>
+    <message name="UserUUIResponse"/>
+
+    <message name="UserPickupRequest">
+        <part name="user" type="xsd:int"/>
+        <part name="cn" type="xsd:string"/>
+        <part name="call" type="xsd:int"/>
+        <part name="group" type="xsd:string"/>
+
+        <part name="reg" type="xsd:int"/>
+        <part name="info" type="inno:InfoArray"/>
+    </message>
+    <message name="UserPickupResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+
+    <message name="UserRedirectRequest">
+        <part name="call" type="xsd:int"/>
+
+        <part name="cn" type="xsd:string"/>
+        <part name="e164" type="xsd:string"/>
+        <part name="h323" type="xsd:string"/>
+        <part name="info" type="inno:InfoArray"/>
+        <part name="rc" type="xsd:int"/>
+    </message>
+    <message name="UserRedirectResponse">
+        <part name="return" type="xsd:boolean"/>
+    </message>
+
+    <message name="UserRerouteRequest">
+        <part name="call" type="xsd:int"/>
+        <part name="cn" type="xsd:string"/>
+        <part name="e164" type="xsd:string"/>
+        <part name="h323" type="xsd:string"/>
+        <part name="info" type="inno:InfoArray"/>
+    </message>
+    <message name="UserRerouteResponse">
+
+        <part name="return" type="xsd:boolean"/>
+    </message>
+
+    <message name="UserTransferRequest">
+        <part name="a" type="xsd:int"/>
+        <part name="b" type="xsd:int"/>
+    </message>
+    <message name="UserTransferResponse"/>
+
+    <message name="UserMediaTransferRequest">
+
+        <part name="a" type="xsd:int"/>
+        <part name="b" type="xsd:int"/>
+        <part name="user" type="xsd:boolean"/>
+        <part name="peer" type="xsd:boolean"/>
+    </message>
+    <message name="UserMediaTransferResponse"/>
+
+    <message name="UserCtCompleteRequest">
+        <part name="call" type="xsd:int"/>
+
+        <part name="e164" type="xsd:string"/>
+        <part name="h323" type="xsd:string"/>
+    </message>
+    <message name="UserCtCompleteResponse"/>
+
+    <message name="UserHoldRequest">
+        <part name="call" type="xsd:int"/>
+        <part name="remote" type="xsd:boolean"/>
+    </message>
+    <message name="UserHoldResponse"/>
+
+    <message name="UserRetrieveRequest">
+        <part name="call" type="xsd:int"/>
+    </message>
+    <message name="UserRetrieveResponse"/>
+
+    <message name="UserParkRequest">
+        <part name="call" type="xsd:int"/>
+        <part name="cn" type="xsd:string"/>
+        <part name="position" type="xsd:int"/>
+
+    </message>
+    <message name="UserParkResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+
+    <message name="UserMessageRequest">
+        <part name="user" type="xsd:int"/>
+        <part name="e164" type="xsd:string"/>
+        <part name="h323" type="xsd:string"/>
+        <part name="msg" type="xsd:string"/>
+        <part name="src_e164" type="xsd:string"/>
+        <part name="src_h323" type="xsd:string"/>
+    </message>
+    <message name="UserMessageResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+
+    <message name="UserLocalNumRequest">
+        <part name="user" type="xsd:int"/>
+        <part name="num" type="xsd:string"/>
+    </message>
+
+    <message name="UserLocalNumResponse">
+        <part name="return" type="xsd:string"/>
+    </message>
+
+    <message name="UserFindDestinationRequest">
+        <part name="user" type="xsd:int"/>
+        <part name="e164" type="xsd:string"/>
+        <part name="h323" type="xsd:string"/>
+    </message>
+
+    <message name="UserFindDestinationResponse">
+	<part name="return" type="xsd:boolean"/>
+        <part name="user" type="inno:UserInfo"/>
+    </message>
+
+    <message name="FindUserRequest">
+        <part name="v501" type="xsd:string"/>
+        <part name="v700" type="xsd:string"/>
+        <part name="v800" type="xsd:string"/>
+        <part name="vx1000" type="xsd:string"/>
+
+        <part name="cn" type="xsd:string"/>
+        <part name="h323" type="xsd:string"/>
+        <part name="e164" type="xsd:string"/>
+        <part name="count" type="xsd:int"/>
+        <part name="next" type="xsd:int"/>
+    </message>
+    <message name="FindUserResponse">
+        <part name="return" type="inno:UserInfoArray"/>
+    </message>
+
+    <message name="LocationUrlRequest">
+        <part name="v501" type="xsd:string"/>
+        <part name="v700" type="xsd:string"/>
+        <part name="v800" type="xsd:string"/>
+        <part name="vx1000" type="xsd:string"/>
+
+        <part name="loc" type="xsd:string"/>
+    </message>
+    <message name="LocationUrlResponse">
+        <part name="return" type="xsd:string"/>
+
+    </message>
+
+    <portType name="pbxPortType">
+        <operation name="Version">
+            <documentation>Queries various version information from the PBX</documentation>
+            <input message="inno:VersionRequest"/>
+            <output message="inno:VersionResponse"/>
+        </operation>
+        <operation name="Echo">
+
+            <input message="inno:EchoRequest"/>
+            <output message="inno:EchoResponse"/>
+        </operation>
+        <operation name="Admin">
+            <input message="inno:AdminRequest"/>
+            <output message="inno:AdminResponse"/>
+        </operation>
+        <operation name="Initialize">
+            <input message="inno:InitializeRequest"/>
+
+            <output message="inno:InitializeResponse"/>
+        </operation>
+        <operation name="End">
+            <input message="inno:EndRequest"/>
+            <output message="inno:EndResponse"/>
+        </operation>
+        <operation name="Poll">
+            <input message="inno:PollRequest"/>
+            <output message="inno:PollResponse"/>
+
+        </operation>
+        <operation name="License">
+            <input message="inno:LicenseRequest"/>
+            <output message="inno:LicenseResponse"/>
+        </operation>
+        <operation name="Devices">
+            <input message="inno:DevicesRequest"/>
+            <output message="inno:DevicesResponse"/>
+        </operation>
+
+        <operation name="Calls">
+            <input message="inno:CallsRequest"/>
+            <output message="inno:CallsResponse"/>
+        </operation>
+        <operation name="UserInitialize">
+            <input message="inno:UserInitializeRequest"/>
+            <output message="inno:UserInitializeResponse"/>
+        </operation>
+        <operation name="UserEnd">
+
+            <input message="inno:UserEndRequest"/>
+            <output message="inno:UserEndResponse"/>
+        </operation>
+        <operation name="UserCall">
+            <input message="inno:UserCallRequest"/>
+            <output message="inno:UserCallResponse"/>
+        </operation>
+        <operation name="UserClear">
+            <input message="inno:UserClearRequest"/>
+
+            <output message="inno:UserClearResponse"/>
+        </operation>
+        <operation name="UserConnect">
+            <input message="inno:UserConnectRequest"/>
+            <output message="inno:UserConnectResponse"/>
+        </operation>
+        <operation name="UserRc">
+            <input message="inno:UserRcRequest"/>
+            <output message="inno:UserRcResponse"/>
+
+        </operation>
+        <operation name="UserInfo">
+            <input message="inno:UserInfoRequest"/>
+            <output message="inno:UserInfoResponse"/>
+        </operation>
+        <operation name="UserDTMF">
+            <input message="inno:UserDTMFRequest"/>
+            <output message="inno:UserDTMFResponse"/>
+        </operation>
+
+        <operation name="UserUUI">
+            <input message="inno:UserUUIRequest"/>
+            <output message="inno:UserUUIResponse"/>
+        </operation>
+        <operation name="UserPickup">
+            <input message="inno:UserPickupRequest"/>
+            <output message="inno:UserPickupResponse"/>
+        </operation>
+        <operation name="UserRedirect">
+
+            <input message="inno:UserRedirectRequest"/>
+            <output message="inno:UserRedirectResponse"/>
+        </operation>
+        <operation name="UserReroute">
+            <input message="inno:UserRerouteRequest"/>
+            <output message="inno:UserRerouteResponse"/>
+        </operation>
+        <operation name="UserTransfer">
+            <input message="inno:UserTransferRequest"/>
+
+            <output message="inno:UserTransferResponse"/>
+        </operation>
+        <operation name="UserMediaTransfer">
+            <input message="inno:UserMediaTransferRequest"/>
+            <output message="inno:UserMediaTransferResponse"/>
+        </operation>
+        <operation name="UserCtComplete">
+            <input message="inno:UserCtCompleteRequest"/>
+            <output message="inno:UserCtCompleteResponse"/>
+
+        </operation>
+        <operation name="UserHold">
+            <input message="inno:UserHoldRequest"/>
+            <output message="inno:UserHoldResponse"/>
+        </operation>
+        <operation name="UserRetrieve">
+            <input message="inno:UserRetrieveRequest"/>
+            <output message="inno:UserRetrieveResponse"/>
+        </operation>
+
+        <operation name="UserPark">
+            <input message="inno:UserParkRequest"/>
+            <output message="inno:UserParkResponse"/>
+        </operation>
+        <operation name="UserMessage">
+            <input message="inno:UserMessageRequest"/>
+            <output message="inno:UserMessageResponse"/>
+        </operation>
+        <operation name="UserLocalNum">
+            <input message="inno:UserLocalNumRequest"/>
+            <output message="inno:UserLocalNumResponse"/>
+        </operation>
+        <operation name="UserFindDestination">
+            <input message="inno:UserFindDestinationRequest"/>
+            <output message="inno:UserFindDestinationResponse"/>
+        </operation>
+        <operation name="FindUser">
+            <input message="inno:FindUserRequest"/>
+            <output message="inno:FindUserResponse"/>
+        </operation>
+        <operation name="LocationUrl">
+            <input message="inno:LocationUrlRequest"/>
+
+            <output message="inno:LocationUrlResponse"/>
+        </operation>
+    </portType>
+
+    <binding name="pbxBinding" type="inno:pbxPortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+        <operation name="Version">
+            <soap:operation soapAction="http://innovaphone.com/pbx#Version"/>
+            <input>
+
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="Echo">
+            <soap:operation soapAction="http://innovaphone.com/pbx#Echo"/>
+
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone/binding" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone/binding" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="Admin">
+
+            <soap:operation soapAction="http://innovaphone.com/pbx#Admin"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="Initialize">
+            <soap:operation soapAction="http://innovaphone.com/pbx#Initialize"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="End">
+            <soap:operation soapAction="http://innovaphone.com/pbx#End"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+
+        </operation>
+
+        <operation name="Poll">
+            <soap:operation soapAction="http://innovaphone.com/pbx#Poll"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+
+            </output>
+        </operation>
+
+        <operation name="License">
+            <soap:operation soapAction="http://innovaphone.com/pbx#License"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="Devices">
+            <soap:operation soapAction="http://innovaphone.com/pbx#Devices"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="Calls">
+            <soap:operation soapAction="http://innovaphone.com/pbx#Calls"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="UserInitialize">
+            <soap:operation soapAction="http://innovaphone.com/pbx#UserInitialize"/>
+            <input>
+
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="UserEnd">
+            <soap:operation soapAction="capeconnect:pbx:pbxPortType#UserEnd"/>
+
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone/binding" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone/binding" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="UserCall">
+
+            <soap:operation soapAction="http://innovaphone.com/pbx#UserCall"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="UserClear">
+            <soap:operation soapAction="http://innovaphone.com/pbx#UserClear"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="UserConnect">
+            <soap:operation soapAction="http://innovaphone.com/pbx#UserConnect"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+
+        </operation>
+
+        <operation name="UserRc">
+            <soap:operation soapAction="http://innovaphone.com/pbx#UserRc"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+
+            </output>
+        </operation>
+
+        <operation name="UserInfo">
+            <soap:operation soapAction="http://innovaphone.com/pbx#UserInfo"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="UserDTMF">
+            <soap:operation soapAction="http://innovaphone.com/pbx#UserDTMF"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="UserUUI">
+            <soap:operation soapAction="http://innovaphone.com/pbx#UserUUI"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="UserPickup">
+            <soap:operation soapAction="http://innovaphone.com/pbx#UserPickup"/>
+            <input>
+
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="UserRedirect">
+            <soap:operation soapAction="http://innovaphone.com/pbx#UserRedirect"/>
+
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="UserReroute">
+
+            <soap:operation soapAction="http://innovaphone.com/pbx#UserReroute"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="UserTransfer">
+            <soap:operation soapAction="http://innovaphone.com/pbx#UserTransfer"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="UserMediaTransfer">
+            <soap:operation soapAction="http://innovaphone.com/pbx#UserMediaTransfer"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+
+        </operation>
+
+        <operation name="UserCtComplete">
+            <soap:operation soapAction="http://innovaphone.com/pbx#UserCtComplete"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+
+            </output>
+        </operation>
+
+        <operation name="UserHold">
+            <soap:operation soapAction="http://innovaphone.com/pbx#UserHold"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="UserRetrieve">
+            <soap:operation soapAction="http://innovaphone.com/pbx#UserRetrieve"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="UserPark">
+            <soap:operation soapAction="http://innovaphone.com/pbx#UserPark"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="UserMessage">
+            <soap:operation soapAction="http://innovaphone.com/pbx#UserMessage"/>
+            <input>
+
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="UserLocalNum">
+            <soap:operation soapAction="http://innovaphone.com/pbx#UserLocalNum"/>
+
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="UserFindDestination">
+            <soap:operation soapAction="http://innovaphone.com/pbx#UserFindDestination"/>
+
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="FindUser">
+
+            <soap:operation soapAction="http://innovaphone.com/pbx#FindUser"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="LocationUrl">
+            <soap:operation soapAction="http://innovaphone.com/pbx#LocationUrl"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+    </binding>
+
+    <service name="pbx">
+        <port binding="inno:pbxBinding" name="pbxPort">
+            <soap:address location="http://192.168.0.1/PBX0/user.soap"/>
+        </port>
+    </service>
+
+</definitions>
