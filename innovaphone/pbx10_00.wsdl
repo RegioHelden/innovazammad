@@ -39,7 +39,7 @@
                     <xsd:restriction base="SOAP-ENC:Array">
                         <xsd:sequence>
 
-                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="item" type="inno:No"/>
+                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="No" type="inno:No"/>
                         </xsd:sequence>
                         <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="inno:No[]"/>
                     </xsd:restriction>
@@ -57,7 +57,7 @@
                 <xsd:complexContent>
                     <xsd:restriction base="SOAP-ENC:Array">
                         <xsd:sequence>
-                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="item" type="inno:Group"/>
+                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="groups" type="inno:Group"/>
 
                         </xsd:sequence>
                         <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="inno:Group[]"/>
@@ -76,7 +76,7 @@
                 <xsd:complexContent>
                     <xsd:restriction base="SOAP-ENC:Array">
                         <xsd:sequence>
-                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="item" type="inno:Device"/>
+                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="device" type="inno:Device"/>
                         </xsd:sequence>
                         <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="inno:Device[]"/>
 
@@ -105,7 +105,7 @@
                 <xsd:complexContent>
                     <xsd:restriction base="SOAP-ENC:Array">
                         <xsd:sequence>
-                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="item" type="inno:CallInfo"/>
+                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="call" type="inno:CallInfo"/>
                         </xsd:sequence>
                         <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="inno:CallInfo[]"/>
                     </xsd:restriction>
@@ -195,7 +195,7 @@
                 <xsd:complexContent>
                     <xsd:restriction base="SOAP-ENC:Array">
                         <xsd:sequence>
-                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="item" type="inno:UserInfo"/>
+                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="user" type="inno:UserInfo"/>
                         </xsd:sequence>
                         <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="inno:UserInfo[]"/>
                     </xsd:restriction>
