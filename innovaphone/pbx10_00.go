@@ -33,7 +33,7 @@ type PbxPortType interface {
 	End(session int) error
 
 	// FindUser was auto-generated from WSDL.
-	FindUser(v501 string, v700 string, v800 string, vx1000 string, cn string, h323 string, e164 string, count int, next int) (*UserInfoArray, error)
+	FindUser(v501 string, v700 string, v800 string, vx1000 string, cn string, h323 string, e164 string, count int, next int) (*FindUserInfoArray, error)
 
 	// Initialize was auto-generated from WSDL.
 	Initialize(user string, appl string, v bool, v501 bool, v700 bool, v800 bool, vx1000 bool) (int, int, error)
@@ -293,6 +293,11 @@ type UserInfoArray struct {
 	Items []*UserInfo `xml:"user,omitempty" json:"user,omitempty" yaml:"user,omitempty"`
 }
 
+// FindUser has "<item>", Poll has "<user>" 🙄
+type FindUserInfoArray struct {
+	Items []*UserInfo `xml:"item,omitempty" json:"item,omitempty" yaml:"item,omitempty"`
+}
+
 // Operation wrapper for Admin.
 // OperationAdminRequest was auto-generated from WSDL.
 type OperationAdminRequest struct {
@@ -372,7 +377,7 @@ type OperationFindUserRequest struct {
 // Operation wrapper for FindUser.
 // OperationFindUserResponse was auto-generated from WSDL.
 type OperationFindUserResponse struct {
-	Return *UserInfoArray `xml:"return,omitempty" json:"return,omitempty" yaml:"return,omitempty"`
+	Return *FindUserInfoArray `xml:"return,omitempty" json:"return,omitempty" yaml:"return,omitempty"`
 }
 
 // Operation wrapper for Initialize.
@@ -845,7 +850,7 @@ func (p *pbxPortType) End(session int) error {
 }
 
 // FindUser was auto-generated from WSDL.
-func (p *pbxPortType) FindUser(v501 string, v700 string, v800 string, vx1000 string, cn string, h323 string, e164 string, count int, next int) (*UserInfoArray, error) {
+func (p *pbxPortType) FindUser(v501 string, v700 string, v800 string, vx1000 string, cn string, h323 string, e164 string, count int, next int) (*FindUserInfoArray, error) {
 	α := struct {
 		M OperationFindUserRequest `xml:"inno:FindUser"`
 	}{

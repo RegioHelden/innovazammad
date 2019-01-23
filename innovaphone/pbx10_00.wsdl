@@ -519,7 +519,7 @@
     </message>
 
     <message name="UserFindDestinationResponse">
-	<part name="return" type="xsd:boolean"/>
+	    <part name="return" type="xsd:boolean"/>
         <part name="user" type="inno:UserInfo"/>
     </message>
 
