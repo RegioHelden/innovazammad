@@ -144,7 +144,7 @@ func (call *CallInfo) GetHold() Hold {
 }
 
 func (call *CallInfo) String() string {
-	return fmt.Sprintf("CALL[%d][%s]", call.Call, call.No)
+	return fmt.Sprintf("[%d][%s]", call.Call, call.No)
 }
 
 func (no *No) String() string {

@@ -164,7 +164,10 @@ func (zs *Session) Submit(call *innovaphone.CallInSession) error {
 		return nil
 	}
 
-	logrus.WithField("call", call).Debugf("submitting to Zammad: %v", content)
+	logrus.WithFields(logrus.Fields{
+		"call":    call,
+		"content": content,
+	}).Infof("submitting to Zammad")
 	resp, err := http.PostForm(config.Global.Zammad.EndpointURL, content)
 	if err != nil {
 		return errors.Wrap(err, "could not submit to Zammad")
