@@ -121,11 +121,12 @@ func (zs *Session) Submit(call *innovaphone.CallInSession) error {
 		"direction": []string{dir.String()},
 	}
 
+	var user string
 	switch dir {
 	case innovaphone.DirectionInbound:
-		content.Set("user", dst.Cn)
+		user = dst.Cn
 	case innovaphone.DirectionOutbound:
-		content.Set("user", src.Cn)
+		user = src.Cn
 	}
 
 	transition := stateTransition{curState: curState, newState: newState}
@@ -135,10 +136,14 @@ func (zs *Session) Submit(call *innovaphone.CallInSession) error {
 		stateTransition{StateNew, innovaphone.StateAlert}:
 		// we do not get StateAlert on outgoing calls, so we have to assume StateCallProc is enough
 		content.Set("event", "newCall")
+		content.Set("user", user)
 		setState = StateRinging
 	case stateTransition{StateRinging, innovaphone.StateConnect}:
 		content.Set("event", "answer")
-		content.Set("answeringNumber", normalizeNumber(dst.E164))
+		if dir == innovaphone.DirectionInbound {
+			content.Set("user", user)
+			content.Set("answeringNumber", normalizeNumber(dst.E164))
+		}
 		setState = StateConnected
 	case stateTransition{StateRinging, innovaphone.StateDisconnectSent}:
 		content.Set("event", "hangup")
