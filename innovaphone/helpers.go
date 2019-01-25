@@ -5,17 +5,20 @@ import (
 	"strings"
 )
 
+// State represents the call state information from the innovaphone PBX' perspective.
 type State int
 
+// States as defined in the documentation (http://wiki.innovaphone.com/index.php?title=Reference10:SOAP_API)
 const (
-	StateSetup              State = 1 + iota
-	StateSetupAck           State = 1 + iota
-	StateCallProc           State = 1 + iota
-	StateAlert              State = 1 + iota
-	StateConnect            State = 1 + iota
-	StateDisconnectSent     State = 1 + iota
-	StateDisconnectReceived State = 1 + iota
-	StateParked             State = 1 + iota
+	_ State = iota // start at 1
+	StateSetup
+	StateSetupAck
+	StateCallProc
+	StateAlert
+	StateConnect
+	StateDisconnectSent
+	StateDisconnectReceived
+	StateParked
 )
 
 func (s State) String() string {
@@ -41,6 +44,7 @@ func (s State) String() string {
 	}
 }
 
+// Flip returns the state with directions switched, for those states which are direction-dependent.
 func (s State) Flip() State {
 	switch s {
 	case StateDisconnectReceived:
@@ -51,8 +55,10 @@ func (s State) Flip() State {
 	return s
 }
 
+// Direction represents the call direction from the innovaphone PBX' perspective.
 type Direction int
 
+// Direction constants as defined in the documentation
 const (
 	DirectionInbound  = 0
 	DirectionOutbound = 0x80
@@ -69,12 +75,15 @@ func (d Direction) String() string {
 	}
 }
 
+// Flip returns the opposite diretion
 func (d Direction) Flip() Direction {
 	return (d ^ DirectionOutbound)
 }
 
+// Hold represents the call hold status
 type Hold int
 
+// Hold constants as defined in the documentation
 const (
 	HoldNone Hold = 0
 	HoldThis Hold = 0x100
@@ -97,6 +106,7 @@ func (h Hold) String() string {
 	}
 }
 
+// GetSourceAndDestination returns the call's source and destination
 func (call *CallInfo) GetSourceAndDestination() (src, dst *No) {
 	for _, no := range call.No.Items {
 		switch no.Type {
@@ -114,6 +124,7 @@ func (call *CallInfo) GetSourceAndDestination() (src, dst *No) {
 	return src, dst
 }
 
+// GetState returns the call's state
 func (call *CallInfo) GetState() State {
 	state := State(call.State & 0xF)
 	if call.GetDirection() == DirectionInbound {
@@ -122,10 +133,12 @@ func (call *CallInfo) GetState() State {
 	return state
 }
 
+// GetDirection returns the call's direction (wither incoming or outgoing)
 func (call *CallInfo) GetDirection() Direction {
 	return Direction(call.State & 0x80)
 }
 
+// GetHold returns the call's hold status (whether it was placed on hold by the local or remote part)
 func (call *CallInfo) GetHold() Hold {
 	return Hold(call.State & 0x300)
 }
