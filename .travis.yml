@@ -17,7 +17,10 @@ matrix:
     - go: "master"
   fast_finish: true
 
-script: env GO111MODULE=on go test -v ./...
+env:
+  - GO111MODULE=on
+
+script: go test -v ./...
 
 stages:
   - test
