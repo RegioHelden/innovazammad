@@ -20,7 +20,7 @@ type Config struct {
 		AppName        string    `default:"zammad_bridge" desc:"application name used when accessing PBX"`
 		MonitorUser    string    `desc:"PBX user used for monitoring calls; usually a 'trunk line'"`
 		FilterOnGroup  string    `desc:"only process calls for users in this group (if not provided, will submit all calls to Zammad)"`
-		GroupCacheTime *duration `default:"300s" desc:"time to cache group membership information (used by group filtering); setting to 0 causes a group membership query for each call state change"`
+		GroupCacheTime *Duration `default:"300s" desc:"time to cache group membership information (used by group filtering); setting to 0 causes a group membership query for each call state change"`
 	}
 	Zammad struct {
 		EndpointURL   string `desc:"URL to Zammad's 'CTI (generic)' endpoint"`
@@ -37,10 +37,12 @@ func (c *Config) String() string {
 	return string(out)
 }
 
-type duration time.Duration
+// Duration wraps time.Duration, adding UnmarshalText for config-parsing
+type Duration time.Duration
 
-func (d *duration) UnmarshalText(data []byte) error {
+// UnmarshalText parses the provided byte array into the duration receiver as text
+func (d *Duration) UnmarshalText(data []byte) error {
 	dd, err := time.ParseDuration(string(data))
-	*d = duration(dd)
+	*d = Duration(dd)
 	return err
 }
