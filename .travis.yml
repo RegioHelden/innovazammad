@@ -8,12 +8,16 @@ go:
   - "1.x"
   - "master"
 
+os:
+  - linux
+  - osx
+
 matrix:
   allow_failures:
     - go: "master"
   fast_finish: true
 
-scrpipt: go test -v ./...
+script: env GO111MODULE=on go test -v ./...
 
 stages:
   - test
