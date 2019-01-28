@@ -17,7 +17,7 @@ type Config struct {
 		EndpointPath   string    `default:"/PBX0/user.soap" desc:"path on innovaphone PBX under which the API is accessible"`
 		User           string    `desc:"user for authentication with the PBX"`
 		Pass           string    `desc:"password for authentication with the PBX"`
-		AppName        string    `default:"zammad_bridge" desc:"application name used when accessing PBX"`
+		AppName        string    `default:"innovazammad" desc:"application name used when accessing PBX"`
 		MonitorUser    string    `desc:"PBX user used for monitoring calls; usually a 'trunk line'"`
 		FilterOnGroup  string    `desc:"only process calls for users in this group (if not provided, will submit all calls to Zammad)"`
 		GroupCacheTime *Duration `default:"300s" desc:"time to cache group membership information (used by group filtering); setting to 0 causes a group membership query for each call state change"`
