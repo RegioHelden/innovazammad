@@ -1,0 +1,33 @@
+language: go
+
+dist: trusty
+sudo: false
+
+go:
+  - "1.11"
+  - "1.x"
+  - "master"
+
+matrix:
+  allow_failures:
+    - go: "master"
+  fast_finish: true
+
+scrpipt: go test -v ./...
+
+stages:
+  - test
+  - release
+
+jobs:
+  include:
+    - stage: deploy
+      script: skip
+      deploy:
+        provider: releases
+        api_key:
+          secure: JIl/hXpc5Kg2oHwC6bWVDq95FNxHYTNG8Mm7DkHF/4eIkJ7/tI6jPSe3zZt1DG7dftVSDcg8nzT9uUDiX4w8jxTkahm4XjOrr8EfoNnkJZjHmkdpFATEIF20hWAjf2oAA7JXuzAkTeFwqqUN9Wd2CXNPuDBG5RW15z5NmEvwvK+pkBVNI3+pBfrjtB7kChTeT5wDG0O/WH7YgPA+QflR1tj+DNeM/B1svM2/12qiwDMQY8+WaHNXea0DOfxXrQFFFO1x0AnUUviKXbvlREX7tIdHtwc9pay5RAfomjKdwm1gPfkh6xbQrDW40yf3GfCd5AhxRqEv2X1jA3zCbDU6Qyrcl5RfeOpfaNqCRS0WEaSyzU3nCzrLWzzRO17Bpr0sIzfcBK0DNK7u7O0CI40QpmObOLf4zMgflkSMYpWzHCwqopAgK0YpaVf7m+QikRS8EYGZL+bhzg+UDbMBl+fhljq04FhUiAvEINAFSP41/+pQiE+HIQa+Jh4ocrdiC4GYGxxTKrzgll0J/Cq7pyZm6W7Y8MlHDp82kC/e4IZ0s0ZxBDzbGhtN6vnlPFj4TsiMAjFqPBNQZLL2M7QjvMvHtpPgJHIB4ph6Yx5XQkitLBqDeWD6xzo5wJ87Oxpyz2RjrhPI6uL8kciqb21DQVEIP/M7DnYhAJN0uwwpCbsHiCo=
+        file: innovazammad
+        skip_cleanup: true
+        on:
+          tags: true
