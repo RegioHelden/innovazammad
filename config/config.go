@@ -11,7 +11,7 @@ var Global = Config{}
 // Config holds the configurable options with their respective defaults.
 type Config struct {
 	ConfPath string `id:"confpath" short:"c" desc:"path to config file"`
-	LogLevel string `default:"debug" short:"l" desc:"log level (debug/info/warn/error)"`
+	LogLevel string `default:"warn" short:"l" desc:"log level (debug/info/warn/error)"`
 	PBX      struct {
 		URL            string    `desc:"URL to innovaphone PBX"`
 		EndpointPath   string    `default:"/PBX0/user.soap" desc:"path on innovaphone PBX under which the API is accessible"`
