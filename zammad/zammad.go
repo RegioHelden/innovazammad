@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	"strconv"
 	"strings"
 	"sync"
 
+	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"github.com/regiohelden/innovazammad/config"
 	"github.com/regiohelden/innovazammad/innovaphone"
@@ -47,10 +47,16 @@ func (s State) MarshalJSON() ([]byte, error) {
 	return []byte(fmt.Sprintf("\"%s\"", s.String())), nil
 }
 
-type callStateMap map[int]State
+type callEntry struct {
+	State State
+	UUID  uuid.UUID
+	sync.Mutex
+}
+
+type callMap map[int]*callEntry
 
 // String is used by expvar
-func (cs callStateMap) String() string {
+func (cs callMap) String() string {
 	out, err := json.Marshal(cs)
 	if err != nil {
 		return err.Error()
@@ -60,7 +66,7 @@ func (cs callStateMap) String() string {
 
 // Session keeps track of the states successfully submitted to Zammad
 type Session struct {
-	callStateMap callStateMap
+	callMap callMap
 	sync.Mutex
 }
 
@@ -73,33 +79,43 @@ type stateTransition struct {
 // The result should be used as a singleton.
 func NewSession() *Session {
 	calls := &Session{
-		callStateMap: callStateMap{},
+		callMap: callMap{},
 	}
-	expvar.Publish("Session", calls.callStateMap)
+	expvar.Publish("Session", calls.callMap)
 	return calls
 }
 
 // Get returns a State for the given callID. If no state is known, will return StateNew.
-func (zs *Session) get(callID int) State {
-	if _, ok := zs.callStateMap[callID]; !ok {
-		return StateNew
+func (zs *Session) get(callID int) (*callEntry, error) {
+	zs.Lock()
+	defer zs.Unlock()
+	if _, ok := zs.callMap[callID]; !ok {
+		UUID, err := uuid.NewRandom()
+		if err != nil {
+			return nil, err
+		}
+		return &callEntry{
+			State: StateNew,
+			UUID:  UUID,
+		}, nil
 	}
-	return zs.callStateMap[callID]
+	return zs.callMap[callID], nil
 }
 
-func (zs *Session) update(callID int, state State) {
-	if state == StateDisconnected {
-		delete(zs.callStateMap, callID)
+func (zs *Session) setOrUpdate(callID int, newEntry *callEntry) {
+	if newEntry.State == StateDisconnected {
+		zs.Lock()
+		defer zs.Unlock()
+		delete(zs.callMap, callID)
+	} else if curEntry, ok := zs.callMap[callID]; ok {
+		curEntry.State = newEntry.State
 	} else {
-		zs.callStateMap[callID] = state
+		zs.callMap[callID] = newEntry
 	}
 }
 
 // Submit sends a call to Zammad, if we are aware of it and can correctly map its state to some known Zammad state
 func (zs *Session) Submit(call *innovaphone.CallInSession) error {
-	zs.Lock()
-	defer zs.Unlock()
-
 	src, dst, err := call.GetSourceAndDestination()
 	if err != nil {
 		return err
@@ -107,18 +123,23 @@ func (zs *Session) Submit(call *innovaphone.CallInSession) error {
 	dir := call.GetDirection()
 	newState := call.GetState()
 
-	curState := zs.get(call.Call)
-	var setState State // used to only update our state if the call was submitted
+	entry, err := zs.get(call.Call)
+	if err != nil {
+		return err
+	}
+	// ensure we serialize access to one specific call
+	entry.Lock()
+	defer entry.Unlock()
 
 	// only skip new calls, because a call-forwarding may send the call outside of the filtered group, meaning we have to
 	// handle calls we would otherwise filter out based on involved numbers
-	if curState == StateNew && !call.ShouldHandle() {
+	if entry.State == StateNew && !call.ShouldHandle() {
 		logrus.WithField("call", call).Debugf("skipping call for number not in group '%s'", config.Global.PBX.FilterOnGroup)
 		return nil
 	}
 
 	content := url.Values{
-		"callId":    []string{strconv.Itoa(call.Call)},
+		"callId":    []string{entry.UUID.String()},
 		"from":      []string{normalizeNumber(src.E164)},
 		"to":        []string{normalizeNumber(dst.E164)},
 		"direction": []string{dir.String()},
@@ -132,7 +153,7 @@ func (zs *Session) Submit(call *innovaphone.CallInSession) error {
 		user = src.Cn
 	}
 
-	transition := stateTransition{curState: curState, newState: newState}
+	transition := stateTransition{curState: entry.State, newState: newState}
 	switch transition {
 	case
 		stateTransition{StateNew, innovaphone.StateCallProc},
@@ -140,30 +161,30 @@ func (zs *Session) Submit(call *innovaphone.CallInSession) error {
 		// we do not get StateAlert on outgoing calls, so we have to assume StateCallProc is enough
 		content.Set("event", "newCall")
 		content.Set("user", user)
-		setState = StateRinging
+		entry.State = StateRinging
 	case stateTransition{StateRinging, innovaphone.StateConnect}:
 		content.Set("event", "answer")
 		if dir == innovaphone.DirectionInbound {
 			content.Set("user", user)
 			content.Set("answeringNumber", normalizeNumber(dst.E164))
 		}
-		setState = StateConnected
+		entry.State = StateConnected
 	case stateTransition{StateRinging, innovaphone.StateDisconnectSent}:
 		content.Set("event", "hangup")
 		content.Set("cause", "cancel")
-		setState = StateDisconnected
+		entry.State = StateDisconnected
 	case stateTransition{StateRinging, innovaphone.StateDisconnectReceived}:
 		content.Set("event", "hangup")
 		content.Set("cause", "noAnswer")
-		setState = StateDisconnected
+		entry.State = StateDisconnected
 	case
 		stateTransition{StateConnected, innovaphone.StateDisconnectSent},
 		stateTransition{StateConnected, innovaphone.StateDisconnectReceived}:
 		content.Set("event", "hangup")
 		content.Set("cause", "normalClearing")
-		setState = StateDisconnected
+		entry.State = StateDisconnected
 	default:
-		logrus.WithField("call", call).Debugf("ignoring unknown state transition %s → %s", curState, newState)
+		logrus.WithField("call", call).Debugf("ignoring unknown state transition %s → %s", transition.curState, transition.newState)
 		return nil
 	}
 
@@ -180,7 +201,7 @@ func (zs *Session) Submit(call *innovaphone.CallInSession) error {
 	if resp.StatusCode < 200 || resp.StatusCode > 299 {
 		return fmt.Errorf("could not submit to Zammad: %s", resp.Status)
 	}
-	zs.update(call.Call, setState)
+	zs.setOrUpdate(call.Call, entry)
 	return nil
 }
 

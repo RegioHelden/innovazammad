@@ -3,6 +3,7 @@ module github.com/regiohelden/innovazammad
 require (
 	github.com/cenkalti/backoff v2.1.1+incompatible
 	github.com/fiorix/wsdl2go v1.4.7-0.20190109133134-7389f5f15a72
+	github.com/google/uuid v1.1.0
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/pkg/errors v0.8.1
 	github.com/sirupsen/logrus v1.3.0
