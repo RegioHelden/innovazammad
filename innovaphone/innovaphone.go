@@ -17,7 +17,7 @@ import (
 
 // Session keeps information about the current session to the innovaphone PBX
 type Session struct {
-	service           PbxPortType
+	PbxPortType
 	sessionHandle     int
 	flipCallDirection bool
 }
@@ -34,7 +34,7 @@ func NewSession() Session {
 	}
 	logrus.Infof("initializing session for URL: %s", client.URL)
 	is := Session{
-		service: NewPbxPortType(client),
+		PbxPortType: NewPbxPortType(client),
 	}
 
 	if err := backoff.RetryNotify(is.connectionInit, backoff.NewExponentialBackOff(), func(err error, dur time.Duration) {
@@ -48,7 +48,7 @@ func NewSession() Session {
 }
 
 func (session *Session) connectionInit() error {
-	_, gatekeeperID, location, version, serial, err := session.service.Version()
+	_, gatekeeperID, location, version, serial, err := session.Version()
 	if err != nil {
 		return errors.Wrap(err, "could not connect to PBX")
 	}
@@ -59,23 +59,23 @@ func (session *Session) connectionInit() error {
 		"serial":   serial,
 	}).Info("connection established")
 
-	sessionHandle, key, err := session.service.Initialize(config.Global.PBX.MonitorUser, config.Global.PBX.AppName, true, true, true, true, true)
+	sessionHandle, key, err := session.Initialize(config.Global.PBX.MonitorUser, config.Global.PBX.AppName, true, true, true, true, true)
 	if err != nil {
 		return errors.Wrap(err, "could not initialize PBX session")
 	}
 	session.sessionHandle = sessionHandle
 
-	if ret, err := session.service.Echo(sessionHandle, key); err != nil || ret == 0 {
+	if ret, err := session.Echo(sessionHandle, key); err != nil || ret == 0 {
 		return errors.Wrapf(err, "could not verify session initialization via echo (code %d)", ret)
 	}
 
-	if _, err = session.service.UserInitialize(sessionHandle, config.Global.PBX.MonitorUser, false, true, ""); err != nil {
+	if _, err = session.UserInitialize(sessionHandle, config.Global.PBX.MonitorUser, false, true, ""); err != nil {
 		return errors.Wrap(err, "could not initialize PBX user session")
 	}
 
 	// we have to poll once to get the current UserInfo, which in turn is necessary to know if we're monitoring a normal
 	// or gateway user (i.e.: if we have to flip "this" and "peer" numbers)
-	pollResp, err := session.service.Poll(session.sessionHandle)
+	pollResp, err := session.Poll(session.sessionHandle)
 	if err != nil {
 		return errors.Wrap(err, "error while polling")
 	}
@@ -93,6 +93,11 @@ func (session *Session) connectionInit() error {
 	return nil
 }
 
+// IsDirectionFlipped returns whether the current session should treat directions as inverted
+func (session *Session) IsDirectionFlipped() bool {
+	return session.flipCallDirection
+}
+
 // PollForever will return one CallInSession per successful poll.
 // If it encounters an error, it will return it over the errors channel and cease polling.
 func (session *Session) PollForever() (<-chan *CallInSession, <-chan error) {
@@ -102,17 +107,21 @@ func (session *Session) PollForever() (<-chan *CallInSession, <-chan error) {
 
 	go func() {
 		for {
-			pollResp, err := session.service.Poll(session.sessionHandle)
+			pollResp, err := session.Poll(session.sessionHandle)
 			if err != nil {
 				errs <- errors.Wrap(err, "error while polling")
 				break
 			}
 			for _, call := range pollResp.Call.Items {
 				cis := &CallInSession{
-					Session:  session,
-					CallInfo: call,
+					sessionInterface: session,
+					CallInfo:         call,
 				}
-				src, dst := cis.GetSourceAndDestination()
+				src, dst, err := cis.GetSourceAndDestination()
+				if err != nil {
+					logrus.WithField("call", call).Warn(err)
+					continue
+				}
 				dir := cis.GetDirection()
 
 				logrus.WithFields(logrus.Fields{
@@ -135,15 +144,20 @@ func (session *Session) PollForever() (<-chan *CallInSession, <-chan error) {
 // CallInSession puts call information together with the session context. Some decisions about calls can only be made
 // in context, since - for instance - the direction information is dependent on the user being monitored.
 type CallInSession struct {
-	*Session
+	sessionInterface
 	*CallInfo
+}
+
+type sessionInterface interface {
+	IsDirectionFlipped() bool
+	FindUser(string, string, string, string, string, string, string, int, int) (*FindUserInfoArray, error)
 }
 
 // GetDirection retuns the call direction as interpreted by an outside observer. It wraps the PBX' notion of direction,
 // which might be relative to itself.
 func (call *CallInSession) GetDirection() Direction {
 	dir := call.CallInfo.GetDirection()
-	if call.flipCallDirection {
+	if call.IsDirectionFlipped() {
 		dir = dir.Flip()
 	}
 	return dir
@@ -160,7 +174,11 @@ type userCacheEntry struct {
 // ShouldHandle decides whether a call involves any of the groups being filtered on (see Config.FilterOnGroup)
 func (call *CallInSession) ShouldHandle() bool {
 	if config.Global.PBX.FilterOnGroup != "" {
-		src, dst := call.GetSourceAndDestination()
+		src, dst, err := call.GetSourceAndDestination()
+		if err != nil {
+			logrus.WithField("call", call).Warn(err)
+			return false
+		}
 		no := src
 		if call.GetDirection() == DirectionInbound {
 			no = dst
@@ -187,7 +205,7 @@ func (call *CallInSession) ShouldHandle() bool {
 
 		if cacheMiss {
 			logrus.WithField("call", call).Debugf("searching for number %s", no.E164)
-			userArray, err := call.service.FindUser("", "", "", "", no.Cn, "", no.E164, 1, 0)
+			userArray, err := call.FindUser("", "", "", "", no.Cn, "", no.E164, 1, 0)
 			if err != nil {
 				logrus.WithField("call", call).Errorf("error finding number '%s': %s", no.E164, err)
 				return false

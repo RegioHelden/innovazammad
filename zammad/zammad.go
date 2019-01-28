@@ -100,7 +100,10 @@ func (zs *Session) Submit(call *innovaphone.CallInSession) error {
 	zs.Lock()
 	defer zs.Unlock()
 
-	src, dst := call.GetSourceAndDestination()
+	src, dst, err := call.GetSourceAndDestination()
+	if err != nil {
+		return err
+	}
 	dir := call.GetDirection()
 	newState := call.GetState()
 

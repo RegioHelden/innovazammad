@@ -107,7 +107,7 @@ func (h Hold) String() string {
 }
 
 // GetSourceAndDestination returns the call's source and destination
-func (call *CallInfo) GetSourceAndDestination() (src, dst *No) {
+func (call *CallInfo) GetSourceAndDestination() (src, dst *No, err error) {
 	for _, no := range call.No.Items {
 		switch no.Type {
 		case "this":
@@ -121,7 +121,11 @@ func (call *CallInfo) GetSourceAndDestination() (src, dst *No) {
 		src, dst = dst, src
 	}
 
-	return src, dst
+	if src == nil || dst == nil {
+		return nil, nil, fmt.Errorf("call without src (%v) or dst (%v)", src, dst)
+	}
+
+	return src, dst, nil
 }
 
 // GetState returns the call's state
