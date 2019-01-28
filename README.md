@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/RegioHelden/innovazammad.svg?branch=master)](https://travis-ci.org/RegioHelden/innovazammad)
+[![Go Report Card](https://goreportcard.com/badge/github.com/regiohelden/innovazammad)](https://goreportcard.com/report/github.com/regiohelden/innovazammad)
+
 # innovazammad
 
 Forwards call information from an [innovaphone](https://www.innovaphone.com/) PBX to [Zammad](https://zammad.com/)'s generic CTI API.
