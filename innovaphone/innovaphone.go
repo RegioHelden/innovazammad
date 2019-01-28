@@ -153,7 +153,7 @@ type sessionInterface interface {
 	FindUser(string, string, string, string, string, string, string, int, int) (*FindUserInfoArray, error)
 }
 
-// GetDirection retuns the call direction as interpreted by an outside observer. It wraps the PBX' notion of direction,
+// GetDirection returns the call direction as interpreted by an outside observer. It wraps the PBX' notion of direction,
 // which might be relative to itself.
 func (call *CallInSession) GetDirection() Direction {
 	dir := call.CallInfo.GetDirection()

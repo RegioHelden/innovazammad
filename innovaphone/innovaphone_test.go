@@ -16,8 +16,8 @@ type numberGroupFixture struct {
 }
 
 var numberGroups = map[string][]string{
-	"1": []string{"someothergroup"},
-	"3": []string{"somegroup"},
+	"1": {"someothergroup"},
+	"3": {"somegroup"},
 }
 
 func (gc *numberGroupFixture) FindUser(_, _, _, _, cn, _, e164 string, _, _ int) (*FindUserInfoArray, error) {
@@ -70,8 +70,8 @@ func TestCallInSession_ShouldHandle(t *testing.T) {
 				CallInfo: &CallInfo{
 					No: &NoArray{
 						Items: []*No{
-							&No{Cn: "somecaller", E164: "1", Type: "peer"},
-							&No{Cn: "somecallee", E164: "2", Type: "this"},
+							{Cn: "somecaller", E164: "1", Type: "peer"},
+							{Cn: "somecallee", E164: "2", Type: "this"},
 						},
 					},
 				},
@@ -84,8 +84,8 @@ func TestCallInSession_ShouldHandle(t *testing.T) {
 				CallInfo: &CallInfo{
 					No: &NoArray{
 						Items: []*No{
-							&No{Cn: "somecaller", E164: "3", Type: "peer"},
-							&No{Cn: "somecallee", E164: "4", Type: "this"},
+							{Cn: "somecaller", E164: "3", Type: "peer"},
+							{Cn: "somecallee", E164: "4", Type: "this"},
 						},
 					},
 				},
@@ -98,8 +98,8 @@ func TestCallInSession_ShouldHandle(t *testing.T) {
 				CallInfo: &CallInfo{
 					No: &NoArray{
 						Items: []*No{
-							&No{Cn: "somecaller", E164: "1", Type: "peer"},
-							&No{Cn: "somecallee", E164: "2", Type: "this"},
+							{Cn: "somecaller", E164: "1", Type: "peer"},
+							{Cn: "somecallee", E164: "2", Type: "this"},
 						},
 					},
 				},
@@ -112,8 +112,8 @@ func TestCallInSession_ShouldHandle(t *testing.T) {
 				CallInfo: &CallInfo{
 					No: &NoArray{
 						Items: []*No{
-							&No{Cn: "somecaller", E164: "3", Type: "peer"},
-							&No{Cn: "somecallee", E164: "4", Type: "this"},
+							{Cn: "somecaller", E164: "3", Type: "peer"},
+							{Cn: "somecallee", E164: "4", Type: "this"},
 						},
 					},
 				},
