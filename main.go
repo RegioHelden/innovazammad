@@ -11,10 +11,7 @@ import (
 	"github.com/stevenroose/gonfig"
 )
 
-func main() {
-	// used by expvars; exported on localhost because we also publish config (with passwords)
-	go http.ListenAndServe("localhost:8080", nil)
-
+func init() {
 	err := gonfig.Load(&config.Global, gonfig.Conf{
 		ConfigFileVariable:  "confpath",
 		FileDefaultFilename: "innozammad.yaml",
@@ -23,6 +20,12 @@ func main() {
 	if err != nil {
 		logrus.Fatalf("could not parse config: %s", err)
 	}
+}
+
+func main() {
+	// used by expvars; exported on localhost because we also publish config (with passwords)
+	go http.ListenAndServe("localhost:8080", nil)
+
 	expvar.Publish("config", &config.Global)
 
 	logLevel, err := logrus.ParseLevel(config.Global.LogLevel)
