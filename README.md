@@ -35,7 +35,7 @@ The following options are available:
 
 | Flag | Environment | Description | Default | Required? |
 |---|---|---|---|---|
-|`-c`, `--confpath`| `INNOVAZAMMAD_CONFPATH` | Path to configuration file.  | `innovazammad.yaml` | |
+|`--confpath`| `INNOVAZAMMAD_CONFPATH` | Path to configuration file.  | `innovazammad.yaml` | |
 |`-l`, `--loglevel`| `INNOVAZAMMAD_LOGLEVEL` | How much logging will be output to stdout (values as supported by [logrus](https://github.com/sirupsen/logrus)). | `warn` | |
 |`--pbx.url`| `INNOVAZAMMAD_PBX_URL` | Under which URL should `innovazammad` attempt to connect to the PBX. | _none_ | × |
 |`--pbx.endpointpath`| `INNOVAZAMMAD_PBX_ENDPOINTPATH` | Path under `pbx.url` where the API is accessible. | `/PBX0/user.soap` ||
