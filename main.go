@@ -14,7 +14,7 @@ import (
 func init() {
 	err := gonfig.Load(&config.Global, gonfig.Conf{
 		ConfigFileVariable:  "confpath",
-		FileDefaultFilename: "innovazammad.yaml",
+		FileDefaultFilename: "/etc/innovazammad.yaml",
 		EnvPrefix:           "INNOVAZAMMAD_",
 	})
 	if err != nil {
