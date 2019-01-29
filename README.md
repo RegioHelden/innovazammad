@@ -12,11 +12,11 @@ Forwards call information from an [innovaphone](https://www.innovaphone.com/) PB
 
 ## Installation
 
-Released binaries can be downloaded from the [releases page](releases).
+Released binaries can be downloaded from the [releases page](https://github.com/RegioHelden/innovazammad/releases).
 
 ### From source
 
-Installation can be done simply with:
+To install from source, simply run:
 ```
 go get github.com/regiohelden/innovazammad
 ```
@@ -35,14 +35,14 @@ The following options are available:
 
 | Flag | Environment | Description | Default | Required? |
 |---|---|---|---|---|
-|`-c`, `--confpath`| `INNOVAZAMMAD_CONFPATH` | Path to configuration file  |`innovazammad.yaml` | |
-|`-l`, `--loglevel`| `INNOVAZAMMAD_LOGLEVEL` | How much logging will be output to stdout (values as supported by [logrus](https://github.com/sirupsen/logrus)) | `warn` | |
-|`--pbx.url`| `INNOVAZAMMAD_PBX_URL` | Under which URL should `innovazammad` attempt to connect to the PBX | _none_ | × |
-|`--pbx.endpointpath`| `INNOVAZAMMAD_PBX_ENDPOINTPATH` | Path under `pbx.url` where the API is accessible | `/PBX0/user.soap` ||
-|`--pbx.user`| `INNOVAZAMMAD_PBX_USER` | User for authentication with the PBX | _none_ | × |
-|`--pbx.pass`| `INNOVAZAMMAD_PBX_PASS` | Password for authentication with the PBX | _none_ | × |
-|`--pbx.appname`| `INNOVAZAMMAD_PBX_APPNAME` | Application name used when connecting to the PBX (informational only) | `innovazammad` ||
-|`--pbx.monitoruser`| `INNOVAZAMMAD_PBX_MONITORUSER` | PBX user object for which events will be monitored. Possibly a 'trunk line'.| _none_ | × |
+|`-c`, `--confpath`| `INNOVAZAMMAD_CONFPATH` | Path to configuration file.  | `innovazammad.yaml` | |
+|`-l`, `--loglevel`| `INNOVAZAMMAD_LOGLEVEL` | How much logging will be output to stdout (values as supported by [logrus](https://github.com/sirupsen/logrus)). | `warn` | |
+|`--pbx.url`| `INNOVAZAMMAD_PBX_URL` | Under which URL should `innovazammad` attempt to connect to the PBX. | _none_ | × |
+|`--pbx.endpointpath`| `INNOVAZAMMAD_PBX_ENDPOINTPATH` | Path under `pbx.url` where the API is accessible. | `/PBX0/user.soap` ||
+|`--pbx.user`| `INNOVAZAMMAD_PBX_USER` | User for authentication with the PBX. | _none_ | × |
+|`--pbx.pass`| `INNOVAZAMMAD_PBX_PASS` | Password for authentication with the PBX. | _none_ | × |
+|`--pbx.appname`| `INNOVAZAMMAD_PBX_APPNAME` | Application name used when connecting to the PBX (informational only). | `innovazammad` ||
+|`--pbx.monitoruser`| `INNOVAZAMMAD_PBX_MONITORUSER` | PBX user object for which events will be monitored. Possibly a 'trunk line'. | _none_ | × |
 |`--pbx.filterongroup`|`INNOVAZAMMAD_PBX_FILTERONGROUP` | Only events for users in this group will be submitted to Zammad. If not provided, all calls will be submitted. | _none_ ||
 |`--pbx.groupcachetime`|`INNOVAZAMMAD_PBX_GROUPCACHETIME`| Time to cache group membership information used by `pbx.filterongroup`. Setting this to `0` causes group membership to be checked for every incoming event.| `300s` ||
 |`--zammad.endpointurl`|`INNOVAZAMMAD_ZAMMAD_ENDPOINTURL`| URL to Zammad's 'CTI (generic)' endpoint. Can be found in Zammad's integration settings page. | _none_ |×|
