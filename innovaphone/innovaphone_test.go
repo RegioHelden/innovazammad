@@ -16,20 +16,20 @@ type numberGroupFixture struct {
 }
 
 var numberGroups = map[string][]string{
-	"1": {"someothergroup"},
-	"3": {"somegroup"},
+	"Some Caller":       {"somegroup"},
+	"Some Other Caller": {"someothergroup"},
 }
 
-func (gc *numberGroupFixture) FindUser(_, _, _, _, cn, _, e164 string, _, _ int) (*FindUserInfoArray, error) {
+func (gc *numberGroupFixture) FindUser(_, _, _, _, cn, _, _ string, _, _ int) (*FindUserInfoArray, error) {
 	gc.Lock()
 	defer gc.Unlock()
 	gc.findUserCalled = true
 	users := &FindUserInfoArray{}
-	if fixtureGroups, ok := gc.users[e164]; ok {
+	if fixtureGroups, ok := gc.users[cn]; ok {
 		users.Items = make([]*UserInfo, 1)
 		groupArray := &GroupArray{Items: make([]*Group, len(fixtureGroups))}
 		users.Items[0] = &UserInfo{Groups: groupArray}
-		for i, group := range gc.users[e164] {
+		for i, group := range gc.users[cn] {
 			groupArray.Items[i] = &Group{Group: group}
 		}
 
@@ -70,8 +70,8 @@ func TestCallInSession_ShouldHandle(t *testing.T) {
 				CallInfo: &CallInfo{
 					No: &NoArray{
 						Items: []*No{
-							{Cn: "somecaller", E164: "1", Type: "peer"},
-							{Cn: "somecallee", E164: "2", Type: "this"},
+							{Cn: "Some Other Caller", Type: "peer"},
+							{Cn: "Some Other Callee", Type: "this"},
 						},
 					},
 				},
@@ -84,8 +84,8 @@ func TestCallInSession_ShouldHandle(t *testing.T) {
 				CallInfo: &CallInfo{
 					No: &NoArray{
 						Items: []*No{
-							{Cn: "somecaller", E164: "3", Type: "peer"},
-							{Cn: "somecallee", E164: "4", Type: "this"},
+							{Cn: "Some Caller", Type: "peer"},
+							{Cn: "Some Callee", Type: "this"},
 						},
 					},
 				},
@@ -98,8 +98,8 @@ func TestCallInSession_ShouldHandle(t *testing.T) {
 				CallInfo: &CallInfo{
 					No: &NoArray{
 						Items: []*No{
-							{Cn: "somecaller", E164: "1", Type: "peer"},
-							{Cn: "somecallee", E164: "2", Type: "this"},
+							{Cn: "Some Other Caller", E164: "1", Type: "peer"},
+							{Cn: "Some Other Callee", E164: "2", Type: "this"},
 						},
 					},
 				},
@@ -112,8 +112,8 @@ func TestCallInSession_ShouldHandle(t *testing.T) {
 				CallInfo: &CallInfo{
 					No: &NoArray{
 						Items: []*No{
-							{Cn: "somecaller", E164: "3", Type: "peer"},
-							{Cn: "somecallee", E164: "4", Type: "this"},
+							{Cn: "Some Caller", E164: "3", Type: "peer"},
+							{Cn: "Some Callee", E164: "4", Type: "this"},
 						},
 					},
 				},

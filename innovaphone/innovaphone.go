@@ -183,7 +183,7 @@ func (call *CallInSession) ShouldHandle() bool {
 		if call.GetDirection() == DirectionInbound {
 			no = dst
 		}
-		if no.E164 == "" {
+		if no.Cn == "" {
 			return false
 		}
 
@@ -191,7 +191,7 @@ func (call *CallInSession) ShouldHandle() bool {
 		var cacheMiss = true
 		if time.Duration(*config.Global.PBX.GroupCacheTime) > time.Duration(0) {
 			// try to load groups from cache
-			if val, ok := userCache.Load(no.E164); ok {
+			if val, ok := userCache.Load(no.Cn); ok {
 				cacheEntry, ok := val.(userCacheEntry)
 				if !ok {
 					panic("retrieved unknown value from userCache")
@@ -204,18 +204,18 @@ func (call *CallInSession) ShouldHandle() bool {
 		}
 
 		if cacheMiss {
-			logrus.WithField("call", call).Debugf("searching for number %s", no.E164)
-			userArray, err := call.FindUser("", "", "", "", no.Cn, "", no.E164, 1, 0)
+			logrus.WithField("call", call).Debugf("searching for PBX object '%s'", no.Cn)
+			userArray, err := call.FindUser("", "", "", "", no.Cn, "", "", 1, 0)
 			if err != nil {
-				logrus.WithField("call", call).Errorf("error finding number '%s': %s", no.E164, err)
+				logrus.WithField("call", call).Errorf("error finding PBX object '%s': %s", no.Cn, err)
 				return false
 			}
 			if len(userArray.Items) < 1 {
-				logrus.WithField("call", call).Warnf("could not find number '%s'; skipping call", no.E164)
+				logrus.WithField("call", call).Warnf("could not find PBX object '%s'; skipping call", no.Cn)
 				return false
 			}
 			groups = userArray.Items[0].Groups.Items
-			userCache.Store(no.E164, userCacheEntry{
+			userCache.Store(no.Cn, userCacheEntry{
 				groups:    groups,
 				timestamp: time.Now(),
 			})
