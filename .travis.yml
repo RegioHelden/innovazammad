@@ -28,7 +28,7 @@ stages:
 jobs:
   include:
     - stage: deploy
-      script: skip
+      script: go build
       deploy:
         provider: releases
         api_key:
