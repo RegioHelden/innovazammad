@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/regiohelden/innovazammad/config"
 	"github.com/regiohelden/innovazammad/innovaphone"
@@ -62,19 +63,29 @@ func main() {
 
 	logrus.Infof("starting innovaphone-zammad bridge")
 
+	connectionStats := expvar.NewMap("connection_stats")
+
 	zammadSession := zammad.NewSession()
 	for {
 		innovaphoneSession := innovaphone.NewSession()
+		connectionStats.Set("on_since", timeString(time.Now().Format(time.RFC3339)))
 		calls, errs := innovaphoneSession.PollForever()
 	handling:
 		for {
 			select {
 			case call := <-calls:
-				go zammadSession.Submit(call)
+				zammadSession.Submit(call)
 			case err := <-errs:
 				logrus.Errorf("error while polling: %s", err)
 				break handling
 			}
 		}
+		connectionStats.Add("errors", 1)
 	}
+}
+
+type timeString string
+
+func (ts timeString) String() string {
+	return fmt.Sprintf("\"%s\"", string(ts))
 }

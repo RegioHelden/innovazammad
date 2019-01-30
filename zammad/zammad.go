@@ -67,6 +67,7 @@ func (cs callMap) String() string {
 // Session keeps track of the states successfully submitted to Zammad
 type Session struct {
 	callMap callMap
+	stats   *expvar.Map
 	sync.Mutex
 }
 
@@ -80,6 +81,7 @@ type stateTransition struct {
 func NewSession() *Session {
 	calls := &Session{
 		callMap: callMap{},
+		stats:   expvar.NewMap("stats"),
 	}
 	expvar.Publish("calls", calls.callMap)
 	return calls
@@ -110,12 +112,15 @@ func (zs *Session) setOrUpdate(callID int, newEntry *callEntry) {
 	} else if curEntry, ok := zs.callMap[callID]; ok {
 		curEntry.State = newEntry.State
 	} else {
+		zs.stats.Add("calls_total", 1)
 		zs.callMap[callID] = newEntry
 	}
 }
 
 // Submit sends a call to Zammad, if we are aware of it and can correctly map its state to some known Zammad state
 func (zs *Session) Submit(call *innovaphone.CallInSession) error {
+	zs.stats.Add("events_total", 1)
+
 	src, dst, err := call.GetSourceAndDestination()
 	if err != nil {
 		return err
@@ -201,6 +206,7 @@ func (zs *Session) Submit(call *innovaphone.CallInSession) error {
 	if resp.StatusCode < 200 || resp.StatusCode > 299 {
 		return fmt.Errorf("could not submit to Zammad: %s", resp.Status)
 	}
+	zs.stats.Add("events_submitted", 1)
 	zs.setOrUpdate(call.Call, entry)
 	return nil
 }

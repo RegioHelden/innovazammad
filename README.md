@@ -53,3 +53,10 @@ The following options are available:
 Currently `innovazammad` uses innovaphone's [v10 SOAP API](http://wiki.innovaphone.com/index.php?title=Reference10:SOAP_API) (see `innovaphone/pbx10_00.{go,wsdl}`). Older PBX might not work.
 
 On the Zammad side, it has been tested against the `2.9.x` branch.
+
+## Monitoring
+
+Internal state can be monitored by querying the metrics endpoint:
+```
+curl -s localhost:8080/debug/vars
+```
