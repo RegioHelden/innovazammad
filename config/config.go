@@ -2,6 +2,7 @@ package config
 
 import (
 	"encoding/json"
+	"fmt"
 	"time"
 )
 
@@ -46,4 +47,9 @@ func (d *Duration) UnmarshalText(data []byte) error {
 	dd, err := time.ParseDuration(string(data))
 	*d = Duration(dd)
 	return err
+}
+
+// MarshalJSON returns a json-string representation of the duration
+func (d *Duration) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf("\"%s\"", time.Duration(*d).String())), nil
 }
