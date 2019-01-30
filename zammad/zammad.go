@@ -81,7 +81,7 @@ func NewSession() *Session {
 	calls := &Session{
 		callMap: callMap{},
 	}
-	expvar.Publish("Session", calls.callMap)
+	expvar.Publish("calls", calls.callMap)
 	return calls
 }
 

@@ -2,7 +2,9 @@ package main // import "github.com/regiohelden/innovazammad"
 
 import (
 	"expvar"
+	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/regiohelden/innovazammad/config"
 	"github.com/regiohelden/innovazammad/innovaphone"
@@ -10,6 +12,8 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/stevenroose/gonfig"
 )
+
+var version = "dev"
 
 func init() {
 	err := gonfig.Load(&config.Global, gonfig.Conf{
@@ -23,10 +27,15 @@ func init() {
 }
 
 func main() {
+	if config.Global.Version {
+		fmt.Println(version)
+		os.Exit(0)
+	}
 	// used by expvars; exported on localhost because we also publish config (with passwords)
 	go http.ListenAndServe("localhost:8080", nil)
 
 	expvar.Publish("config", &config.Global)
+	expvar.NewString("version").Set(version)
 
 	logLevel, err := logrus.ParseLevel(config.Global.LogLevel)
 	if err != nil {

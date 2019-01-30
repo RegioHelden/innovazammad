@@ -10,6 +10,7 @@ var Global = Config{}
 
 // Config holds the configurable options with their respective defaults.
 type Config struct {
+	Version  bool   `desc:"display current version"`
 	ConfPath string `id:"confpath" desc:"path to config file"`
 	LogLevel string `default:"warn" short:"l" desc:"log level (debug/info/warn/error)"`
 	PBX      struct {
