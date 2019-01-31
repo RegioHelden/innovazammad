@@ -21,12 +21,19 @@ env:
 
 script: go test -v ./...
 
+cache:
+  directories:
+    - /home/travis/go/pkg/mod/
+
 stages:
+  - cache
   - test
   - release
 
 jobs:
   include:
+    - stage: cache
+      script: go mod download -json
     - stage: deploy
       script: make
       deploy:
