@@ -33,7 +33,7 @@ type PbxPortType interface {
 	End(session int) error
 
 	// FindUser was auto-generated from WSDL.
-	FindUser(v501 string, v700 string, v800 string, vx1000 string, cn string, h323 string, e164 string, count int, next int) (*FindUserInfoArray, error)
+	FindUser(v501 string, v700 string, v800 string, vx1000 string, cn string, h323 string, e164 string, count int, next int, nohide bool) (*FindUserInfoArray, error)
 
 	// Initialize was auto-generated from WSDL.
 	Initialize(user string, appl string, v bool, v501 bool, v700 bool, v800 bool, vx1000 bool) (int, int, error)
@@ -372,6 +372,7 @@ type OperationFindUserRequest struct {
 	E164   *string `xml:"e164,omitempty" json:"e164,omitempty" yaml:"e164,omitempty"`
 	Count  *int    `xml:"count,omitempty" json:"count,omitempty" yaml:"count,omitempty"`
 	Next   *int    `xml:"next,omitempty" json:"next,omitempty" yaml:"next,omitempty"`
+	Nohide *bool   `xml:"nohide,omitempty" json:"nohide,omitempty" yaml:"nohide,omitempty"`
 }
 
 // Operation wrapper for FindUser.
@@ -850,7 +851,7 @@ func (p *pbxPortType) End(session int) error {
 }
 
 // FindUser was auto-generated from WSDL.
-func (p *pbxPortType) FindUser(v501 string, v700 string, v800 string, vx1000 string, cn string, h323 string, e164 string, count int, next int) (*FindUserInfoArray, error) {
+func (p *pbxPortType) FindUser(v501 string, v700 string, v800 string, vx1000 string, cn string, h323 string, e164 string, count int, next int, nohide bool) (*FindUserInfoArray, error) {
 	α := struct {
 		M OperationFindUserRequest `xml:"inno:FindUser"`
 	}{
@@ -864,6 +865,7 @@ func (p *pbxPortType) FindUser(v501 string, v700 string, v800 string, vx1000 str
 			&e164,
 			&count,
 			&next,
+			&nohide,
 		},
 	}
 

@@ -150,7 +150,7 @@ type CallInSession struct {
 
 type sessionInterface interface {
 	IsDirectionFlipped() bool
-	FindUser(string, string, string, string, string, string, string, int, int) (*FindUserInfoArray, error)
+	FindUser(string, string, string, string, string, string, string, int, int, bool) (*FindUserInfoArray, error)
 }
 
 // GetDirection returns the call direction as interpreted by an outside observer. It wraps the PBX' notion of direction,
@@ -205,7 +205,7 @@ func (call *CallInSession) ShouldHandle() bool {
 
 		if cacheMiss {
 			logrus.WithField("call", call).Debugf("searching for PBX object '%s'", no.Cn)
-			userArray, err := call.FindUser("", "", "", "", no.Cn, "", "", 1, 0)
+			userArray, err := call.FindUser("1", "1", "1", "1", no.Cn, "", "", 1, 0, true)
 			if err != nil {
 				logrus.WithField("call", call).Errorf("error finding PBX object '%s': %s", no.Cn, err)
 				return false

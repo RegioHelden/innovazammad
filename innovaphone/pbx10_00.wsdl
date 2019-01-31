@@ -534,6 +534,7 @@
         <part name="e164" type="xsd:string"/>
         <part name="count" type="xsd:int"/>
         <part name="next" type="xsd:int"/>
+        <part name="nohide" type="xsd:boolean"/>
     </message>
     <message name="FindUserResponse">
         <part name="return" type="inno:UserInfoArray"/>
