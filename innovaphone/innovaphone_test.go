@@ -20,7 +20,7 @@ var numberGroups = map[string][]string{
 	"Some Other Caller": {"someothergroup"},
 }
 
-func (gc *numberGroupFixture) FindUser(_, _, _, _, cn, _, _ string, _, _ int) (*FindUserInfoArray, error) {
+func (gc *numberGroupFixture) FindUser(_, _, _, _, cn, _, _ string, _, _ int, _ bool) (*FindUserInfoArray, error) {
 	gc.Lock()
 	defer gc.Unlock()
 	gc.findUserCalled = true
@@ -28,7 +28,7 @@ func (gc *numberGroupFixture) FindUser(_, _, _, _, cn, _, _ string, _, _ int) (*
 	if fixtureGroups, ok := gc.users[cn]; ok {
 		users.Items = make([]*UserInfo, 1)
 		groupArray := &GroupArray{Items: make([]*Group, len(fixtureGroups))}
-		users.Items[0] = &UserInfo{Groups: groupArray}
+		users.Items[0] = &UserInfo{Cn: cn, Groups: groupArray}
 		for i, group := range gc.users[cn] {
 			groupArray.Items[i] = &Group{Group: group}
 		}
@@ -105,7 +105,7 @@ func TestCallInSession_ShouldHandle(t *testing.T) {
 				},
 			},
 			false, false},
-		{"filter (cached) and not find",
+		{"filter (cached) and find",
 			"somegroup",
 			fields{
 				sessionInterface: &numberGroupFixture{users: numberGroups},

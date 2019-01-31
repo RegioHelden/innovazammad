@@ -101,7 +101,7 @@ func (session *Session) IsDirectionFlipped() bool {
 // PollForever will return one CallInSession per successful poll.
 // If it encounters an error, it will return it over the errors channel and cease polling.
 func (session *Session) PollForever() (<-chan *CallInSession, <-chan error) {
-	logrus.Info("polling for call events")
+	logrus.Infof("polling for call events for user %s", config.Global.PBX.MonitorUser)
 	errs := make(chan error)
 	calls := make(chan *CallInSession)
 
@@ -210,7 +210,7 @@ func (call *CallInSession) ShouldHandle() bool {
 				logrus.WithField("call", call).Errorf("error finding PBX object '%s': %s", no.Cn, err)
 				return false
 			}
-			if len(userArray.Items) < 1 {
+			if len(userArray.Items) < 1 || userArray.Items[0].Cn != no.Cn {
 				logrus.WithField("call", call).Warnf("could not find PBX object '%s'; skipping call", no.Cn)
 				return false
 			}
