@@ -1,6 +1,6 @@
 language: go
 
-dist: trusty
+dist: xenial
 
 go:
   - "1.11"
