@@ -23,7 +23,7 @@ script: go test -v ./...
 
 cache:
   directories:
-    - /home/travis/go/pkg/mod/
+    - /home/travis/gopath/pkg/mod/
 
 stages:
   - cache
