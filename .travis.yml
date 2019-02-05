@@ -28,13 +28,14 @@ cache:
 stages:
   - cache
   - test
-  - release
+  - name: release
+    if: (tag =~ ^v[0-9]) AND (branch = master)
 
 jobs:
   include:
     - stage: cache
       script: go mod download -json
-    - stage: deploy
+    - stage: release
       script: make
       deploy:
         provider: releases
