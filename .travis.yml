@@ -29,7 +29,7 @@ stages:
   - cache
   - test
   - name: release
-    if: (tag =~ ^v[0-9]) AND (branch = master)
+    if: tag =~ ^v[0-9]
 
 jobs:
   include:
