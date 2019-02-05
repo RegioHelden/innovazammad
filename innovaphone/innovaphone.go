@@ -1,6 +1,7 @@
 package innovaphone
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"strings"
@@ -24,24 +25,24 @@ type Session struct {
 
 // NewSession returns a new innovaphone session with context information.
 // It will retry indefinitely to connect and confirm the connection to the PBX.
-func NewSession() Session {
+func NewSession(ctx context.Context) *Session {
 	client := &soap.Client{
 		URL:       fmt.Sprintf("%s/%s", strings.TrimRight(config.Global.PBX.URL, "/"), strings.TrimLeft(config.Global.PBX.EndpointPath, "/")),
 		Namespace: Namespace,
 		Pre: func(r *http.Request) {
 			r.SetBasicAuth(config.Global.PBX.User, config.Global.PBX.Pass)
+			*r = *r.WithContext(ctx)
 		},
 	}
 	logrus.Infof("initializing session for URL: %s", client.URL)
-	is := Session{
+	is := &Session{
 		PbxPortType: NewPbxPortType(client),
 	}
 
-	if err := backoff.RetryNotify(is.connectionInit, backoff.NewExponentialBackOff(), func(err error, dur time.Duration) {
+	if err := backoff.RetryNotify(is.connectionInit, backoff.WithContext(backoff.NewExponentialBackOff(), ctx), func(err error, dur time.Duration) {
 		logrus.Errorf("%s (will retry in %s)", err, dur)
 	}); err != nil {
-		// we retry forever, so we should never hit this
-		panic("unexpected error while retrying")
+		return nil
 	}
 
 	return is
@@ -101,6 +102,10 @@ func (session *Session) IsDirectionFlipped() bool {
 // PollForever will return one CallInSession per successful poll.
 // If it encounters an error, it will return it over the errors channel and cease polling.
 func (session *Session) PollForever() (<-chan *CallInSession, <-chan error) {
+	if session == nil {
+		return nil, nil
+	}
+
 	logrus.Infof("polling for call events for user %s", config.Global.PBX.MonitorUser)
 	errs := make(chan error)
 	calls := make(chan *CallInSession)

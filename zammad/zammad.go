@@ -1,6 +1,7 @@
 package zammad
 
 import (
+	"context"
 	"encoding/json"
 	"expvar"
 	"fmt"
@@ -66,8 +67,9 @@ func (cs callMap) String() string {
 
 // Session keeps track of the states successfully submitted to Zammad
 type Session struct {
-	callMap callMap
-	stats   *expvar.Map
+	callMap            callMap
+	stats              *expvar.Map
+	callHandlingCancel context.CancelFunc
 	sync.Mutex
 }
 
@@ -78,13 +80,15 @@ type stateTransition struct {
 
 // NewSession initializes a new Session to keep track of call information sent to zammad.
 // The result should be used as a singleton.
-func NewSession() *Session {
+func NewSession() (*Session, context.Context) {
+	callHandlingCtx, callHandlingCancel := context.WithCancel(context.Background())
 	calls := &Session{
-		callMap: callMap{},
-		stats:   expvar.NewMap("stats"),
+		callMap:            callMap{},
+		stats:              expvar.NewMap("stats"),
+		callHandlingCancel: callHandlingCancel,
 	}
 	expvar.Publish("calls", calls.callMap)
-	return calls
+	return calls, callHandlingCtx
 }
 
 // Get returns a State for the given callID. If no state is known, will return StateNew.
@@ -104,8 +108,15 @@ func (zs *Session) get(callID int) (*callEntry, error) {
 	return zs.callMap[callID], nil
 }
 
-func (zs *Session) setOrUpdate(callID int, newEntry *callEntry) {
+func (zs *Session) setOrUpdate(ctx context.Context, callID int, newEntry *callEntry) {
 	if newEntry.State == StateDisconnected {
+		// if we're shutting down and this was the last call, cancel the callHandlingCtx
+		select {
+		case <-ctx.Done():
+			logrus.Debug("last call terminated; cancelling call handling")
+			zs.callHandlingCancel()
+		default:
+		}
 		zs.Lock()
 		defer zs.Unlock()
 		delete(zs.callMap, callID)
@@ -117,8 +128,17 @@ func (zs *Session) setOrUpdate(callID int, newEntry *callEntry) {
 	}
 }
 
+// ShutdownIfEmpty is used to short-circuit the
+func (zs *Session) ShutdownIfEmpty() {
+	zs.Lock()
+	defer zs.Unlock()
+	if len(zs.callMap) == 0 {
+		zs.callHandlingCancel()
+	}
+}
+
 // Submit sends a call to Zammad, if we are aware of it and can correctly map its state to some known Zammad state
-func (zs *Session) Submit(call *innovaphone.CallInSession) error {
+func (zs *Session) Submit(ctx context.Context, call *innovaphone.CallInSession) error {
 	zs.stats.Add("events_total", 1)
 
 	src, dst, err := call.GetSourceAndDestination()
@@ -207,7 +227,7 @@ func (zs *Session) Submit(call *innovaphone.CallInSession) error {
 		return fmt.Errorf("could not submit to Zammad: %s", resp.Status)
 	}
 	zs.stats.Add("events_submitted", 1)
-	zs.setOrUpdate(call.Call, entry)
+	zs.setOrUpdate(ctx, call.Call, entry)
 	return nil
 }
 

@@ -11,10 +11,11 @@ var Global = Config{}
 
 // Config holds the configurable options with their respective defaults.
 type Config struct {
-	Version  bool   `desc:"display current version"`
-	ConfPath string `id:"confpath" desc:"path to config file"`
-	LogLevel string `default:"warn" short:"l" desc:"log level (debug/info/warn/error)"`
-	PBX      struct {
+	Version     bool      `desc:"display current version"`
+	ConfPath    string    `id:"confpath" desc:"path to config file"`
+	LogLevel    string    `default:"warn" short:"l" desc:"log level (debug/info/warn/error)"`
+	GracePeriod *Duration `desc:"time to wait for ongoing calls during shutdown" default:"60s"`
+	PBX         struct {
 		URL            string    `desc:"URL to innovaphone PBX"`
 		EndpointPath   string    `default:"/PBX0/user.soap" desc:"path on innovaphone PBX under which the API is accessible"`
 		User           string    `desc:"user for authentication with the PBX"`

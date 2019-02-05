@@ -1,6 +1,7 @@
 package main // import "github.com/regiohelden/innovazammad"
 
 import (
+	"context"
 	"expvar"
 	"fmt"
 	"net/http"
@@ -65,22 +66,38 @@ func main() {
 
 	connectionStats := expvar.NewMap("connection_stats")
 
-	zammadSession := zammad.NewSession()
+	shutdownCtx := GracefulShutdownContext(context.Background(), GracefulShutdownOpts{
+		Timeout: time.Duration(*config.Global.GracePeriod),
+	})
+	// single use short-circuit var; see 'select' below
+	shutdown := shutdownCtx.Done()
+
+	// shutdownCtx signals the zammad side to finish processing existing calls, and it in turn signals the innovaphone
+	// side when it's done via callHandlingCtx to stop polling.
+	zammadSession, callHandlingCtx := zammad.NewSession()
+
 	for {
-		innovaphoneSession := innovaphone.NewSession()
+		innovaphoneSession := innovaphone.NewSession(callHandlingCtx)
 		connectionStats.Set("on_since", timeString(time.Now().Format(time.RFC3339)))
 		calls, errs := innovaphoneSession.PollForever()
+
 	handling:
 		for {
 			select {
 			case call := <-calls:
-				zammadSession.Submit(call)
+				zammadSession.Submit(shutdownCtx, call)
 			case err := <-errs:
 				logrus.Errorf("error while polling: %s", err)
+				connectionStats.Add("errors", 1)
 				break handling
+			case <-shutdown:
+				// do a one-time check if we actually have any calls being handled; otherwise we can just quit
+				shutdown = nil
+				zammadSession.ShutdownIfEmpty()
+			case <-callHandlingCtx.Done():
+				return
 			}
 		}
-		connectionStats.Add("errors", 1)
 	}
 }
 

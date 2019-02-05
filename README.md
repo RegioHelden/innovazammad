@@ -37,6 +37,7 @@ The following options are available:
 |---|---|---|---|---|
 |`--confpath`| `INNOVAZAMMAD_CONFPATH` | Path to configuration file.  | `/etc/innovazammad.yaml` | |
 |`-l`, `--loglevel`| `INNOVAZAMMAD_LOGLEVEL` | How much logging will be output to stdout (values as supported by [logrus](https://github.com/sirupsen/logrus)). | `warn` | |
+|`--graceperiod`| `INNOVAZAMMAD_GRACEPERIOD` | How long to wait for ongoing calls to finish before shutting down or restarting. Restarting may leave orphaned calls on the Zammad side. | `60s` ||
 |`--pbx.url`| `INNOVAZAMMAD_PBX_URL` | Under which URL should `innovazammad` attempt to connect to the PBX. | _none_ | × |
 |`--pbx.endpointpath`| `INNOVAZAMMAD_PBX_ENDPOINTPATH` | Path under `pbx.url` where the API is accessible. | `/PBX0/user.soap` ||
 |`--pbx.user`| `INNOVAZAMMAD_PBX_USER` | User for authentication with the PBX. | _none_ | × |
