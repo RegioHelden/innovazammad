@@ -51,7 +51,7 @@ The following options are available:
 
 ## Compatibility
 
-Currently `innovazammad` uses innovaphone's [v10 SOAP API](http://wiki.innovaphone.com/index.php?title=Reference10:SOAP_API) (see `innovaphone/pbx10_00.{go,wsdl}`). Older PBX might not work.
+Currently `innovazammad` uses innovaphone's v11 SOAP API (see `innovaphone/pbx.wsdl`). Older PBX versions might not work.
 
 On the Zammad side, it has been tested against the `2.9.x` branch.
 
