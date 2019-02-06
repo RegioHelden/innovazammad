@@ -20,17 +20,18 @@ var numberGroups = map[string][]string{
 	"Some Other Caller": {"someothergroup"},
 }
 
-func (gc *numberGroupFixture) FindUser(_, _, _, _, cn, _, _ string, _, _ int, _ bool) (*FindUserInfoArray, error) {
+func (gc *numberGroupFixture) FindUser(fu *FindUser) (*FindUserResponse, error) {
 	gc.Lock()
 	defer gc.Unlock()
 	gc.findUserCalled = true
-	users := &FindUserInfoArray{}
-	if fixtureGroups, ok := gc.users[cn]; ok {
-		users.Items = make([]*UserInfo, 1)
-		groupArray := &GroupArray{Items: make([]*Group, len(fixtureGroups))}
-		users.Items[0] = &UserInfo{Cn: cn, Groups: groupArray}
-		for i, group := range gc.users[cn] {
-			groupArray.Items[i] = &Group{Group: group}
+	users := &FindUserResponse{Return: &UserInfoArray{
+		User: make([]*UserInfo, 0),
+	}}
+	if fixtureGroups, ok := gc.users[*fu.Cn]; ok {
+		groupArray := make([]*Group, len(fixtureGroups))
+		users.Return.User = append(users.Return.User, &UserInfo{Cn: *fu.Cn, Groups: groupArray})
+		for i, group := range gc.users[*fu.Cn] {
+			groupArray[i] = &Group{Group: group}
 		}
 
 	}
@@ -68,11 +69,9 @@ func TestCallInSession_ShouldHandle(t *testing.T) {
 			fields{
 				sessionInterface: &numberGroupFixture{users: numberGroups},
 				CallInfo: &CallInfo{
-					No: &NoArray{
-						Items: []*No{
-							{Cn: "Some Other Caller", Type: "peer"},
-							{Cn: "Some Other Callee", Type: "this"},
-						},
+					No: []*No{
+						{Cn: "Some Other Caller", Type: "peer"},
+						{Cn: "Some Other Callee", Type: "this"},
 					},
 				},
 			},
@@ -82,11 +81,9 @@ func TestCallInSession_ShouldHandle(t *testing.T) {
 			fields{
 				sessionInterface: &numberGroupFixture{users: numberGroups},
 				CallInfo: &CallInfo{
-					No: &NoArray{
-						Items: []*No{
-							{Cn: "Some Caller", Type: "peer"},
-							{Cn: "Some Callee", Type: "this"},
-						},
+					No: []*No{
+						{Cn: "Some Caller", Type: "peer"},
+						{Cn: "Some Callee", Type: "this"},
 					},
 				},
 			},
@@ -96,11 +93,9 @@ func TestCallInSession_ShouldHandle(t *testing.T) {
 			fields{
 				sessionInterface: &numberGroupFixture{users: numberGroups},
 				CallInfo: &CallInfo{
-					No: &NoArray{
-						Items: []*No{
-							{Cn: "Some Other Caller", E164: "1", Type: "peer"},
-							{Cn: "Some Other Callee", E164: "2", Type: "this"},
-						},
+					No: []*No{
+						{Cn: "Some Other Caller", E164: "1", Type: "peer"},
+						{Cn: "Some Other Callee", E164: "2", Type: "this"},
 					},
 				},
 			},
@@ -110,11 +105,9 @@ func TestCallInSession_ShouldHandle(t *testing.T) {
 			fields{
 				sessionInterface: &numberGroupFixture{users: numberGroups},
 				CallInfo: &CallInfo{
-					No: &NoArray{
-						Items: []*No{
-							{Cn: "Some Caller", E164: "3", Type: "peer"},
-							{Cn: "Some Callee", E164: "4", Type: "this"},
-						},
+					No: []*No{
+						{Cn: "Some Caller", E164: "3", Type: "peer"},
+						{Cn: "Some Callee", E164: "4", Type: "this"},
 					},
 				},
 			},

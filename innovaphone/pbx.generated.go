@@ -18,100 +18,106 @@ func NewPbxPortType(cli *soap.Client) PbxPortType {
 // and defines interface for the remote service. Useful for testing.
 type PbxPortType interface {
 	// Admin was auto-generated from WSDL.
-	Admin(xml string) (string, error)
+	Admin(Admin *Admin) (*AdminResponse, error)
 
 	// Calls was auto-generated from WSDL.
-	Calls(session int, user string) (*CallInfoArray, error)
+	Calls(Calls *Calls) (*CallsResponse, error)
 
 	// Devices was auto-generated from WSDL.
-	Devices(session int, user string) (*DeviceArray, error)
+	Devices(Devices *Devices) (*DevicesResponse, error)
 
 	// Echo was auto-generated from WSDL.
-	Echo(session int, key int) (int, error)
+	Echo(Echo *Echo) (*EchoResponse, error)
 
 	// End was auto-generated from WSDL.
-	End(session int) error
+	End(End *End) (*EndResponse, error)
 
 	// FindUser was auto-generated from WSDL.
-	FindUser(v501 string, v700 string, v800 string, vx1000 string, cn string, h323 string, e164 string, count int, next int, nohide bool) (*FindUserInfoArray, error)
+	FindUser(FindUser *FindUser) (*FindUserResponse, error)
 
 	// Initialize was auto-generated from WSDL.
-	Initialize(user string, appl string, v bool, v501 bool, v700 bool, v800 bool, vx1000 bool) (int, int, error)
+	Initialize(Initialize *Initialize) (*InitializeResponse, error)
 
 	// License was auto-generated from WSDL.
-	License(session int, name string) (string, error)
+	License(License *License) (*LicenseResponse, error)
 
 	// LocationUrl was auto-generated from WSDL.
-	LocationUrl(v501 string, v700 string, v800 string, vx1000 string, loc string) (string, error)
+	LocationUrl(LocationUrl *LocationUrl) (*LocationUrlResponse, error)
 
 	// Poll was auto-generated from WSDL.
-	Poll(session int) (*AnyInfo, error)
+	Poll(Poll *Poll) (*PollResponse, error)
+
+	// SetPresence was auto-generated from WSDL.
+	SetPresence(SetPresence *SetPresence) (*SetPresenceResponse, error)
 
 	// UserCall was auto-generated from WSDL.
-	UserCall(user int, cn string, e164 string, h323 string, reg int, info *InfoArray, rc int, srce164 string) (int, error)
+	UserCall(UserCall *UserCall) (*UserCallResponse, error)
 
 	// UserClear was auto-generated from WSDL.
-	UserClear(call int, cause int, info *InfoArray) error
+	UserClear(UserClear *UserClear) (*UserClearResponse, error)
 
 	// UserConnect was auto-generated from WSDL.
-	UserConnect(call int) error
+	UserConnect(UserConnect *UserConnect) (*UserConnectResponse, error)
 
 	// UserCtComplete was auto-generated from WSDL.
-	UserCtComplete(call int, e164 string, h323 string) error
+	UserCtComplete(UserCtComplete *UserCtComplete) (*UserCtCompleteResponse, error)
 
 	// UserDTMF was auto-generated from WSDL.
-	UserDTMF(call int, recv bool, dtmf string) error
+	UserDTMF(UserDTMF *UserDTMF) (*UserDTMFResponse, error)
 
 	// UserEnd was auto-generated from WSDL.
-	UserEnd(user int) error
+	UserEnd(UserEnd *UserEnd) (*UserEndResponse, error)
 
 	// UserFindDestination was auto-generated from WSDL.
-	UserFindDestination(user int, e164 string, h323 string) (bool, *UserInfo, error)
+	UserFindDestination(UserFindDestination *UserFindDestination) (*UserFindDestinationResponse, error)
 
 	// UserHold was auto-generated from WSDL.
-	UserHold(call int, remote bool) error
+	UserHold(UserHold *UserHold) (*UserHoldResponse, error)
 
 	// UserInfo was auto-generated from WSDL.
-	UserInfo(call int, recv bool, cdpn string, key string, dsp string) error
+	UserInfo(UserInfoTx *UserInfoTx) (*UserInfoTxResponse, error)
 
 	// UserInitialize was auto-generated from WSDL.
-	UserInitialize(session int, user string, xfer bool, disc bool, hw string) (int, error)
+	UserInitialize(UserInitialize *UserInitialize) (*UserInitializeResponse, error)
+
+	// UserLicense was auto-generated from WSDL.
+	UserLicense(UserLicense *UserLicense) (*UserLicenseResponse, error)
 
 	// UserLocalNum was auto-generated from WSDL.
-	UserLocalNum(user int, num string) (string, error)
+	UserLocalNum(UserLocalNum *UserLocalNum) (*UserLocalNumResponse, error)
 
 	// UserMediaTransfer was auto-generated from WSDL.
-	UserMediaTransfer(a int, b int, user bool, peer bool) error
+	UserMediaTransfer(UserMediaTransfer *UserMediaTransfer) (*UserMediaTransferResponse, error)
 
 	// UserMessage was auto-generated from WSDL.
-	UserMessage(user int, e164 string, h323 string, msg string, src_e164 string, src_h323 string) (int, error)
+	UserMessage(UserMessage *UserMessage) (*UserMessageResponse, error)
 
 	// UserPark was auto-generated from WSDL.
-	UserPark(call int, cn string, position int) (int, error)
+	UserPark(UserPark *UserPark) (*UserParkResponse, error)
 
 	// UserPickup was auto-generated from WSDL.
-	UserPickup(user int, cn string, call int, group string, reg int, info *InfoArray) (int, error)
+	UserPickup(UserPickup *UserPickup) (*UserPickupResponse, error)
 
 	// UserRc was auto-generated from WSDL.
-	UserRc(call int, rc int) error
+	UserRc(UserRc *UserRc) (*UserRcResponse, error)
 
 	// UserRedirect was auto-generated from WSDL.
-	UserRedirect(call int, cn string, e164 string, h323 string, info *InfoArray, rc int) (bool, error)
+	UserRedirect(UserRedirect *UserRedirect) (*UserRedirectResponse, error)
 
 	// UserReroute was auto-generated from WSDL.
-	UserReroute(call int, cn string, e164 string, h323 string, info *InfoArray) (bool, error)
+	UserReroute(UserReroute *UserReroute) (*UserRerouteResponse, error)
 
 	// UserRetrieve was auto-generated from WSDL.
-	UserRetrieve(call int) error
+	UserRetrieve(UserRetrieve *UserRetrieve) (*UserRetrieveResponse, error)
 
 	// UserTransfer was auto-generated from WSDL.
-	UserTransfer(a int, b int) error
+	UserTransfer(UserTransfer *UserTransfer) (*UserTransferResponse, error)
 
 	// UserUUI was auto-generated from WSDL.
-	UserUUI(call int, recv bool, uui string) error
+	UserUUI(UserUUI *UserUUI) (*UserUUIResponse, error)
 
-	// Queries various version information from the PBX
-	Version() (int, string, string, string, string, error)
+	// Version was auto-generated from WSDL.
+	Version(Version *Version) (*VersionResponse, error)
 }
 
 // PresenceActivity was auto-generated from WSDL.
@@ -147,6 +153,7 @@ func (v PresenceActivity) Validate() bool {
 		"vacation",
 		"working",
 		"worship",
+		"dnd",
 	} {
 		if reflect.DeepEqual(v, vv) {
 			return true
@@ -171,29 +178,45 @@ func (v PresenceStatus) Validate() bool {
 	return false
 }
 
+// Admin was auto-generated from WSDL.
+type Admin struct {
+	Xml *string `xml:"xml,omitempty" json:"xml,omitempty" yaml:"xml,omitempty"`
+}
+
+// AdminResponse was auto-generated from WSDL.
+type AdminResponse struct {
+	Return *string `xml:"return,omitempty" json:"return,omitempty" yaml:"return,omitempty"`
+}
+
 // AnyInfo was auto-generated from WSDL.
 type AnyInfo struct {
-	User *UserInfoArray `xml:"user,omitempty" json:"user,omitempty" yaml:"user,omitempty"`
-	Call *CallInfoArray `xml:"call,omitempty" json:"call,omitempty" yaml:"call,omitempty"`
-	Reg  *RegInfoArray  `xml:"reg,omitempty" json:"reg,omitempty" yaml:"reg,omitempty"`
-	Info *InfoArray     `xml:"info,omitempty" json:"info,omitempty" yaml:"info,omitempty"`
+	User []*UserInfo `xml:"user,omitempty" json:"user,omitempty" yaml:"user,omitempty"`
+	Call []*CallInfo `xml:"call,omitempty" json:"call,omitempty" yaml:"call,omitempty"`
+	Reg  []*RegInfo  `xml:"reg,omitempty" json:"reg,omitempty" yaml:"reg,omitempty"`
+	Info []*Info     `xml:"info,omitempty" json:"info,omitempty" yaml:"info,omitempty"`
 }
 
 // CallInfo was auto-generated from WSDL.
 type CallInfo struct {
-	User   int        `xml:"user" json:"user" yaml:"user"`
-	Call   int        `xml:"call" json:"call" yaml:"call"`
-	Reg    int        `xml:"reg" json:"reg" yaml:"reg"`
-	Active bool       `xml:"active" json:"active" yaml:"active"`
-	State  int        `xml:"state" json:"state" yaml:"state"`
-	No     *NoArray   `xml:"No" json:"No" yaml:"No"`
-	Msg    string     `xml:"msg" json:"msg" yaml:"msg"`
-	Info   *InfoArray `xml:"info" json:"info" yaml:"info"`
+	User   int     `xml:"user" json:"user" yaml:"user"`
+	Call   int     `xml:"call" json:"call" yaml:"call"`
+	Reg    int     `xml:"reg" json:"reg" yaml:"reg"`
+	Active bool    `xml:"active" json:"active" yaml:"active"`
+	State  int     `xml:"state" json:"state" yaml:"state"`
+	No     []*No   `xml:"No,omitempty" json:"No,omitempty" yaml:"No,omitempty"`
+	Msg    string  `xml:"msg" json:"msg" yaml:"msg"`
+	Info   []*Info `xml:"info,omitempty" json:"info,omitempty" yaml:"info,omitempty"`
 }
 
-// CallInfoArray was auto-generated from WSDL.
-type CallInfoArray struct {
-	Items []*CallInfo `xml:"call,omitempty" json:"call,omitempty" yaml:"call,omitempty"`
+// Calls was auto-generated from WSDL.
+type Calls struct {
+	Session int     `xml:"session" json:"session" yaml:"session"`
+	User    *string `xml:"user,omitempty" json:"user,omitempty" yaml:"user,omitempty"`
+}
+
+// CallsResponse was auto-generated from WSDL.
+type CallsResponse struct {
+	CallInfo []*CallInfo `xml:"CallInfo,omitempty" json:"CallInfo,omitempty" yaml:"CallInfo,omitempty"`
 }
 
 // Device was auto-generated from WSDL.
@@ -202,9 +225,54 @@ type Device struct {
 	Text string `xml:"text" json:"text" yaml:"text"`
 }
 
-// DeviceArray was auto-generated from WSDL.
-type DeviceArray struct {
-	Items []*Device `xml:"device,omitempty" json:"device,omitempty" yaml:"device,omitempty"`
+// Devices was auto-generated from WSDL.
+type Devices struct {
+	Session int     `xml:"session" json:"session" yaml:"session"`
+	User    *string `xml:"user,omitempty" json:"user,omitempty" yaml:"user,omitempty"`
+}
+
+// DevicesResponse was auto-generated from WSDL.
+type DevicesResponse struct {
+	Device []*Device `xml:"Device,omitempty" json:"Device,omitempty" yaml:"Device,omitempty"`
+}
+
+// Echo was auto-generated from WSDL.
+type Echo struct {
+	Session int `xml:"session" json:"session" yaml:"session"`
+	Key     int `xml:"key" json:"key" yaml:"key"`
+}
+
+// EchoResponse was auto-generated from WSDL.
+type EchoResponse struct {
+	Return int `xml:"return" json:"return" yaml:"return"`
+}
+
+// End was auto-generated from WSDL.
+type End struct {
+	Session int `xml:"session" json:"session" yaml:"session"`
+}
+
+// EndResponse was auto-generated from WSDL.
+type EndResponse struct {
+}
+
+// FindUser was auto-generated from WSDL.
+type FindUser struct {
+	V501   *string `xml:"v501,omitempty" json:"v501,omitempty" yaml:"v501,omitempty"`
+	V700   *string `xml:"v700,omitempty" json:"v700,omitempty" yaml:"v700,omitempty"`
+	V800   *string `xml:"v800,omitempty" json:"v800,omitempty" yaml:"v800,omitempty"`
+	Vx1100 *string `xml:"vx1100,omitempty" json:"vx1100,omitempty" yaml:"vx1100,omitempty"`
+	Cn     *string `xml:"cn,omitempty" json:"cn,omitempty" yaml:"cn,omitempty"`
+	H323   *string `xml:"h323,omitempty" json:"h323,omitempty" yaml:"h323,omitempty"`
+	E164   *string `xml:"e164,omitempty" json:"e164,omitempty" yaml:"e164,omitempty"`
+	Count  int     `xml:"count" json:"count" yaml:"count"`
+	Next   int     `xml:"next" json:"next" yaml:"next"`
+	Nohide bool    `xml:"nohide" json:"nohide" yaml:"nohide"`
+}
+
+// FindUserResponse was auto-generated from WSDL.
+type FindUserResponse struct {
+	Return *UserInfoArray `xml:"return" json:"return" yaml:"return"`
 }
 
 // Group was auto-generated from WSDL.
@@ -213,21 +281,54 @@ type Group struct {
 	Active bool   `xml:"active" json:"active" yaml:"active"`
 }
 
-// GroupArray was auto-generated from WSDL.
-type GroupArray struct {
-	Items []*Group `xml:"groups,omitempty" json:"groups,omitempty" yaml:"groups,omitempty"`
-}
-
 // Info was auto-generated from WSDL.
 type Info struct {
-	Type string `xml:"type" json:"type" yaml:"type"`
-	Vali int    `xml:"vali" json:"vali" yaml:"vali"`
-	Vals string `xml:"vals" json:"vals" yaml:"vals"`
+	Type *string `xml:"type,omitempty" json:"type,omitempty" yaml:"type,omitempty"`
+	Vali *int    `xml:"vali,omitempty" json:"vali,omitempty" yaml:"vali,omitempty"`
+	Vals *string `xml:"vals,omitempty" json:"vals,omitempty" yaml:"vals,omitempty"`
 }
 
-// InfoArray was auto-generated from WSDL.
-type InfoArray struct {
-	Items []*Info `xml:"item,omitempty" json:"item,omitempty" yaml:"item,omitempty"`
+// Initialize was auto-generated from WSDL.
+type Initialize struct {
+	User   *string `xml:"user,omitempty" json:"user,omitempty" yaml:"user,omitempty"`
+	Appl   *string `xml:"appl,omitempty" json:"appl,omitempty" yaml:"appl,omitempty"`
+	V      bool    `xml:"v" json:"v" yaml:"v"`
+	V501   bool    `xml:"v501" json:"v501" yaml:"v501"`
+	V700   bool    `xml:"v700" json:"v700" yaml:"v700"`
+	V800   bool    `xml:"v800" json:"v800" yaml:"v800"`
+	Vx1100 bool    `xml:"vx1100" json:"vx1100" yaml:"vx1100"`
+}
+
+// InitializeResponse was auto-generated from WSDL.
+type InitializeResponse struct {
+	Return int `xml:"return" json:"return" yaml:"return"`
+	Key    int `xml:"key" json:"key" yaml:"key"`
+}
+
+// License was auto-generated from WSDL.
+type License struct {
+	Session int     `xml:"session" json:"session" yaml:"session"`
+	Name    *string `xml:"name,omitempty" json:"name,omitempty" yaml:"name,omitempty"`
+}
+
+// LicenseResponse was auto-generated from WSDL.
+type LicenseResponse struct {
+	Return *string `xml:"return,omitempty" json:"return,omitempty" yaml:"return,omitempty"`
+}
+
+// LocationUrl was auto-generated from WSDL.
+type LocationUrl struct {
+	V501   *string `xml:"v501,omitempty" json:"v501,omitempty" yaml:"v501,omitempty"`
+	V700   *string `xml:"v700,omitempty" json:"v700,omitempty" yaml:"v700,omitempty"`
+	V800   *string `xml:"v800,omitempty" json:"v800,omitempty" yaml:"v800,omitempty"`
+	Vx1100 *string `xml:"vx1100,omitempty" json:"vx1100,omitempty" yaml:"vx1100,omitempty"`
+	Loc    *string `xml:"loc,omitempty" json:"loc,omitempty" yaml:"loc,omitempty"`
+	Tls    bool    `xml:"tls" json:"tls" yaml:"tls"`
+}
+
+// LocationUrlResponse was auto-generated from WSDL.
+type LocationUrlResponse struct {
+	Return *string `xml:"return,omitempty" json:"return,omitempty" yaml:"return,omitempty"`
 }
 
 // No was auto-generated from WSDL.
@@ -239,379 +340,233 @@ type No struct {
 	H323 string `xml:"h323" json:"h323" yaml:"h323"`
 }
 
-// NoArray was auto-generated from WSDL.
-type NoArray struct {
-	Items []*No `xml:"No,omitempty" json:"No,omitempty" yaml:"No,omitempty"`
+// Poll was auto-generated from WSDL.
+type Poll struct {
+	Session int `xml:"session" json:"session" yaml:"session"`
+}
+
+// PollResponse was auto-generated from WSDL.
+type PollResponse struct {
+	Return *AnyInfo `xml:"return,omitempty" json:"return,omitempty" yaml:"return,omitempty"`
 }
 
 // Presence was auto-generated from WSDL.
 type Presence struct {
-	Status   PresenceStatus    `xml:"status" json:"status" yaml:"status"`
+	Status   *PresenceStatus   `xml:"status,omitempty" json:"status,omitempty" yaml:"status,omitempty"`
 	Activity *PresenceActivity `xml:"activity,omitempty" json:"activity,omitempty" yaml:"activity,omitempty"`
 	Note     *string           `xml:"note,omitempty" json:"note,omitempty" yaml:"note,omitempty"`
 }
 
 // RegInfo was auto-generated from WSDL.
 type RegInfo struct {
-	Active bool       `xml:"active" json:"active" yaml:"active"`
-	User   int        `xml:"user" json:"user" yaml:"user"`
-	Reg    int        `xml:"reg" json:"reg" yaml:"reg"`
-	Hw     string     `xml:"hw" json:"hw" yaml:"hw"`
-	Soap   string     `xml:"soap" json:"soap" yaml:"soap"`
-	Info   *InfoArray `xml:"info" json:"info" yaml:"info"`
+	Active *bool   `xml:"active,omitempty" json:"active,omitempty" yaml:"active,omitempty"`
+	User   *int    `xml:"user,omitempty" json:"user,omitempty" yaml:"user,omitempty"`
+	Reg    *int    `xml:"reg,omitempty" json:"reg,omitempty" yaml:"reg,omitempty"`
+	Hw     *string `xml:"hw,omitempty" json:"hw,omitempty" yaml:"hw,omitempty"`
+	Soap   *string `xml:"soap,omitempty" json:"soap,omitempty" yaml:"soap,omitempty"`
+	Info   []*Info `xml:"info,omitempty" json:"info,omitempty" yaml:"info,omitempty"`
 }
 
-// RegInfoArray was auto-generated from WSDL.
-type RegInfoArray struct {
-	Items []*RegInfo `xml:"item,omitempty" json:"item,omitempty" yaml:"item,omitempty"`
+// SetPresence was auto-generated from WSDL.
+type SetPresence struct {
+	Presence *Presence `xml:"presence,omitempty" json:"presence,omitempty" yaml:"presence,omitempty"`
+	Im       bool      `xml:"im" json:"im" yaml:"im"`
+	Contact  *string   `xml:"contact,omitempty" json:"contact,omitempty" yaml:"contact,omitempty"`
+	Guid     *string   `xml:"guid,omitempty" json:"guid,omitempty" yaml:"guid,omitempty"`
+	H323     *string   `xml:"h323,omitempty" json:"h323,omitempty" yaml:"h323,omitempty"`
+}
+
+// SetPresenceResponse was auto-generated from WSDL.
+type SetPresenceResponse struct {
+	Return int `xml:"return" json:"return" yaml:"return"`
+}
+
+// UserCall was auto-generated from WSDL.
+type UserCall struct {
+	User    int     `xml:"user" json:"user" yaml:"user"`
+	Cn      *string `xml:"cn,omitempty" json:"cn,omitempty" yaml:"cn,omitempty"`
+	E164    *string `xml:"e164,omitempty" json:"e164,omitempty" yaml:"e164,omitempty"`
+	H323    *string `xml:"h323,omitempty" json:"h323,omitempty" yaml:"h323,omitempty"`
+	Reg     int     `xml:"reg" json:"reg" yaml:"reg"`
+	Info    []*Info `xml:"info,omitempty" json:"info,omitempty" yaml:"info,omitempty"`
+	Rc      int     `xml:"rc" json:"rc" yaml:"rc"`
+	Srce164 *string `xml:"srce164,omitempty" json:"srce164,omitempty" yaml:"srce164,omitempty"`
+}
+
+// UserCallResponse was auto-generated from WSDL.
+type UserCallResponse struct {
+	Return int `xml:"return" json:"return" yaml:"return"`
+}
+
+// UserClear was auto-generated from WSDL.
+type UserClear struct {
+	Call  int     `xml:"call" json:"call" yaml:"call"`
+	Cause int     `xml:"cause" json:"cause" yaml:"cause"`
+	Info  []*Info `xml:"info,omitempty" json:"info,omitempty" yaml:"info,omitempty"`
+}
+
+// UserClearResponse was auto-generated from WSDL.
+type UserClearResponse struct {
+}
+
+// UserConnect was auto-generated from WSDL.
+type UserConnect struct {
+	Call int `xml:"call" json:"call" yaml:"call"`
+}
+
+// UserConnectResponse was auto-generated from WSDL.
+type UserConnectResponse struct {
+}
+
+// UserCtComplete was auto-generated from WSDL.
+type UserCtComplete struct {
+	Call int     `xml:"call" json:"call" yaml:"call"`
+	E164 *string `xml:"e164,omitempty" json:"e164,omitempty" yaml:"e164,omitempty"`
+	H323 *string `xml:"h323,omitempty" json:"h323,omitempty" yaml:"h323,omitempty"`
+}
+
+// UserCtCompleteResponse was auto-generated from WSDL.
+type UserCtCompleteResponse struct {
+}
+
+// UserDTMF was auto-generated from WSDL.
+type UserDTMF struct {
+	Call int     `xml:"call" json:"call" yaml:"call"`
+	Recv bool    `xml:"recv" json:"recv" yaml:"recv"`
+	Dtmf *string `xml:"dtmf,omitempty" json:"dtmf,omitempty" yaml:"dtmf,omitempty"`
+}
+
+// UserDTMFResponse was auto-generated from WSDL.
+type UserDTMFResponse struct {
+}
+
+// UserEnd was auto-generated from WSDL.
+type UserEnd struct {
+	User int `xml:"user" json:"user" yaml:"user"`
+}
+
+// UserEndResponse was auto-generated from WSDL.
+type UserEndResponse struct {
+}
+
+// UserFindDestination was auto-generated from WSDL.
+type UserFindDestination struct {
+	User int     `xml:"user" json:"user" yaml:"user"`
+	E164 *string `xml:"e164,omitempty" json:"e164,omitempty" yaml:"e164,omitempty"`
+	H323 *string `xml:"h323,omitempty" json:"h323,omitempty" yaml:"h323,omitempty"`
+}
+
+// UserFindDestinationResponse was auto-generated from WSDL.
+type UserFindDestinationResponse struct {
+	Return bool      `xml:"return" json:"return" yaml:"return"`
+	User1  *UserInfo `xml:"user1,omitempty" json:"user1,omitempty" yaml:"user1,omitempty"`
+}
+
+// UserHold was auto-generated from WSDL.
+type UserHold struct {
+	Call   int  `xml:"call" json:"call" yaml:"call"`
+	Remote bool `xml:"remote" json:"remote" yaml:"remote"`
+}
+
+// UserHoldResponse was auto-generated from WSDL.
+type UserHoldResponse struct {
 }
 
 // UserInfo was auto-generated from WSDL.
 type UserInfo struct {
-	Guid     string      `xml:"guid" json:"guid" yaml:"guid"`
-	Active   bool        `xml:"active" json:"active" yaml:"active"`
-	State    int         `xml:"state" json:"state" yaml:"state"`
-	Channel  int         `xml:"channel" json:"channel" yaml:"channel"`
-	Alert    int         `xml:"alert" json:"alert" yaml:"alert"`
-	Cn       string      `xml:"cn" json:"cn" yaml:"cn"`
-	Dn       string      `xml:"dn" json:"dn" yaml:"dn"`
-	Type     string      `xml:"type" json:"type" yaml:"type"`
-	E164     string      `xml:"e164" json:"e164" yaml:"e164"`
-	H323     string      `xml:"h323" json:"h323" yaml:"h323"`
-	Presence *Presence   `xml:"presence" json:"presence" yaml:"presence"`
-	Loc      *string     `xml:"loc,omitempty" json:"loc,omitempty" yaml:"loc,omitempty"`
-	Node     *string     `xml:"node,omitempty" json:"node,omitempty" yaml:"node,omitempty"`
-	Nodenum  *string     `xml:"nodenum,omitempty" json:"nodenum,omitempty" yaml:"nodenum,omitempty"`
-	Object   *string     `xml:"object,omitempty" json:"object,omitempty" yaml:"object,omitempty"`
-	Cfg      *bool       `xml:"cfg,omitempty" json:"cfg,omitempty" yaml:"cfg,omitempty"`
-	Groups   *GroupArray `xml:"groups,omitempty" json:"groups,omitempty" yaml:"groups,omitempty"`
-	Info     *InfoArray  `xml:"info,omitempty" json:"info,omitempty" yaml:"info,omitempty"`
+	Active    bool      `xml:"active" json:"active" yaml:"active"`
+	Cn        string    `xml:"cn" json:"cn" yaml:"cn"`
+	Dn        string    `xml:"dn" json:"dn" yaml:"dn"`
+	Type      string    `xml:"type" json:"type" yaml:"type"`
+	E164      string    `xml:"e164" json:"e164" yaml:"e164"`
+	H323      string    `xml:"h323" json:"h323" yaml:"h323"`
+	State     int       `xml:"state" json:"state" yaml:"state"`
+	Channel   int       `xml:"channel" json:"channel" yaml:"channel"`
+	Alert     int       `xml:"alert" json:"alert" yaml:"alert"`
+	Guid      string    `xml:"guid" json:"guid" yaml:"guid"`
+	Groups    []*Group  `xml:"groups,omitempty" json:"groups,omitempty" yaml:"groups,omitempty"`
+	Loc       *string   `xml:"loc,omitempty" json:"loc,omitempty" yaml:"loc,omitempty"`
+	Node      *string   `xml:"node,omitempty" json:"node,omitempty" yaml:"node,omitempty"`
+	Nodenum   *string   `xml:"nodenum,omitempty" json:"nodenum,omitempty" yaml:"nodenum,omitempty"`
+	Object    *string   `xml:"object,omitempty" json:"object,omitempty" yaml:"object,omitempty"`
+	Cfg       *bool     `xml:"cfg,omitempty" json:"cfg,omitempty" yaml:"cfg,omitempty"`
+	Presence  *Presence `xml:"presence" json:"presence" yaml:"presence"`
+	Domain    *string   `xml:"domain,omitempty" json:"domain,omitempty" yaml:"domain,omitempty"`
+	H323email *bool     `xml:"h323email,omitempty" json:"h323email,omitempty" yaml:"h323email,omitempty"`
+	Email     []*string `xml:"email,omitempty" json:"email,omitempty" yaml:"email,omitempty"`
+	Fake      *string   `xml:"fake,omitempty" json:"fake,omitempty" yaml:"fake,omitempty"`
+	Info      []*Info   `xml:"info,omitempty" json:"info,omitempty" yaml:"info,omitempty"`
 }
 
 // UserInfoArray was auto-generated from WSDL.
 type UserInfoArray struct {
-	Items []*UserInfo `xml:"user,omitempty" json:"user,omitempty" yaml:"user,omitempty"`
+	User []*UserInfo `xml:"user,omitempty" json:"user,omitempty" yaml:"user,omitempty"`
 }
 
-// FindUser has "<item>", Poll has "<user>" 🙄
-type FindUserInfoArray struct {
-	Items []*UserInfo `xml:"item,omitempty" json:"item,omitempty" yaml:"item,omitempty"`
-}
-
-// Operation wrapper for Admin.
-// OperationAdminRequest was auto-generated from WSDL.
-type OperationAdminRequest struct {
-	Xml *string `xml:"xml,omitempty" json:"xml,omitempty" yaml:"xml,omitempty"`
-}
-
-// Operation wrapper for Admin.
-// OperationAdminResponse was auto-generated from WSDL.
-type OperationAdminResponse struct {
-	Return *string `xml:"return,omitempty" json:"return,omitempty" yaml:"return,omitempty"`
-}
-
-// Operation wrapper for Calls.
-// OperationCallsRequest was auto-generated from WSDL.
-type OperationCallsRequest struct {
-	Session *int    `xml:"session,omitempty" json:"session,omitempty" yaml:"session,omitempty"`
-	User    *string `xml:"user,omitempty" json:"user,omitempty" yaml:"user,omitempty"`
-}
-
-// Operation wrapper for Calls.
-// OperationCallsResponse was auto-generated from WSDL.
-type OperationCallsResponse struct {
-	Return *CallInfoArray `xml:"return,omitempty" json:"return,omitempty" yaml:"return,omitempty"`
-}
-
-// Operation wrapper for Devices.
-// OperationDevicesRequest was auto-generated from WSDL.
-type OperationDevicesRequest struct {
-	Session *int    `xml:"session,omitempty" json:"session,omitempty" yaml:"session,omitempty"`
-	User    *string `xml:"user,omitempty" json:"user,omitempty" yaml:"user,omitempty"`
-}
-
-// Operation wrapper for Devices.
-// OperationDevicesResponse was auto-generated from WSDL.
-type OperationDevicesResponse struct {
-	Return *DeviceArray `xml:"return,omitempty" json:"return,omitempty" yaml:"return,omitempty"`
-}
-
-// Operation wrapper for Echo.
-// OperationEchoRequest was auto-generated from WSDL.
-type OperationEchoRequest struct {
-	Session *int `xml:"session,omitempty" json:"session,omitempty" yaml:"session,omitempty"`
-	Key     *int `xml:"key,omitempty" json:"key,omitempty" yaml:"key,omitempty"`
-}
-
-// Operation wrapper for Echo.
-// OperationEchoResponse was auto-generated from WSDL.
-type OperationEchoResponse struct {
-	Return *int `xml:"return,omitempty" json:"return,omitempty" yaml:"return,omitempty"`
-}
-
-// Operation wrapper for End.
-// OperationEndRequest was auto-generated from WSDL.
-type OperationEndRequest struct {
-	Session *int `xml:"session,omitempty" json:"session,omitempty" yaml:"session,omitempty"`
-}
-
-// Operation wrapper for End.
-// OperationEndResponse was auto-generated from WSDL.
-type OperationEndResponse struct {
-}
-
-// Operation wrapper for FindUser.
-// OperationFindUserRequest was auto-generated from WSDL.
-type OperationFindUserRequest struct {
-	V501   *string `xml:"v501,omitempty" json:"v501,omitempty" yaml:"v501,omitempty"`
-	V700   *string `xml:"v700,omitempty" json:"v700,omitempty" yaml:"v700,omitempty"`
-	V800   *string `xml:"v800,omitempty" json:"v800,omitempty" yaml:"v800,omitempty"`
-	Vx1000 *string `xml:"vx1000,omitempty" json:"vx1000,omitempty" yaml:"vx1000,omitempty"`
-	Cn     *string `xml:"cn,omitempty" json:"cn,omitempty" yaml:"cn,omitempty"`
-	H323   *string `xml:"h323,omitempty" json:"h323,omitempty" yaml:"h323,omitempty"`
-	E164   *string `xml:"e164,omitempty" json:"e164,omitempty" yaml:"e164,omitempty"`
-	Count  *int    `xml:"count,omitempty" json:"count,omitempty" yaml:"count,omitempty"`
-	Next   *int    `xml:"next,omitempty" json:"next,omitempty" yaml:"next,omitempty"`
-	Nohide *bool   `xml:"nohide,omitempty" json:"nohide,omitempty" yaml:"nohide,omitempty"`
-}
-
-// Operation wrapper for FindUser.
-// OperationFindUserResponse was auto-generated from WSDL.
-type OperationFindUserResponse struct {
-	Return *FindUserInfoArray `xml:"return,omitempty" json:"return,omitempty" yaml:"return,omitempty"`
-}
-
-// Operation wrapper for Initialize.
-// OperationInitializeRequest was auto-generated from WSDL.
-type OperationInitializeRequest struct {
-	User   *string `xml:"user,omitempty" json:"user,omitempty" yaml:"user,omitempty"`
-	Appl   *string `xml:"appl,omitempty" json:"appl,omitempty" yaml:"appl,omitempty"`
-	V      *bool   `xml:"v,omitempty" json:"v,omitempty" yaml:"v,omitempty"`
-	V501   *bool   `xml:"v501,omitempty" json:"v501,omitempty" yaml:"v501,omitempty"`
-	V700   *bool   `xml:"v700,omitempty" json:"v700,omitempty" yaml:"v700,omitempty"`
-	V800   *bool   `xml:"v800,omitempty" json:"v800,omitempty" yaml:"v800,omitempty"`
-	Vx1000 *bool   `xml:"vx1000,omitempty" json:"vx1000,omitempty" yaml:"vx1000,omitempty"`
-}
-
-// Operation wrapper for Initialize.
-// OperationInitializeResponse was auto-generated from WSDL.
-type OperationInitializeResponse struct {
-	Return *int `xml:"return,omitempty" json:"return,omitempty" yaml:"return,omitempty"`
-	Key    *int `xml:"key,omitempty" json:"key,omitempty" yaml:"key,omitempty"`
-}
-
-// Operation wrapper for License.
-// OperationLicenseRequest was auto-generated from WSDL.
-type OperationLicenseRequest struct {
-	Session *int    `xml:"session,omitempty" json:"session,omitempty" yaml:"session,omitempty"`
-	Name    *string `xml:"name,omitempty" json:"name,omitempty" yaml:"name,omitempty"`
-}
-
-// Operation wrapper for License.
-// OperationLicenseResponse was auto-generated from WSDL.
-type OperationLicenseResponse struct {
-	Return *string `xml:"return,omitempty" json:"return,omitempty" yaml:"return,omitempty"`
-}
-
-// Operation wrapper for LocationUrl.
-// OperationLocationUrlRequest was auto-generated from WSDL.
-type OperationLocationUrlRequest struct {
-	V501   *string `xml:"v501,omitempty" json:"v501,omitempty" yaml:"v501,omitempty"`
-	V700   *string `xml:"v700,omitempty" json:"v700,omitempty" yaml:"v700,omitempty"`
-	V800   *string `xml:"v800,omitempty" json:"v800,omitempty" yaml:"v800,omitempty"`
-	Vx1000 *string `xml:"vx1000,omitempty" json:"vx1000,omitempty" yaml:"vx1000,omitempty"`
-	Loc    *string `xml:"loc,omitempty" json:"loc,omitempty" yaml:"loc,omitempty"`
-}
-
-// Operation wrapper for LocationUrl.
-// OperationLocationUrlResponse was auto-generated from WSDL.
-type OperationLocationUrlResponse struct {
-	Return *string `xml:"return,omitempty" json:"return,omitempty" yaml:"return,omitempty"`
-}
-
-// Operation wrapper for Poll.
-// OperationPollRequest was auto-generated from WSDL.
-type OperationPollRequest struct {
-	Session *int `xml:"session,omitempty" json:"session,omitempty" yaml:"session,omitempty"`
-}
-
-// Operation wrapper for Poll.
-// OperationPollResponse was auto-generated from WSDL.
-type OperationPollResponse struct {
-	Return *AnyInfo `xml:"return,omitempty" json:"return,omitempty" yaml:"return,omitempty"`
-}
-
-// Operation wrapper for UserCall.
-// OperationUserCallRequest was auto-generated from WSDL.
-type OperationUserCallRequest struct {
-	User    *int       `xml:"user,omitempty" json:"user,omitempty" yaml:"user,omitempty"`
-	Cn      *string    `xml:"cn,omitempty" json:"cn,omitempty" yaml:"cn,omitempty"`
-	E164    *string    `xml:"e164,omitempty" json:"e164,omitempty" yaml:"e164,omitempty"`
-	H323    *string    `xml:"h323,omitempty" json:"h323,omitempty" yaml:"h323,omitempty"`
-	Reg     *int       `xml:"reg,omitempty" json:"reg,omitempty" yaml:"reg,omitempty"`
-	Info    *InfoArray `xml:"info,omitempty" json:"info,omitempty" yaml:"info,omitempty"`
-	Rc      *int       `xml:"rc,omitempty" json:"rc,omitempty" yaml:"rc,omitempty"`
-	Srce164 *string    `xml:"srce164,omitempty" json:"srce164,omitempty" yaml:"srce164,omitempty"`
-}
-
-// Operation wrapper for UserCall.
-// OperationUserCallResponse was auto-generated from WSDL.
-type OperationUserCallResponse struct {
-	Return *int `xml:"return,omitempty" json:"return,omitempty" yaml:"return,omitempty"`
-}
-
-// Operation wrapper for UserClear.
-// OperationUserClearRequest was auto-generated from WSDL.
-type OperationUserClearRequest struct {
-	Call  *int       `xml:"call,omitempty" json:"call,omitempty" yaml:"call,omitempty"`
-	Cause *int       `xml:"cause,omitempty" json:"cause,omitempty" yaml:"cause,omitempty"`
-	Info  *InfoArray `xml:"info,omitempty" json:"info,omitempty" yaml:"info,omitempty"`
-}
-
-// Operation wrapper for UserClear.
-// OperationUserClearResponse was auto-generated from WSDL.
-type OperationUserClearResponse struct {
-}
-
-// Operation wrapper for UserConnect.
-// OperationUserConnectRequest was auto-generated from WSDL.
-type OperationUserConnectRequest struct {
-	Call *int `xml:"call,omitempty" json:"call,omitempty" yaml:"call,omitempty"`
-}
-
-// Operation wrapper for UserConnect.
-// OperationUserConnectResponse was auto-generated from WSDL.
-type OperationUserConnectResponse struct {
-}
-
-// Operation wrapper for UserCtComplete.
-// OperationUserCtCompleteRequest was auto-generated from WSDL.
-type OperationUserCtCompleteRequest struct {
-	Call *int    `xml:"call,omitempty" json:"call,omitempty" yaml:"call,omitempty"`
-	E164 *string `xml:"e164,omitempty" json:"e164,omitempty" yaml:"e164,omitempty"`
-	H323 *string `xml:"h323,omitempty" json:"h323,omitempty" yaml:"h323,omitempty"`
-}
-
-// Operation wrapper for UserCtComplete.
-// OperationUserCtCompleteResponse was auto-generated from WSDL.
-type OperationUserCtCompleteResponse struct {
-}
-
-// Operation wrapper for UserDTMF.
-// OperationUserDTMFRequest was auto-generated from WSDL.
-type OperationUserDTMFRequest struct {
-	Call *int    `xml:"call,omitempty" json:"call,omitempty" yaml:"call,omitempty"`
-	Recv *bool   `xml:"recv,omitempty" json:"recv,omitempty" yaml:"recv,omitempty"`
-	Dtmf *string `xml:"dtmf,omitempty" json:"dtmf,omitempty" yaml:"dtmf,omitempty"`
-}
-
-// Operation wrapper for UserDTMF.
-// OperationUserDTMFResponse was auto-generated from WSDL.
-type OperationUserDTMFResponse struct {
-}
-
-// Operation wrapper for UserEnd.
-// OperationUserEndRequest was auto-generated from WSDL.
-type OperationUserEndRequest struct {
-	User *int `xml:"user,omitempty" json:"user,omitempty" yaml:"user,omitempty"`
-}
-
-// Operation wrapper for UserEnd.
-// OperationUserEndResponse was auto-generated from WSDL.
-type OperationUserEndResponse struct {
-}
-
-// Operation wrapper for UserFindDestination.
-// OperationUserFindDestinationRequest was auto-generated from
-// WSDL.
-type OperationUserFindDestinationRequest struct {
-	User *int    `xml:"user,omitempty" json:"user,omitempty" yaml:"user,omitempty"`
-	E164 *string `xml:"e164,omitempty" json:"e164,omitempty" yaml:"e164,omitempty"`
-	H323 *string `xml:"h323,omitempty" json:"h323,omitempty" yaml:"h323,omitempty"`
-}
-
-// Operation wrapper for UserFindDestination.
-// OperationUserFindDestinationResponse was auto-generated from
-// WSDL.
-type OperationUserFindDestinationResponse struct {
-	Return *bool     `xml:"return,omitempty" json:"return,omitempty" yaml:"return,omitempty"`
-	User   *UserInfo `xml:"user,omitempty" json:"user,omitempty" yaml:"user,omitempty"`
-}
-
-// Operation wrapper for UserHold.
-// OperationUserHoldRequest was auto-generated from WSDL.
-type OperationUserHoldRequest struct {
-	Call   *int  `xml:"call,omitempty" json:"call,omitempty" yaml:"call,omitempty"`
-	Remote *bool `xml:"remote,omitempty" json:"remote,omitempty" yaml:"remote,omitempty"`
-}
-
-// Operation wrapper for UserHold.
-// OperationUserHoldResponse was auto-generated from WSDL.
-type OperationUserHoldResponse struct {
-}
-
-// Operation wrapper for UserInfo.
-// OperationUserInfoRequest was auto-generated from WSDL.
-type OperationUserInfoRequest struct {
-	Call *int    `xml:"call,omitempty" json:"call,omitempty" yaml:"call,omitempty"`
-	Recv *bool   `xml:"recv,omitempty" json:"recv,omitempty" yaml:"recv,omitempty"`
+// UserInfoTx was auto-generated from WSDL.
+type UserInfoTx struct {
+	Call int     `xml:"call" json:"call" yaml:"call"`
+	Recv bool    `xml:"recv" json:"recv" yaml:"recv"`
 	Cdpn *string `xml:"cdpn,omitempty" json:"cdpn,omitempty" yaml:"cdpn,omitempty"`
 	Key  *string `xml:"key,omitempty" json:"key,omitempty" yaml:"key,omitempty"`
 	Dsp  *string `xml:"dsp,omitempty" json:"dsp,omitempty" yaml:"dsp,omitempty"`
 }
 
-// Operation wrapper for UserInfo.
-// OperationUserInfoResponse was auto-generated from WSDL.
-type OperationUserInfoResponse struct {
+// UserInfoTxResponse was auto-generated from WSDL.
+type UserInfoTxResponse struct {
 }
 
-// Operation wrapper for UserInitialize.
-// OperationUserInitializeRequest was auto-generated from WSDL.
-type OperationUserInitializeRequest struct {
-	Session *int    `xml:"session,omitempty" json:"session,omitempty" yaml:"session,omitempty"`
+// UserInitialize was auto-generated from WSDL.
+type UserInitialize struct {
+	Session int     `xml:"session" json:"session" yaml:"session"`
 	User    *string `xml:"user,omitempty" json:"user,omitempty" yaml:"user,omitempty"`
-	Xfer    *bool   `xml:"xfer,omitempty" json:"xfer,omitempty" yaml:"xfer,omitempty"`
-	Disc    *bool   `xml:"disc,omitempty" json:"disc,omitempty" yaml:"disc,omitempty"`
+	Xfer    bool    `xml:"xfer" json:"xfer" yaml:"xfer"`
+	Disc    bool    `xml:"disc" json:"disc" yaml:"disc"`
 	Hw      *string `xml:"hw,omitempty" json:"hw,omitempty" yaml:"hw,omitempty"`
 }
 
-// Operation wrapper for UserInitialize.
-// OperationUserInitializeResponse was auto-generated from WSDL.
-type OperationUserInitializeResponse struct {
-	Return *int `xml:"return,omitempty" json:"return,omitempty" yaml:"return,omitempty"`
+// UserInitializeResponse was auto-generated from WSDL.
+type UserInitializeResponse struct {
+	Return int `xml:"return" json:"return" yaml:"return"`
 }
 
-// Operation wrapper for UserLocalNum.
-// OperationUserLocalNumRequest was auto-generated from WSDL.
-type OperationUserLocalNumRequest struct {
-	User *int    `xml:"user,omitempty" json:"user,omitempty" yaml:"user,omitempty"`
+// UserLicense was auto-generated from WSDL.
+type UserLicense struct {
+	Guid *string `xml:"guid,omitempty" json:"guid,omitempty" yaml:"guid,omitempty"`
+	Type *string `xml:"type,omitempty" json:"type,omitempty" yaml:"type,omitempty"`
+}
+
+// UserLicenseResponse was auto-generated from WSDL.
+type UserLicenseResponse struct {
+	Return bool `xml:"return" json:"return" yaml:"return"`
+}
+
+// UserLocalNum was auto-generated from WSDL.
+type UserLocalNum struct {
+	User int     `xml:"user" json:"user" yaml:"user"`
 	Num  *string `xml:"num,omitempty" json:"num,omitempty" yaml:"num,omitempty"`
 }
 
-// Operation wrapper for UserLocalNum.
-// OperationUserLocalNumResponse was auto-generated from WSDL.
-type OperationUserLocalNumResponse struct {
+// UserLocalNumResponse was auto-generated from WSDL.
+type UserLocalNumResponse struct {
 	Return *string `xml:"return,omitempty" json:"return,omitempty" yaml:"return,omitempty"`
 }
 
-// Operation wrapper for UserMediaTransfer.
-// OperationUserMediaTransferRequest was auto-generated from WSDL.
-type OperationUserMediaTransferRequest struct {
-	A    *int  `xml:"a,omitempty" json:"a,omitempty" yaml:"a,omitempty"`
-	B    *int  `xml:"b,omitempty" json:"b,omitempty" yaml:"b,omitempty"`
-	User *bool `xml:"user,omitempty" json:"user,omitempty" yaml:"user,omitempty"`
-	Peer *bool `xml:"peer,omitempty" json:"peer,omitempty" yaml:"peer,omitempty"`
+// UserMediaTransfer was auto-generated from WSDL.
+type UserMediaTransfer struct {
+	A    int  `xml:"a" json:"a" yaml:"a"`
+	B    int  `xml:"b" json:"b" yaml:"b"`
+	User bool `xml:"user" json:"user" yaml:"user"`
+	Peer bool `xml:"peer" json:"peer" yaml:"peer"`
 }
 
-// Operation wrapper for UserMediaTransfer.
-// OperationUserMediaTransferResponse was auto-generated from WSDL.
-type OperationUserMediaTransferResponse struct {
+// UserMediaTransferResponse was auto-generated from WSDL.
+type UserMediaTransferResponse struct {
 }
 
-// Operation wrapper for UserMessage.
-// OperationUserMessageRequest was auto-generated from WSDL.
-type OperationUserMessageRequest struct {
-	User     *int    `xml:"user,omitempty" json:"user,omitempty" yaml:"user,omitempty"`
+// UserMessage was auto-generated from WSDL.
+type UserMessage struct {
+	User     int     `xml:"user" json:"user" yaml:"user"`
 	E164     *string `xml:"e164,omitempty" json:"e164,omitempty" yaml:"e164,omitempty"`
 	H323     *string `xml:"h323,omitempty" json:"h323,omitempty" yaml:"h323,omitempty"`
 	Msg      *string `xml:"msg,omitempty" json:"msg,omitempty" yaml:"msg,omitempty"`
@@ -619,132 +574,528 @@ type OperationUserMessageRequest struct {
 	Src_h323 *string `xml:"src_h323,omitempty" json:"src_h323,omitempty" yaml:"src_h323,omitempty"`
 }
 
+// UserMessageResponse was auto-generated from WSDL.
+type UserMessageResponse struct {
+	Return int `xml:"return" json:"return" yaml:"return"`
+}
+
+// UserPark was auto-generated from WSDL.
+type UserPark struct {
+	Call     int     `xml:"call" json:"call" yaml:"call"`
+	Cn       *string `xml:"cn,omitempty" json:"cn,omitempty" yaml:"cn,omitempty"`
+	Position int     `xml:"position" json:"position" yaml:"position"`
+}
+
+// UserParkResponse was auto-generated from WSDL.
+type UserParkResponse struct {
+	Return int `xml:"return" json:"return" yaml:"return"`
+}
+
+// UserPickup was auto-generated from WSDL.
+type UserPickup struct {
+	User  int     `xml:"user" json:"user" yaml:"user"`
+	Cn    *string `xml:"cn,omitempty" json:"cn,omitempty" yaml:"cn,omitempty"`
+	Call  int     `xml:"call" json:"call" yaml:"call"`
+	Group *string `xml:"group,omitempty" json:"group,omitempty" yaml:"group,omitempty"`
+	Reg   int     `xml:"reg" json:"reg" yaml:"reg"`
+	Info  []*Info `xml:"info,omitempty" json:"info,omitempty" yaml:"info,omitempty"`
+}
+
+// UserPickupResponse was auto-generated from WSDL.
+type UserPickupResponse struct {
+	Return int `xml:"return" json:"return" yaml:"return"`
+}
+
+// UserRc was auto-generated from WSDL.
+type UserRc struct {
+	Call int `xml:"call" json:"call" yaml:"call"`
+	Rc   int `xml:"rc" json:"rc" yaml:"rc"`
+}
+
+// UserRcResponse was auto-generated from WSDL.
+type UserRcResponse struct {
+}
+
+// UserRedirect was auto-generated from WSDL.
+type UserRedirect struct {
+	Call int     `xml:"call" json:"call" yaml:"call"`
+	Cn   *string `xml:"cn,omitempty" json:"cn,omitempty" yaml:"cn,omitempty"`
+	E164 *string `xml:"e164,omitempty" json:"e164,omitempty" yaml:"e164,omitempty"`
+	H323 *string `xml:"h323,omitempty" json:"h323,omitempty" yaml:"h323,omitempty"`
+	Info []*Info `xml:"info,omitempty" json:"info,omitempty" yaml:"info,omitempty"`
+	Rc   int     `xml:"rc" json:"rc" yaml:"rc"`
+}
+
+// UserRedirectResponse was auto-generated from WSDL.
+type UserRedirectResponse struct {
+	Return bool `xml:"return" json:"return" yaml:"return"`
+}
+
+// UserReroute was auto-generated from WSDL.
+type UserReroute struct {
+	Call int     `xml:"call" json:"call" yaml:"call"`
+	Cn   *string `xml:"cn,omitempty" json:"cn,omitempty" yaml:"cn,omitempty"`
+	E164 *string `xml:"e164,omitempty" json:"e164,omitempty" yaml:"e164,omitempty"`
+	H323 *string `xml:"h323,omitempty" json:"h323,omitempty" yaml:"h323,omitempty"`
+	Info []*Info `xml:"info,omitempty" json:"info,omitempty" yaml:"info,omitempty"`
+}
+
+// UserRerouteResponse was auto-generated from WSDL.
+type UserRerouteResponse struct {
+	Return bool `xml:"return" json:"return" yaml:"return"`
+}
+
+// UserRetrieve was auto-generated from WSDL.
+type UserRetrieve struct {
+	Call int `xml:"call" json:"call" yaml:"call"`
+}
+
+// UserRetrieveResponse was auto-generated from WSDL.
+type UserRetrieveResponse struct {
+}
+
+// UserTransfer was auto-generated from WSDL.
+type UserTransfer struct {
+	A int `xml:"a" json:"a" yaml:"a"`
+	B int `xml:"b" json:"b" yaml:"b"`
+}
+
+// UserTransferResponse was auto-generated from WSDL.
+type UserTransferResponse struct {
+}
+
+// UserUUI was auto-generated from WSDL.
+type UserUUI struct {
+	Call int     `xml:"call" json:"call" yaml:"call"`
+	Recv bool    `xml:"recv" json:"recv" yaml:"recv"`
+	Uui  *string `xml:"uui,omitempty" json:"uui,omitempty" yaml:"uui,omitempty"`
+}
+
+// UserUUIResponse was auto-generated from WSDL.
+type UserUUIResponse struct {
+}
+
+// Version was auto-generated from WSDL.
+type Version struct {
+}
+
+// VersionResponse was auto-generated from WSDL.
+type VersionResponse struct {
+	VersionResult   int     `xml:"VersionResult" json:"VersionResult" yaml:"VersionResult"`
+	GatekeeperID    *string `xml:"GatekeeperID,omitempty" json:"GatekeeperID,omitempty" yaml:"GatekeeperID,omitempty"`
+	Location        *string `xml:"Location,omitempty" json:"Location,omitempty" yaml:"Location,omitempty"`
+	FirmwareVersion *string `xml:"FirmwareVersion,omitempty" json:"FirmwareVersion,omitempty" yaml:"FirmwareVersion,omitempty"`
+	SerialNumber    *string `xml:"SerialNumber,omitempty" json:"SerialNumber,omitempty" yaml:"SerialNumber,omitempty"`
+}
+
+// Operation wrapper for Admin.
+// OperationAdminRequest was auto-generated from WSDL.
+type OperationAdminRequest struct {
+	Admin *Admin `xml:"Admin,omitempty" json:"Admin,omitempty" yaml:"Admin,omitempty"`
+}
+
+// Operation wrapper for Admin.
+// OperationAdminResponse was auto-generated from WSDL.
+type OperationAdminResponse struct {
+	AdminResponse *AdminResponse `xml:"AdminResponse,omitempty" json:"AdminResponse,omitempty" yaml:"AdminResponse,omitempty"`
+}
+
+// Operation wrapper for Calls.
+// OperationCallsRequest was auto-generated from WSDL.
+type OperationCallsRequest struct {
+	Calls *Calls `xml:"Calls,omitempty" json:"Calls,omitempty" yaml:"Calls,omitempty"`
+}
+
+// Operation wrapper for Calls.
+// OperationCallsResponse was auto-generated from WSDL.
+type OperationCallsResponse struct {
+	CallsResponse *CallsResponse `xml:"CallsResponse,omitempty" json:"CallsResponse,omitempty" yaml:"CallsResponse,omitempty"`
+}
+
+// Operation wrapper for Devices.
+// OperationDevicesRequest was auto-generated from WSDL.
+type OperationDevicesRequest struct {
+	Devices *Devices `xml:"Devices,omitempty" json:"Devices,omitempty" yaml:"Devices,omitempty"`
+}
+
+// Operation wrapper for Devices.
+// OperationDevicesResponse was auto-generated from WSDL.
+type OperationDevicesResponse struct {
+	DevicesResponse *DevicesResponse `xml:"DevicesResponse,omitempty" json:"DevicesResponse,omitempty" yaml:"DevicesResponse,omitempty"`
+}
+
+// Operation wrapper for Echo.
+// OperationEchoRequest was auto-generated from WSDL.
+type OperationEchoRequest struct {
+	Echo *Echo `xml:"Echo,omitempty" json:"Echo,omitempty" yaml:"Echo,omitempty"`
+}
+
+// Operation wrapper for Echo.
+// OperationEchoResponse was auto-generated from WSDL.
+type OperationEchoResponse struct {
+	EchoResponse *EchoResponse `xml:"EchoResponse,omitempty" json:"EchoResponse,omitempty" yaml:"EchoResponse,omitempty"`
+}
+
+// Operation wrapper for End.
+// OperationEndRequest was auto-generated from WSDL.
+type OperationEndRequest struct {
+	End *End `xml:"End,omitempty" json:"End,omitempty" yaml:"End,omitempty"`
+}
+
+// Operation wrapper for End.
+// OperationEndResponse was auto-generated from WSDL.
+type OperationEndResponse struct {
+	EndResponse *EndResponse `xml:"EndResponse,omitempty" json:"EndResponse,omitempty" yaml:"EndResponse,omitempty"`
+}
+
+// Operation wrapper for FindUser.
+// OperationFindUserRequest was auto-generated from WSDL.
+type OperationFindUserRequest struct {
+	FindUser *FindUser `xml:"FindUser,omitempty" json:"FindUser,omitempty" yaml:"FindUser,omitempty"`
+}
+
+// Operation wrapper for FindUser.
+// OperationFindUserResponse was auto-generated from WSDL.
+type OperationFindUserResponse struct {
+	FindUserResponse *FindUserResponse `xml:"FindUserResponse,omitempty" json:"FindUserResponse,omitempty" yaml:"FindUserResponse,omitempty"`
+}
+
+// Operation wrapper for Initialize.
+// OperationInitializeRequest was auto-generated from WSDL.
+type OperationInitializeRequest struct {
+	Initialize *Initialize `xml:"Initialize,omitempty" json:"Initialize,omitempty" yaml:"Initialize,omitempty"`
+}
+
+// Operation wrapper for Initialize.
+// OperationInitializeResponse was auto-generated from WSDL.
+type OperationInitializeResponse struct {
+	InitializeResponse *InitializeResponse `xml:"InitializeResponse,omitempty" json:"InitializeResponse,omitempty" yaml:"InitializeResponse,omitempty"`
+}
+
+// Operation wrapper for License.
+// OperationLicenseRequest was auto-generated from WSDL.
+type OperationLicenseRequest struct {
+	License *License `xml:"License,omitempty" json:"License,omitempty" yaml:"License,omitempty"`
+}
+
+// Operation wrapper for License.
+// OperationLicenseResponse was auto-generated from WSDL.
+type OperationLicenseResponse struct {
+	LicenseResponse *LicenseResponse `xml:"LicenseResponse,omitempty" json:"LicenseResponse,omitempty" yaml:"LicenseResponse,omitempty"`
+}
+
+// Operation wrapper for LocationUrl.
+// OperationLocationUrlRequest was auto-generated from WSDL.
+type OperationLocationUrlRequest struct {
+	LocationUrl *LocationUrl `xml:"LocationUrl,omitempty" json:"LocationUrl,omitempty" yaml:"LocationUrl,omitempty"`
+}
+
+// Operation wrapper for LocationUrl.
+// OperationLocationUrlResponse was auto-generated from WSDL.
+type OperationLocationUrlResponse struct {
+	LocationUrlResponse *LocationUrlResponse `xml:"LocationUrlResponse,omitempty" json:"LocationUrlResponse,omitempty" yaml:"LocationUrlResponse,omitempty"`
+}
+
+// Operation wrapper for Poll.
+// OperationPollRequest was auto-generated from WSDL.
+type OperationPollRequest struct {
+	Poll *Poll `xml:"Poll,omitempty" json:"Poll,omitempty" yaml:"Poll,omitempty"`
+}
+
+// Operation wrapper for Poll.
+// OperationPollResponse was auto-generated from WSDL.
+type OperationPollResponse struct {
+	PollResponse *PollResponse `xml:"PollResponse,omitempty" json:"PollResponse,omitempty" yaml:"PollResponse,omitempty"`
+}
+
+// Operation wrapper for SetPresence.
+// OperationSetPresenceRequest was auto-generated from WSDL.
+type OperationSetPresenceRequest struct {
+	SetPresence *SetPresence `xml:"SetPresence,omitempty" json:"SetPresence,omitempty" yaml:"SetPresence,omitempty"`
+}
+
+// Operation wrapper for SetPresence.
+// OperationSetPresenceResponse was auto-generated from WSDL.
+type OperationSetPresenceResponse struct {
+	SetPresenceResponse *SetPresenceResponse `xml:"SetPresenceResponse,omitempty" json:"SetPresenceResponse,omitempty" yaml:"SetPresenceResponse,omitempty"`
+}
+
+// Operation wrapper for UserCall.
+// OperationUserCallRequest was auto-generated from WSDL.
+type OperationUserCallRequest struct {
+	UserCall *UserCall `xml:"UserCall,omitempty" json:"UserCall,omitempty" yaml:"UserCall,omitempty"`
+}
+
+// Operation wrapper for UserCall.
+// OperationUserCallResponse was auto-generated from WSDL.
+type OperationUserCallResponse struct {
+	UserCallResponse *UserCallResponse `xml:"UserCallResponse,omitempty" json:"UserCallResponse,omitempty" yaml:"UserCallResponse,omitempty"`
+}
+
+// Operation wrapper for UserClear.
+// OperationUserClearRequest was auto-generated from WSDL.
+type OperationUserClearRequest struct {
+	UserClear *UserClear `xml:"UserClear,omitempty" json:"UserClear,omitempty" yaml:"UserClear,omitempty"`
+}
+
+// Operation wrapper for UserClear.
+// OperationUserClearResponse was auto-generated from WSDL.
+type OperationUserClearResponse struct {
+	UserClearResponse *UserClearResponse `xml:"UserClearResponse,omitempty" json:"UserClearResponse,omitempty" yaml:"UserClearResponse,omitempty"`
+}
+
+// Operation wrapper for UserConnect.
+// OperationUserConnectRequest was auto-generated from WSDL.
+type OperationUserConnectRequest struct {
+	UserConnect *UserConnect `xml:"UserConnect,omitempty" json:"UserConnect,omitempty" yaml:"UserConnect,omitempty"`
+}
+
+// Operation wrapper for UserConnect.
+// OperationUserConnectResponse was auto-generated from WSDL.
+type OperationUserConnectResponse struct {
+	UserConnectResponse *UserConnectResponse `xml:"UserConnectResponse,omitempty" json:"UserConnectResponse,omitempty" yaml:"UserConnectResponse,omitempty"`
+}
+
+// Operation wrapper for UserCtComplete.
+// OperationUserCtCompleteRequest was auto-generated from WSDL.
+type OperationUserCtCompleteRequest struct {
+	UserCtComplete *UserCtComplete `xml:"UserCtComplete,omitempty" json:"UserCtComplete,omitempty" yaml:"UserCtComplete,omitempty"`
+}
+
+// Operation wrapper for UserCtComplete.
+// OperationUserCtCompleteResponse was auto-generated from WSDL.
+type OperationUserCtCompleteResponse struct {
+	UserCtCompleteResponse *UserCtCompleteResponse `xml:"UserCtCompleteResponse,omitempty" json:"UserCtCompleteResponse,omitempty" yaml:"UserCtCompleteResponse,omitempty"`
+}
+
+// Operation wrapper for UserDTMF.
+// OperationUserDTMFRequest was auto-generated from WSDL.
+type OperationUserDTMFRequest struct {
+	UserDTMF *UserDTMF `xml:"UserDTMF,omitempty" json:"UserDTMF,omitempty" yaml:"UserDTMF,omitempty"`
+}
+
+// Operation wrapper for UserDTMF.
+// OperationUserDTMFResponse was auto-generated from WSDL.
+type OperationUserDTMFResponse struct {
+	UserDTMFResponse *UserDTMFResponse `xml:"UserDTMFResponse,omitempty" json:"UserDTMFResponse,omitempty" yaml:"UserDTMFResponse,omitempty"`
+}
+
+// Operation wrapper for UserEnd.
+// OperationUserEndRequest was auto-generated from WSDL.
+type OperationUserEndRequest struct {
+	UserEnd *UserEnd `xml:"UserEnd,omitempty" json:"UserEnd,omitempty" yaml:"UserEnd,omitempty"`
+}
+
+// Operation wrapper for UserEnd.
+// OperationUserEndResponse was auto-generated from WSDL.
+type OperationUserEndResponse struct {
+	UserEndResponse *UserEndResponse `xml:"UserEndResponse,omitempty" json:"UserEndResponse,omitempty" yaml:"UserEndResponse,omitempty"`
+}
+
+// Operation wrapper for UserFindDestination.
+// OperationUserFindDestinationRequest was auto-generated from
+// WSDL.
+type OperationUserFindDestinationRequest struct {
+	UserFindDestination *UserFindDestination `xml:"UserFindDestination,omitempty" json:"UserFindDestination,omitempty" yaml:"UserFindDestination,omitempty"`
+}
+
+// Operation wrapper for UserFindDestination.
+// OperationUserFindDestinationResponse was auto-generated from
+// WSDL.
+type OperationUserFindDestinationResponse struct {
+	UserFindDestinationResponse *UserFindDestinationResponse `xml:"UserFindDestinationResponse,omitempty" json:"UserFindDestinationResponse,omitempty" yaml:"UserFindDestinationResponse,omitempty"`
+}
+
+// Operation wrapper for UserHold.
+// OperationUserHoldRequest was auto-generated from WSDL.
+type OperationUserHoldRequest struct {
+	UserHold *UserHold `xml:"UserHold,omitempty" json:"UserHold,omitempty" yaml:"UserHold,omitempty"`
+}
+
+// Operation wrapper for UserHold.
+// OperationUserHoldResponse was auto-generated from WSDL.
+type OperationUserHoldResponse struct {
+	UserHoldResponse *UserHoldResponse `xml:"UserHoldResponse,omitempty" json:"UserHoldResponse,omitempty" yaml:"UserHoldResponse,omitempty"`
+}
+
+// Operation wrapper for UserInfo.
+// OperationUserInfoRequest was auto-generated from WSDL.
+type OperationUserInfoRequest struct {
+	UserInfoTx *UserInfoTx `xml:"UserInfoTx,omitempty" json:"UserInfoTx,omitempty" yaml:"UserInfoTx,omitempty"`
+}
+
+// Operation wrapper for UserInfo.
+// OperationUserInfoResponse was auto-generated from WSDL.
+type OperationUserInfoResponse struct {
+	UserInfoTxResponse *UserInfoTxResponse `xml:"UserInfoTxResponse,omitempty" json:"UserInfoTxResponse,omitempty" yaml:"UserInfoTxResponse,omitempty"`
+}
+
+// Operation wrapper for UserInitialize.
+// OperationUserInitializeRequest was auto-generated from WSDL.
+type OperationUserInitializeRequest struct {
+	UserInitialize *UserInitialize `xml:"UserInitialize,omitempty" json:"UserInitialize,omitempty" yaml:"UserInitialize,omitempty"`
+}
+
+// Operation wrapper for UserInitialize.
+// OperationUserInitializeResponse was auto-generated from WSDL.
+type OperationUserInitializeResponse struct {
+	UserInitializeResponse *UserInitializeResponse `xml:"UserInitializeResponse,omitempty" json:"UserInitializeResponse,omitempty" yaml:"UserInitializeResponse,omitempty"`
+}
+
+// Operation wrapper for UserLicense.
+// OperationUserLicenseRequest was auto-generated from WSDL.
+type OperationUserLicenseRequest struct {
+	UserLicense *UserLicense `xml:"UserLicense,omitempty" json:"UserLicense,omitempty" yaml:"UserLicense,omitempty"`
+}
+
+// Operation wrapper for UserLicense.
+// OperationUserLicenseResponse was auto-generated from WSDL.
+type OperationUserLicenseResponse struct {
+	UserLicenseResponse *UserLicenseResponse `xml:"UserLicenseResponse,omitempty" json:"UserLicenseResponse,omitempty" yaml:"UserLicenseResponse,omitempty"`
+}
+
+// Operation wrapper for UserLocalNum.
+// OperationUserLocalNumRequest was auto-generated from WSDL.
+type OperationUserLocalNumRequest struct {
+	UserLocalNum *UserLocalNum `xml:"UserLocalNum,omitempty" json:"UserLocalNum,omitempty" yaml:"UserLocalNum,omitempty"`
+}
+
+// Operation wrapper for UserLocalNum.
+// OperationUserLocalNumResponse was auto-generated from WSDL.
+type OperationUserLocalNumResponse struct {
+	UserLocalNumResponse *UserLocalNumResponse `xml:"UserLocalNumResponse,omitempty" json:"UserLocalNumResponse,omitempty" yaml:"UserLocalNumResponse,omitempty"`
+}
+
+// Operation wrapper for UserMediaTransfer.
+// OperationUserMediaTransferRequest was auto-generated from WSDL.
+type OperationUserMediaTransferRequest struct {
+	UserMediaTransfer *UserMediaTransfer `xml:"UserMediaTransfer,omitempty" json:"UserMediaTransfer,omitempty" yaml:"UserMediaTransfer,omitempty"`
+}
+
+// Operation wrapper for UserMediaTransfer.
+// OperationUserMediaTransferResponse was auto-generated from WSDL.
+type OperationUserMediaTransferResponse struct {
+	UserMediaTransferResponse *UserMediaTransferResponse `xml:"UserMediaTransferResponse,omitempty" json:"UserMediaTransferResponse,omitempty" yaml:"UserMediaTransferResponse,omitempty"`
+}
+
+// Operation wrapper for UserMessage.
+// OperationUserMessageRequest was auto-generated from WSDL.
+type OperationUserMessageRequest struct {
+	UserMessage *UserMessage `xml:"UserMessage,omitempty" json:"UserMessage,omitempty" yaml:"UserMessage,omitempty"`
+}
+
 // Operation wrapper for UserMessage.
 // OperationUserMessageResponse was auto-generated from WSDL.
 type OperationUserMessageResponse struct {
-	Return *int `xml:"return,omitempty" json:"return,omitempty" yaml:"return,omitempty"`
+	UserMessageResponse *UserMessageResponse `xml:"UserMessageResponse,omitempty" json:"UserMessageResponse,omitempty" yaml:"UserMessageResponse,omitempty"`
 }
 
 // Operation wrapper for UserPark.
 // OperationUserParkRequest was auto-generated from WSDL.
 type OperationUserParkRequest struct {
-	Call     *int    `xml:"call,omitempty" json:"call,omitempty" yaml:"call,omitempty"`
-	Cn       *string `xml:"cn,omitempty" json:"cn,omitempty" yaml:"cn,omitempty"`
-	Position *int    `xml:"position,omitempty" json:"position,omitempty" yaml:"position,omitempty"`
+	UserPark *UserPark `xml:"UserPark,omitempty" json:"UserPark,omitempty" yaml:"UserPark,omitempty"`
 }
 
 // Operation wrapper for UserPark.
 // OperationUserParkResponse was auto-generated from WSDL.
 type OperationUserParkResponse struct {
-	Return *int `xml:"return,omitempty" json:"return,omitempty" yaml:"return,omitempty"`
+	UserParkResponse *UserParkResponse `xml:"UserParkResponse,omitempty" json:"UserParkResponse,omitempty" yaml:"UserParkResponse,omitempty"`
 }
 
 // Operation wrapper for UserPickup.
 // OperationUserPickupRequest was auto-generated from WSDL.
 type OperationUserPickupRequest struct {
-	User  *int       `xml:"user,omitempty" json:"user,omitempty" yaml:"user,omitempty"`
-	Cn    *string    `xml:"cn,omitempty" json:"cn,omitempty" yaml:"cn,omitempty"`
-	Call  *int       `xml:"call,omitempty" json:"call,omitempty" yaml:"call,omitempty"`
-	Group *string    `xml:"group,omitempty" json:"group,omitempty" yaml:"group,omitempty"`
-	Reg   *int       `xml:"reg,omitempty" json:"reg,omitempty" yaml:"reg,omitempty"`
-	Info  *InfoArray `xml:"info,omitempty" json:"info,omitempty" yaml:"info,omitempty"`
+	UserPickup *UserPickup `xml:"UserPickup,omitempty" json:"UserPickup,omitempty" yaml:"UserPickup,omitempty"`
 }
 
 // Operation wrapper for UserPickup.
 // OperationUserPickupResponse was auto-generated from WSDL.
 type OperationUserPickupResponse struct {
-	Return *int `xml:"return,omitempty" json:"return,omitempty" yaml:"return,omitempty"`
+	UserPickupResponse *UserPickupResponse `xml:"UserPickupResponse,omitempty" json:"UserPickupResponse,omitempty" yaml:"UserPickupResponse,omitempty"`
 }
 
 // Operation wrapper for UserRc.
 // OperationUserRcRequest was auto-generated from WSDL.
 type OperationUserRcRequest struct {
-	Call *int `xml:"call,omitempty" json:"call,omitempty" yaml:"call,omitempty"`
-	Rc   *int `xml:"rc,omitempty" json:"rc,omitempty" yaml:"rc,omitempty"`
+	UserRc *UserRc `xml:"UserRc,omitempty" json:"UserRc,omitempty" yaml:"UserRc,omitempty"`
 }
 
 // Operation wrapper for UserRc.
 // OperationUserRcResponse was auto-generated from WSDL.
 type OperationUserRcResponse struct {
+	UserRcResponse *UserRcResponse `xml:"UserRcResponse,omitempty" json:"UserRcResponse,omitempty" yaml:"UserRcResponse,omitempty"`
 }
 
 // Operation wrapper for UserRedirect.
 // OperationUserRedirectRequest was auto-generated from WSDL.
 type OperationUserRedirectRequest struct {
-	Call *int       `xml:"call,omitempty" json:"call,omitempty" yaml:"call,omitempty"`
-	Cn   *string    `xml:"cn,omitempty" json:"cn,omitempty" yaml:"cn,omitempty"`
-	E164 *string    `xml:"e164,omitempty" json:"e164,omitempty" yaml:"e164,omitempty"`
-	H323 *string    `xml:"h323,omitempty" json:"h323,omitempty" yaml:"h323,omitempty"`
-	Info *InfoArray `xml:"info,omitempty" json:"info,omitempty" yaml:"info,omitempty"`
-	Rc   *int       `xml:"rc,omitempty" json:"rc,omitempty" yaml:"rc,omitempty"`
+	UserRedirect *UserRedirect `xml:"UserRedirect,omitempty" json:"UserRedirect,omitempty" yaml:"UserRedirect,omitempty"`
 }
 
 // Operation wrapper for UserRedirect.
 // OperationUserRedirectResponse was auto-generated from WSDL.
 type OperationUserRedirectResponse struct {
-	Return *bool `xml:"return,omitempty" json:"return,omitempty" yaml:"return,omitempty"`
+	UserRedirectResponse *UserRedirectResponse `xml:"UserRedirectResponse,omitempty" json:"UserRedirectResponse,omitempty" yaml:"UserRedirectResponse,omitempty"`
 }
 
 // Operation wrapper for UserReroute.
 // OperationUserRerouteRequest was auto-generated from WSDL.
 type OperationUserRerouteRequest struct {
-	Call *int       `xml:"call,omitempty" json:"call,omitempty" yaml:"call,omitempty"`
-	Cn   *string    `xml:"cn,omitempty" json:"cn,omitempty" yaml:"cn,omitempty"`
-	E164 *string    `xml:"e164,omitempty" json:"e164,omitempty" yaml:"e164,omitempty"`
-	H323 *string    `xml:"h323,omitempty" json:"h323,omitempty" yaml:"h323,omitempty"`
-	Info *InfoArray `xml:"info,omitempty" json:"info,omitempty" yaml:"info,omitempty"`
+	UserReroute *UserReroute `xml:"UserReroute,omitempty" json:"UserReroute,omitempty" yaml:"UserReroute,omitempty"`
 }
 
 // Operation wrapper for UserReroute.
 // OperationUserRerouteResponse was auto-generated from WSDL.
 type OperationUserRerouteResponse struct {
-	Return *bool `xml:"return,omitempty" json:"return,omitempty" yaml:"return,omitempty"`
+	UserRerouteResponse *UserRerouteResponse `xml:"UserRerouteResponse,omitempty" json:"UserRerouteResponse,omitempty" yaml:"UserRerouteResponse,omitempty"`
 }
 
 // Operation wrapper for UserRetrieve.
 // OperationUserRetrieveRequest was auto-generated from WSDL.
 type OperationUserRetrieveRequest struct {
-	Call *int `xml:"call,omitempty" json:"call,omitempty" yaml:"call,omitempty"`
+	UserRetrieve *UserRetrieve `xml:"UserRetrieve,omitempty" json:"UserRetrieve,omitempty" yaml:"UserRetrieve,omitempty"`
 }
 
 // Operation wrapper for UserRetrieve.
 // OperationUserRetrieveResponse was auto-generated from WSDL.
 type OperationUserRetrieveResponse struct {
+	UserRetrieveResponse *UserRetrieveResponse `xml:"UserRetrieveResponse,omitempty" json:"UserRetrieveResponse,omitempty" yaml:"UserRetrieveResponse,omitempty"`
 }
 
 // Operation wrapper for UserTransfer.
 // OperationUserTransferRequest was auto-generated from WSDL.
 type OperationUserTransferRequest struct {
-	A *int `xml:"a,omitempty" json:"a,omitempty" yaml:"a,omitempty"`
-	B *int `xml:"b,omitempty" json:"b,omitempty" yaml:"b,omitempty"`
+	UserTransfer *UserTransfer `xml:"UserTransfer,omitempty" json:"UserTransfer,omitempty" yaml:"UserTransfer,omitempty"`
 }
 
 // Operation wrapper for UserTransfer.
 // OperationUserTransferResponse was auto-generated from WSDL.
 type OperationUserTransferResponse struct {
+	UserTransferResponse *UserTransferResponse `xml:"UserTransferResponse,omitempty" json:"UserTransferResponse,omitempty" yaml:"UserTransferResponse,omitempty"`
 }
 
 // Operation wrapper for UserUUI.
 // OperationUserUUIRequest was auto-generated from WSDL.
 type OperationUserUUIRequest struct {
-	Call *int    `xml:"call,omitempty" json:"call,omitempty" yaml:"call,omitempty"`
-	Recv *bool   `xml:"recv,omitempty" json:"recv,omitempty" yaml:"recv,omitempty"`
-	Uui  *string `xml:"uui,omitempty" json:"uui,omitempty" yaml:"uui,omitempty"`
+	UserUUI *UserUUI `xml:"UserUUI,omitempty" json:"UserUUI,omitempty" yaml:"UserUUI,omitempty"`
 }
 
 // Operation wrapper for UserUUI.
 // OperationUserUUIResponse was auto-generated from WSDL.
 type OperationUserUUIResponse struct {
+	UserUUIResponse *UserUUIResponse `xml:"UserUUIResponse,omitempty" json:"UserUUIResponse,omitempty" yaml:"UserUUIResponse,omitempty"`
+}
+
+// Operation wrapper for Version.
+// OperationVersionRequest was auto-generated from WSDL.
+type OperationVersionRequest struct {
+	Version *Version `xml:"Version,omitempty" json:"Version,omitempty" yaml:"Version,omitempty"`
 }
 
 // Operation wrapper for Version.
 // OperationVersionResponse was auto-generated from WSDL.
 type OperationVersionResponse struct {
-	WSDLVersion     *int    `xml:"WSDLVersion,omitempty" json:"WSDLVersion,omitempty" yaml:"WSDLVersion,omitempty"`
-	GatekeeperID    *string `xml:"GatekeeperID,omitempty" json:"GatekeeperID,omitempty" yaml:"GatekeeperID,omitempty"`
-	Location        *string `xml:"Location,omitempty" json:"Location,omitempty" yaml:"Location,omitempty"`
-	FirmwareVersion *string `xml:"FirmwareVersion,omitempty" json:"FirmwareVersion,omitempty" yaml:"FirmwareVersion,omitempty"`
-	SerialNumber    *string `xml:"SerialNumber,omitempty" json:"SerialNumber,omitempty" yaml:"SerialNumber,omitempty"`
+	VersionResponse *VersionResponse `xml:"VersionResponse,omitempty" json:"VersionResponse,omitempty" yaml:"VersionResponse,omitempty"`
 }
 
 // pbxPortType implements the PbxPortType interface.
@@ -753,683 +1104,647 @@ type pbxPortType struct {
 }
 
 // Admin was auto-generated from WSDL.
-func (p *pbxPortType) Admin(xml string) (string, error) {
+func (p *pbxPortType) Admin(Admin *Admin) (*AdminResponse, error) {
 	α := struct {
-		M OperationAdminRequest `xml:"inno:Admin"`
+		OperationAdminRequest `xml:"inno:Admin"`
 	}{
 		OperationAdminRequest{
-			&xml,
+			Admin,
 		},
 	}
 
 	γ := struct {
-		M OperationAdminResponse `xml:"AdminResponse"`
+		OperationAdminResponse `xml:"AdminResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#Admin", α, &γ); err != nil {
-		return "", err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/Admin", α, &γ); err != nil {
+		return nil, err
 	}
-	return *γ.M.Return, nil
+	return γ.AdminResponse, nil
 }
 
 // Calls was auto-generated from WSDL.
-func (p *pbxPortType) Calls(session int, user string) (*CallInfoArray, error) {
+func (p *pbxPortType) Calls(Calls *Calls) (*CallsResponse, error) {
 	α := struct {
-		M OperationCallsRequest `xml:"inno:Calls"`
+		OperationCallsRequest `xml:"inno:Calls"`
 	}{
 		OperationCallsRequest{
-			&session,
-			&user,
+			Calls,
 		},
 	}
 
 	γ := struct {
-		M OperationCallsResponse `xml:"CallsResponse"`
+		OperationCallsResponse `xml:"CallsResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#Calls", α, &γ); err != nil {
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/Calls", α, &γ); err != nil {
 		return nil, err
 	}
-	return γ.M.Return, nil
+	return γ.CallsResponse, nil
 }
 
 // Devices was auto-generated from WSDL.
-func (p *pbxPortType) Devices(session int, user string) (*DeviceArray, error) {
+func (p *pbxPortType) Devices(Devices *Devices) (*DevicesResponse, error) {
 	α := struct {
-		M OperationDevicesRequest `xml:"inno:Devices"`
+		OperationDevicesRequest `xml:"inno:Devices"`
 	}{
 		OperationDevicesRequest{
-			&session,
-			&user,
+			Devices,
 		},
 	}
 
 	γ := struct {
-		M OperationDevicesResponse `xml:"DevicesResponse"`
+		OperationDevicesResponse `xml:"DevicesResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#Devices", α, &γ); err != nil {
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/Devices", α, &γ); err != nil {
 		return nil, err
 	}
-	return γ.M.Return, nil
+	return γ.DevicesResponse, nil
 }
 
 // Echo was auto-generated from WSDL.
-func (p *pbxPortType) Echo(session int, key int) (int, error) {
+func (p *pbxPortType) Echo(Echo *Echo) (*EchoResponse, error) {
 	α := struct {
-		M OperationEchoRequest `xml:"inno:Echo"`
+		OperationEchoRequest `xml:"inno:Echo"`
 	}{
 		OperationEchoRequest{
-			&session,
-			&key,
+			Echo,
 		},
 	}
 
 	γ := struct {
-		M OperationEchoResponse `xml:"EchoResponse"`
+		OperationEchoResponse `xml:"EchoResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#Echo", α, &γ); err != nil {
-		return 0, err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/Echo", α, &γ); err != nil {
+		return nil, err
 	}
-	return *γ.M.Return, nil
+	return γ.EchoResponse, nil
 }
 
 // End was auto-generated from WSDL.
-func (p *pbxPortType) End(session int) error {
+func (p *pbxPortType) End(End *End) (*EndResponse, error) {
 	α := struct {
-		M OperationEndRequest `xml:"inno:End"`
+		OperationEndRequest `xml:"inno:End"`
 	}{
 		OperationEndRequest{
-			&session,
+			End,
 		},
 	}
 
 	γ := struct {
-		M OperationEndResponse `xml:"EndResponse"`
+		OperationEndResponse `xml:"EndResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#End", α, &γ); err != nil {
-		return err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/End", α, &γ); err != nil {
+		return nil, err
 	}
-	return nil
+	return γ.EndResponse, nil
 }
 
 // FindUser was auto-generated from WSDL.
-func (p *pbxPortType) FindUser(v501 string, v700 string, v800 string, vx1000 string, cn string, h323 string, e164 string, count int, next int, nohide bool) (*FindUserInfoArray, error) {
+func (p *pbxPortType) FindUser(FindUser *FindUser) (*FindUserResponse, error) {
 	α := struct {
-		M OperationFindUserRequest `xml:"inno:FindUser"`
+		OperationFindUserRequest `xml:"inno:FindUser"`
 	}{
 		OperationFindUserRequest{
-			&v501,
-			&v700,
-			&v800,
-			&vx1000,
-			&cn,
-			&h323,
-			&e164,
-			&count,
-			&next,
-			&nohide,
+			FindUser,
 		},
 	}
 
 	γ := struct {
-		M OperationFindUserResponse `xml:"FindUserResponse"`
+		OperationFindUserResponse `xml:"FindUserResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#FindUser", α, &γ); err != nil {
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/FindUser", α, &γ); err != nil {
 		return nil, err
 	}
-	return γ.M.Return, nil
+	return γ.FindUserResponse, nil
 }
 
 // Initialize was auto-generated from WSDL.
-func (p *pbxPortType) Initialize(user string, appl string, v bool, v501 bool, v700 bool, v800 bool, vx1000 bool) (int, int, error) {
+func (p *pbxPortType) Initialize(Initialize *Initialize) (*InitializeResponse, error) {
 	α := struct {
-		M OperationInitializeRequest `xml:"inno:Initialize"`
+		OperationInitializeRequest `xml:"inno:Initialize"`
 	}{
 		OperationInitializeRequest{
-			&user,
-			&appl,
-			&v,
-			&v501,
-			&v700,
-			&v800,
-			&vx1000,
+			Initialize,
 		},
 	}
 
 	γ := struct {
-		M OperationInitializeResponse `xml:"InitializeResponse"`
+		OperationInitializeResponse `xml:"InitializeResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#Initialize", α, &γ); err != nil {
-		return 0, 0, err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/Initialize", α, &γ); err != nil {
+		return nil, err
 	}
-	return *γ.M.Return, *γ.M.Key, nil
+	return γ.InitializeResponse, nil
 }
 
 // License was auto-generated from WSDL.
-func (p *pbxPortType) License(session int, name string) (string, error) {
+func (p *pbxPortType) License(License *License) (*LicenseResponse, error) {
 	α := struct {
-		M OperationLicenseRequest `xml:"inno:License"`
+		OperationLicenseRequest `xml:"inno:License"`
 	}{
 		OperationLicenseRequest{
-			&session,
-			&name,
+			License,
 		},
 	}
 
 	γ := struct {
-		M OperationLicenseResponse `xml:"LicenseResponse"`
+		OperationLicenseResponse `xml:"LicenseResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#License", α, &γ); err != nil {
-		return "", err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/License", α, &γ); err != nil {
+		return nil, err
 	}
-	return *γ.M.Return, nil
+	return γ.LicenseResponse, nil
 }
 
 // LocationUrl was auto-generated from WSDL.
-func (p *pbxPortType) LocationUrl(v501 string, v700 string, v800 string, vx1000 string, loc string) (string, error) {
+func (p *pbxPortType) LocationUrl(LocationUrl *LocationUrl) (*LocationUrlResponse, error) {
 	α := struct {
-		M OperationLocationUrlRequest `xml:"inno:LocationUrl"`
+		OperationLocationUrlRequest `xml:"inno:LocationUrl"`
 	}{
 		OperationLocationUrlRequest{
-			&v501,
-			&v700,
-			&v800,
-			&vx1000,
-			&loc,
+			LocationUrl,
 		},
 	}
 
 	γ := struct {
-		M OperationLocationUrlResponse `xml:"LocationUrlResponse"`
+		OperationLocationUrlResponse `xml:"LocationUrlResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#LocationUrl", α, &γ); err != nil {
-		return "", err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/LocationUrl", α, &γ); err != nil {
+		return nil, err
 	}
-	return *γ.M.Return, nil
+	return γ.LocationUrlResponse, nil
 }
 
 // Poll was auto-generated from WSDL.
-func (p *pbxPortType) Poll(session int) (*AnyInfo, error) {
+func (p *pbxPortType) Poll(Poll *Poll) (*PollResponse, error) {
 	α := struct {
-		M OperationPollRequest `xml:"inno:Poll"`
+		OperationPollRequest `xml:"inno:Poll"`
 	}{
 		OperationPollRequest{
-			&session,
+			Poll,
 		},
 	}
 
 	γ := struct {
-		M OperationPollResponse `xml:"PollResponse"`
+		OperationPollResponse `xml:"PollResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#Poll", α, &γ); err != nil {
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/Poll", α, &γ); err != nil {
 		return nil, err
 	}
-	return γ.M.Return, nil
+	return γ.PollResponse, nil
+}
+
+// SetPresence was auto-generated from WSDL.
+func (p *pbxPortType) SetPresence(SetPresence *SetPresence) (*SetPresenceResponse, error) {
+	α := struct {
+		OperationSetPresenceRequest `xml:"inno:SetPresence"`
+	}{
+		OperationSetPresenceRequest{
+			SetPresence,
+		},
+	}
+
+	γ := struct {
+		OperationSetPresenceResponse `xml:"SetPresenceResponse"`
+	}{}
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/SetPresence", α, &γ); err != nil {
+		return nil, err
+	}
+	return γ.SetPresenceResponse, nil
 }
 
 // UserCall was auto-generated from WSDL.
-func (p *pbxPortType) UserCall(user int, cn string, e164 string, h323 string, reg int, info *InfoArray, rc int, srce164 string) (int, error) {
+func (p *pbxPortType) UserCall(UserCall *UserCall) (*UserCallResponse, error) {
 	α := struct {
-		M OperationUserCallRequest `xml:"inno:UserCall"`
+		OperationUserCallRequest `xml:"inno:UserCall"`
 	}{
 		OperationUserCallRequest{
-			&user,
-			&cn,
-			&e164,
-			&h323,
-			&reg,
-			info,
-			&rc,
-			&srce164,
+			UserCall,
 		},
 	}
 
 	γ := struct {
-		M OperationUserCallResponse `xml:"UserCallResponse"`
+		OperationUserCallResponse `xml:"UserCallResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#UserCall", α, &γ); err != nil {
-		return 0, err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/UserCall", α, &γ); err != nil {
+		return nil, err
 	}
-	return *γ.M.Return, nil
+	return γ.UserCallResponse, nil
 }
 
 // UserClear was auto-generated from WSDL.
-func (p *pbxPortType) UserClear(call int, cause int, info *InfoArray) error {
+func (p *pbxPortType) UserClear(UserClear *UserClear) (*UserClearResponse, error) {
 	α := struct {
-		M OperationUserClearRequest `xml:"inno:UserClear"`
+		OperationUserClearRequest `xml:"inno:UserClear"`
 	}{
 		OperationUserClearRequest{
-			&call,
-			&cause,
-			info,
+			UserClear,
 		},
 	}
 
 	γ := struct {
-		M OperationUserClearResponse `xml:"UserClearResponse"`
+		OperationUserClearResponse `xml:"UserClearResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#UserClear", α, &γ); err != nil {
-		return err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/UserClear", α, &γ); err != nil {
+		return nil, err
 	}
-	return nil
+	return γ.UserClearResponse, nil
 }
 
 // UserConnect was auto-generated from WSDL.
-func (p *pbxPortType) UserConnect(call int) error {
+func (p *pbxPortType) UserConnect(UserConnect *UserConnect) (*UserConnectResponse, error) {
 	α := struct {
-		M OperationUserConnectRequest `xml:"inno:UserConnect"`
+		OperationUserConnectRequest `xml:"inno:UserConnect"`
 	}{
 		OperationUserConnectRequest{
-			&call,
+			UserConnect,
 		},
 	}
 
 	γ := struct {
-		M OperationUserConnectResponse `xml:"UserConnectResponse"`
+		OperationUserConnectResponse `xml:"UserConnectResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#UserConnect", α, &γ); err != nil {
-		return err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/UserConnect", α, &γ); err != nil {
+		return nil, err
 	}
-	return nil
+	return γ.UserConnectResponse, nil
 }
 
 // UserCtComplete was auto-generated from WSDL.
-func (p *pbxPortType) UserCtComplete(call int, e164 string, h323 string) error {
+func (p *pbxPortType) UserCtComplete(UserCtComplete *UserCtComplete) (*UserCtCompleteResponse, error) {
 	α := struct {
-		M OperationUserCtCompleteRequest `xml:"inno:UserCtComplete"`
+		OperationUserCtCompleteRequest `xml:"inno:UserCtComplete"`
 	}{
 		OperationUserCtCompleteRequest{
-			&call,
-			&e164,
-			&h323,
+			UserCtComplete,
 		},
 	}
 
 	γ := struct {
-		M OperationUserCtCompleteResponse `xml:"UserCtCompleteResponse"`
+		OperationUserCtCompleteResponse `xml:"UserCtCompleteResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#UserCtComplete", α, &γ); err != nil {
-		return err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/UserCtComplete", α, &γ); err != nil {
+		return nil, err
 	}
-	return nil
+	return γ.UserCtCompleteResponse, nil
 }
 
 // UserDTMF was auto-generated from WSDL.
-func (p *pbxPortType) UserDTMF(call int, recv bool, dtmf string) error {
+func (p *pbxPortType) UserDTMF(UserDTMF *UserDTMF) (*UserDTMFResponse, error) {
 	α := struct {
-		M OperationUserDTMFRequest `xml:"inno:UserDTMF"`
+		OperationUserDTMFRequest `xml:"inno:UserDTMF"`
 	}{
 		OperationUserDTMFRequest{
-			&call,
-			&recv,
-			&dtmf,
+			UserDTMF,
 		},
 	}
 
 	γ := struct {
-		M OperationUserDTMFResponse `xml:"UserDTMFResponse"`
+		OperationUserDTMFResponse `xml:"UserDTMFResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#UserDTMF", α, &γ); err != nil {
-		return err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/UserDTMF", α, &γ); err != nil {
+		return nil, err
 	}
-	return nil
+	return γ.UserDTMFResponse, nil
 }
 
 // UserEnd was auto-generated from WSDL.
-func (p *pbxPortType) UserEnd(user int) error {
+func (p *pbxPortType) UserEnd(UserEnd *UserEnd) (*UserEndResponse, error) {
 	α := struct {
-		M OperationUserEndRequest `xml:"inno:UserEnd"`
+		OperationUserEndRequest `xml:"inno:UserEnd"`
 	}{
 		OperationUserEndRequest{
-			&user,
+			UserEnd,
 		},
 	}
 
 	γ := struct {
-		M OperationUserEndResponse `xml:"UserEndResponse"`
+		OperationUserEndResponse `xml:"UserEndResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("capeconnect:pbx:pbxPortType#UserEnd", α, &γ); err != nil {
-		return err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/UserEnd", α, &γ); err != nil {
+		return nil, err
 	}
-	return nil
+	return γ.UserEndResponse, nil
 }
 
 // UserFindDestination was auto-generated from WSDL.
-func (p *pbxPortType) UserFindDestination(user int, e164 string, h323 string) (bool, *UserInfo, error) {
+func (p *pbxPortType) UserFindDestination(UserFindDestination *UserFindDestination) (*UserFindDestinationResponse, error) {
 	α := struct {
-		M OperationUserFindDestinationRequest `xml:"inno:UserFindDestination"`
+		OperationUserFindDestinationRequest `xml:"inno:UserFindDestination"`
 	}{
 		OperationUserFindDestinationRequest{
-			&user,
-			&e164,
-			&h323,
+			UserFindDestination,
 		},
 	}
 
 	γ := struct {
-		M OperationUserFindDestinationResponse `xml:"UserFindDestinationResponse"`
+		OperationUserFindDestinationResponse `xml:"UserFindDestinationResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#UserFindDestination", α, &γ); err != nil {
-		return false, nil, err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/UserFindDestination", α, &γ); err != nil {
+		return nil, err
 	}
-	return *γ.M.Return, γ.M.User, nil
+	return γ.UserFindDestinationResponse, nil
 }
 
 // UserHold was auto-generated from WSDL.
-func (p *pbxPortType) UserHold(call int, remote bool) error {
+func (p *pbxPortType) UserHold(UserHold *UserHold) (*UserHoldResponse, error) {
 	α := struct {
-		M OperationUserHoldRequest `xml:"inno:UserHold"`
+		OperationUserHoldRequest `xml:"inno:UserHold"`
 	}{
 		OperationUserHoldRequest{
-			&call,
-			&remote,
+			UserHold,
 		},
 	}
 
 	γ := struct {
-		M OperationUserHoldResponse `xml:"UserHoldResponse"`
+		OperationUserHoldResponse `xml:"UserHoldResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#UserHold", α, &γ); err != nil {
-		return err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/UserHold", α, &γ); err != nil {
+		return nil, err
 	}
-	return nil
+	return γ.UserHoldResponse, nil
 }
 
 // UserInfo was auto-generated from WSDL.
-func (p *pbxPortType) UserInfo(call int, recv bool, cdpn string, key string, dsp string) error {
+func (p *pbxPortType) UserInfo(UserInfoTx *UserInfoTx) (*UserInfoTxResponse, error) {
 	α := struct {
-		M OperationUserInfoRequest `xml:"inno:UserInfo"`
+		OperationUserInfoRequest `xml:"inno:UserInfo"`
 	}{
 		OperationUserInfoRequest{
-			&call,
-			&recv,
-			&cdpn,
-			&key,
-			&dsp,
+			UserInfoTx,
 		},
 	}
 
 	γ := struct {
-		M OperationUserInfoResponse `xml:"UserInfoResponse"`
+		OperationUserInfoResponse `xml:"UserInfoResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#UserInfo", α, &γ); err != nil {
-		return err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/UserInfo", α, &γ); err != nil {
+		return nil, err
 	}
-	return nil
+	return γ.UserInfoTxResponse, nil
 }
 
 // UserInitialize was auto-generated from WSDL.
-func (p *pbxPortType) UserInitialize(session int, user string, xfer bool, disc bool, hw string) (int, error) {
+func (p *pbxPortType) UserInitialize(UserInitialize *UserInitialize) (*UserInitializeResponse, error) {
 	α := struct {
-		M OperationUserInitializeRequest `xml:"inno:UserInitialize"`
+		OperationUserInitializeRequest `xml:"inno:UserInitialize"`
 	}{
 		OperationUserInitializeRequest{
-			&session,
-			&user,
-			&xfer,
-			&disc,
-			&hw,
+			UserInitialize,
 		},
 	}
 
 	γ := struct {
-		M OperationUserInitializeResponse `xml:"UserInitializeResponse"`
+		OperationUserInitializeResponse `xml:"UserInitializeResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#UserInitialize", α, &γ); err != nil {
-		return 0, err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/UserInitialize", α, &γ); err != nil {
+		return nil, err
 	}
-	return *γ.M.Return, nil
+	return γ.UserInitializeResponse, nil
+}
+
+// UserLicense was auto-generated from WSDL.
+func (p *pbxPortType) UserLicense(UserLicense *UserLicense) (*UserLicenseResponse, error) {
+	α := struct {
+		OperationUserLicenseRequest `xml:"inno:UserLicense"`
+	}{
+		OperationUserLicenseRequest{
+			UserLicense,
+		},
+	}
+
+	γ := struct {
+		OperationUserLicenseResponse `xml:"UserLicenseResponse"`
+	}{}
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/UserLicense", α, &γ); err != nil {
+		return nil, err
+	}
+	return γ.UserLicenseResponse, nil
 }
 
 // UserLocalNum was auto-generated from WSDL.
-func (p *pbxPortType) UserLocalNum(user int, num string) (string, error) {
+func (p *pbxPortType) UserLocalNum(UserLocalNum *UserLocalNum) (*UserLocalNumResponse, error) {
 	α := struct {
-		M OperationUserLocalNumRequest `xml:"inno:UserLocalNum"`
+		OperationUserLocalNumRequest `xml:"inno:UserLocalNum"`
 	}{
 		OperationUserLocalNumRequest{
-			&user,
-			&num,
+			UserLocalNum,
 		},
 	}
 
 	γ := struct {
-		M OperationUserLocalNumResponse `xml:"UserLocalNumResponse"`
+		OperationUserLocalNumResponse `xml:"UserLocalNumResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#UserLocalNum", α, &γ); err != nil {
-		return "", err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/UserLocalNum", α, &γ); err != nil {
+		return nil, err
 	}
-	return *γ.M.Return, nil
+	return γ.UserLocalNumResponse, nil
 }
 
 // UserMediaTransfer was auto-generated from WSDL.
-func (p *pbxPortType) UserMediaTransfer(a int, b int, user bool, peer bool) error {
+func (p *pbxPortType) UserMediaTransfer(UserMediaTransfer *UserMediaTransfer) (*UserMediaTransferResponse, error) {
 	α := struct {
-		M OperationUserMediaTransferRequest `xml:"inno:UserMediaTransfer"`
+		OperationUserMediaTransferRequest `xml:"inno:UserMediaTransfer"`
 	}{
 		OperationUserMediaTransferRequest{
-			&a,
-			&b,
-			&user,
-			&peer,
+			UserMediaTransfer,
 		},
 	}
 
 	γ := struct {
-		M OperationUserMediaTransferResponse `xml:"UserMediaTransferResponse"`
+		OperationUserMediaTransferResponse `xml:"UserMediaTransferResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#UserMediaTransfer", α, &γ); err != nil {
-		return err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/UserMediaTransfer", α, &γ); err != nil {
+		return nil, err
 	}
-	return nil
+	return γ.UserMediaTransferResponse, nil
 }
 
 // UserMessage was auto-generated from WSDL.
-func (p *pbxPortType) UserMessage(user int, e164 string, h323 string, msg string, src_e164 string, src_h323 string) (int, error) {
+func (p *pbxPortType) UserMessage(UserMessage *UserMessage) (*UserMessageResponse, error) {
 	α := struct {
-		M OperationUserMessageRequest `xml:"inno:UserMessage"`
+		OperationUserMessageRequest `xml:"inno:UserMessage"`
 	}{
 		OperationUserMessageRequest{
-			&user,
-			&e164,
-			&h323,
-			&msg,
-			&src_e164,
-			&src_h323,
+			UserMessage,
 		},
 	}
 
 	γ := struct {
-		M OperationUserMessageResponse `xml:"UserMessageResponse"`
+		OperationUserMessageResponse `xml:"UserMessageResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#UserMessage", α, &γ); err != nil {
-		return 0, err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/UserMessage", α, &γ); err != nil {
+		return nil, err
 	}
-	return *γ.M.Return, nil
+	return γ.UserMessageResponse, nil
 }
 
 // UserPark was auto-generated from WSDL.
-func (p *pbxPortType) UserPark(call int, cn string, position int) (int, error) {
+func (p *pbxPortType) UserPark(UserPark *UserPark) (*UserParkResponse, error) {
 	α := struct {
-		M OperationUserParkRequest `xml:"inno:UserPark"`
+		OperationUserParkRequest `xml:"inno:UserPark"`
 	}{
 		OperationUserParkRequest{
-			&call,
-			&cn,
-			&position,
+			UserPark,
 		},
 	}
 
 	γ := struct {
-		M OperationUserParkResponse `xml:"UserParkResponse"`
+		OperationUserParkResponse `xml:"UserParkResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#UserPark", α, &γ); err != nil {
-		return 0, err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/UserPark", α, &γ); err != nil {
+		return nil, err
 	}
-	return *γ.M.Return, nil
+	return γ.UserParkResponse, nil
 }
 
 // UserPickup was auto-generated from WSDL.
-func (p *pbxPortType) UserPickup(user int, cn string, call int, group string, reg int, info *InfoArray) (int, error) {
+func (p *pbxPortType) UserPickup(UserPickup *UserPickup) (*UserPickupResponse, error) {
 	α := struct {
-		M OperationUserPickupRequest `xml:"inno:UserPickup"`
+		OperationUserPickupRequest `xml:"inno:UserPickup"`
 	}{
 		OperationUserPickupRequest{
-			&user,
-			&cn,
-			&call,
-			&group,
-			&reg,
-			info,
+			UserPickup,
 		},
 	}
 
 	γ := struct {
-		M OperationUserPickupResponse `xml:"UserPickupResponse"`
+		OperationUserPickupResponse `xml:"UserPickupResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#UserPickup", α, &γ); err != nil {
-		return 0, err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/UserPickup", α, &γ); err != nil {
+		return nil, err
 	}
-	return *γ.M.Return, nil
+	return γ.UserPickupResponse, nil
 }
 
 // UserRc was auto-generated from WSDL.
-func (p *pbxPortType) UserRc(call int, rc int) error {
+func (p *pbxPortType) UserRc(UserRc *UserRc) (*UserRcResponse, error) {
 	α := struct {
-		M OperationUserRcRequest `xml:"inno:UserRc"`
+		OperationUserRcRequest `xml:"inno:UserRc"`
 	}{
 		OperationUserRcRequest{
-			&call,
-			&rc,
+			UserRc,
 		},
 	}
 
 	γ := struct {
-		M OperationUserRcResponse `xml:"UserRcResponse"`
+		OperationUserRcResponse `xml:"UserRcResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#UserRc", α, &γ); err != nil {
-		return err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/UserRc", α, &γ); err != nil {
+		return nil, err
 	}
-	return nil
+	return γ.UserRcResponse, nil
 }
 
 // UserRedirect was auto-generated from WSDL.
-func (p *pbxPortType) UserRedirect(call int, cn string, e164 string, h323 string, info *InfoArray, rc int) (bool, error) {
+func (p *pbxPortType) UserRedirect(UserRedirect *UserRedirect) (*UserRedirectResponse, error) {
 	α := struct {
-		M OperationUserRedirectRequest `xml:"inno:UserRedirect"`
+		OperationUserRedirectRequest `xml:"inno:UserRedirect"`
 	}{
 		OperationUserRedirectRequest{
-			&call,
-			&cn,
-			&e164,
-			&h323,
-			info,
-			&rc,
+			UserRedirect,
 		},
 	}
 
 	γ := struct {
-		M OperationUserRedirectResponse `xml:"UserRedirectResponse"`
+		OperationUserRedirectResponse `xml:"UserRedirectResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#UserRedirect", α, &γ); err != nil {
-		return false, err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/UserRedirect", α, &γ); err != nil {
+		return nil, err
 	}
-	return *γ.M.Return, nil
+	return γ.UserRedirectResponse, nil
 }
 
 // UserReroute was auto-generated from WSDL.
-func (p *pbxPortType) UserReroute(call int, cn string, e164 string, h323 string, info *InfoArray) (bool, error) {
+func (p *pbxPortType) UserReroute(UserReroute *UserReroute) (*UserRerouteResponse, error) {
 	α := struct {
-		M OperationUserRerouteRequest `xml:"inno:UserReroute"`
+		OperationUserRerouteRequest `xml:"inno:UserReroute"`
 	}{
 		OperationUserRerouteRequest{
-			&call,
-			&cn,
-			&e164,
-			&h323,
-			info,
+			UserReroute,
 		},
 	}
 
 	γ := struct {
-		M OperationUserRerouteResponse `xml:"UserRerouteResponse"`
+		OperationUserRerouteResponse `xml:"UserRerouteResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#UserReroute", α, &γ); err != nil {
-		return false, err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/UserReroute", α, &γ); err != nil {
+		return nil, err
 	}
-	return *γ.M.Return, nil
+	return γ.UserRerouteResponse, nil
 }
 
 // UserRetrieve was auto-generated from WSDL.
-func (p *pbxPortType) UserRetrieve(call int) error {
+func (p *pbxPortType) UserRetrieve(UserRetrieve *UserRetrieve) (*UserRetrieveResponse, error) {
 	α := struct {
-		M OperationUserRetrieveRequest `xml:"inno:UserRetrieve"`
+		OperationUserRetrieveRequest `xml:"inno:UserRetrieve"`
 	}{
 		OperationUserRetrieveRequest{
-			&call,
+			UserRetrieve,
 		},
 	}
 
 	γ := struct {
-		M OperationUserRetrieveResponse `xml:"UserRetrieveResponse"`
+		OperationUserRetrieveResponse `xml:"UserRetrieveResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#UserRetrieve", α, &γ); err != nil {
-		return err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/UserRetrieve", α, &γ); err != nil {
+		return nil, err
 	}
-	return nil
+	return γ.UserRetrieveResponse, nil
 }
 
 // UserTransfer was auto-generated from WSDL.
-func (p *pbxPortType) UserTransfer(a int, b int) error {
+func (p *pbxPortType) UserTransfer(UserTransfer *UserTransfer) (*UserTransferResponse, error) {
 	α := struct {
-		M OperationUserTransferRequest `xml:"inno:UserTransfer"`
+		OperationUserTransferRequest `xml:"inno:UserTransfer"`
 	}{
 		OperationUserTransferRequest{
-			&a,
-			&b,
+			UserTransfer,
 		},
 	}
 
 	γ := struct {
-		M OperationUserTransferResponse `xml:"UserTransferResponse"`
+		OperationUserTransferResponse `xml:"UserTransferResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#UserTransfer", α, &γ); err != nil {
-		return err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/UserTransfer", α, &γ); err != nil {
+		return nil, err
 	}
-	return nil
+	return γ.UserTransferResponse, nil
 }
 
 // UserUUI was auto-generated from WSDL.
-func (p *pbxPortType) UserUUI(call int, recv bool, uui string) error {
+func (p *pbxPortType) UserUUI(UserUUI *UserUUI) (*UserUUIResponse, error) {
 	α := struct {
-		M OperationUserUUIRequest `xml:"inno:UserUUI"`
+		OperationUserUUIRequest `xml:"inno:UserUUI"`
 	}{
 		OperationUserUUIRequest{
-			&call,
-			&recv,
-			&uui,
+			UserUUI,
 		},
 	}
 
 	γ := struct {
-		M OperationUserUUIResponse `xml:"UserUUIResponse"`
+		OperationUserUUIResponse `xml:"UserUUIResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#UserUUI", α, &γ); err != nil {
-		return err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/UserUUI", α, &γ); err != nil {
+		return nil, err
 	}
-	return nil
+	return γ.UserUUIResponse, nil
 }
 
-// Queries various version information from the PBX
-func (p *pbxPortType) Version() (int, string, string, string, string, error) {
+// Version was auto-generated from WSDL.
+func (p *pbxPortType) Version(Version *Version) (*VersionResponse, error) {
 	α := struct {
-		M struct{} `xml:"inno:Version"`
+		OperationVersionRequest `xml:"inno:Version"`
 	}{
-		struct{}{},
+		OperationVersionRequest{
+			Version,
+		},
 	}
 
 	γ := struct {
-		M OperationVersionResponse `xml:"VersionResponse"`
+		OperationVersionResponse `xml:"VersionResponse"`
 	}{}
-	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx#Version", α, &γ); err != nil {
-		return 0, "", "", "", "", err
+	if err := p.cli.RoundTripWithAction("http://innovaphone.com/pbx/Version", α, &γ); err != nil {
+		return nil, err
 	}
-	return *γ.M.WSDLVersion, *γ.M.GatekeeperID, *γ.M.Location, *γ.M.FirmwareVersion, *γ.M.SerialNumber, nil
+	return γ.VersionResponse, nil
 }

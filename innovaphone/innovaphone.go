@@ -49,42 +49,58 @@ func NewSession(ctx context.Context) *Session {
 }
 
 func (session *Session) connectionInit() error {
-	_, gatekeeperID, location, version, serial, err := session.Version()
+	versionResp, err := session.Version(&Version{})
 	if err != nil {
 		return errors.Wrap(err, "could not connect to PBX")
 	}
 	logrus.WithFields(logrus.Fields{
-		"id":       gatekeeperID,
-		"location": location,
-		"version":  strings.TrimSpace(version),
-		"serial":   serial,
+		"id":       versionResp.GatekeeperID,
+		"location": versionResp.Location,
+		"version":  strings.TrimSpace(*versionResp.FirmwareVersion),
+		"serial":   versionResp.SerialNumber,
 	}).Info("connection established")
 
-	sessionHandle, key, err := session.Initialize(config.Global.PBX.MonitorUser, config.Global.PBX.AppName, true, true, true, true, true)
+	initializeResp, err := session.Initialize(&Initialize{
+		User:   &config.Global.PBX.MonitorUser,
+		Appl:   &config.Global.PBX.AppName,
+		V:      true,
+		V501:   true,
+		V700:   true,
+		V800:   true,
+		Vx1100: true,
+	})
 	if err != nil {
 		return errors.Wrap(err, "could not initialize PBX session")
 	}
-	session.sessionHandle = sessionHandle
+	session.sessionHandle = initializeResp.Return
 
-	if ret, err := session.Echo(sessionHandle, key); err != nil || ret == 0 {
-		return errors.Wrapf(err, "could not verify session initialization via echo (code %d)", ret)
+	if echoResp, err := session.Echo(&Echo{
+		Session: initializeResp.Return,
+		Key:     initializeResp.Key,
+	}); err != nil || echoResp.Return == 0 {
+		return errors.Wrapf(err, "could not verify session initialization via echo (code %d)", echoResp.Return)
 	}
 
-	if _, err = session.UserInitialize(sessionHandle, config.Global.PBX.MonitorUser, false, true, ""); err != nil {
+	if _, err = session.UserInitialize(&UserInitialize{
+		Session: session.sessionHandle,
+		User:    &config.Global.PBX.MonitorUser,
+		Xfer:    false,
+		Disc:    true,
+	}); err != nil {
 		return errors.Wrap(err, "could not initialize PBX user session")
 	}
 
 	// we have to poll once to get the current UserInfo, which in turn is necessary to know if we're monitoring a normal
 	// or gateway user (i.e.: if we have to flip "this" and "peer" numbers)
-	pollResp, err := session.Poll(session.sessionHandle)
+	pollResp, err := session.Poll(&Poll{Session: session.sessionHandle})
 	if err != nil {
 		return errors.Wrap(err, "error while polling")
 	}
-	if len(pollResp.User.Items) < 1 {
+	if len(pollResp.Return.User) < 1 {
 		return errors.New("first poll did not return any users")
 	}
 	// first user is the one we've initialized above
-	switch pollResp.User.Items[0].Type {
+	switch pollResp.Return.User[0].Type {
 	case "ep":
 		// docs: "Note that the PBX API is PBX-centric, not terminal centric. As such, it considers a call from the PBX to
 		// 				the terminal as outbound."
@@ -112,12 +128,12 @@ func (session *Session) PollForever() (<-chan *CallInSession, <-chan error) {
 
 	go func() {
 		for {
-			pollResp, err := session.Poll(session.sessionHandle)
+			pollResp, err := session.Poll(&Poll{Session: session.sessionHandle})
 			if err != nil {
 				errs <- errors.Wrap(err, "error while polling")
 				break
 			}
-			for _, call := range pollResp.Call.Items {
+			for _, call := range pollResp.Return.Call {
 				cis := &CallInSession{
 					sessionInterface: session,
 					CallInfo:         call,
@@ -155,7 +171,7 @@ type CallInSession struct {
 
 type sessionInterface interface {
 	IsDirectionFlipped() bool
-	FindUser(string, string, string, string, string, string, string, int, int, bool) (*FindUserInfoArray, error)
+	FindUser(*FindUser) (*FindUserResponse, error)
 }
 
 // GetDirection returns the call direction as interpreted by an outside observer. It wraps the PBX' notion of direction,
@@ -210,16 +226,25 @@ func (call *CallInSession) ShouldHandle() bool {
 
 		if cacheMiss {
 			logrus.WithField("call", call).Debugf("searching for PBX object '%s'", no.Cn)
-			userArray, err := call.FindUser("1", "1", "1", "1", no.Cn, "", "", 1, 0, true)
+			nonEmpty := "x" // the API is weird ¯\_(ツ)_/¯
+			findUserResp, err := call.FindUser(&FindUser{
+				V501:   &nonEmpty,
+				V700:   &nonEmpty,
+				V800:   &nonEmpty,
+				Vx1100: &nonEmpty,
+				Cn:     &no.Cn,
+				Count:  1,
+				Nohide: true,
+			})
 			if err != nil {
 				logrus.WithField("call", call).Errorf("error finding PBX object '%s': %s", no.Cn, err)
 				return false
 			}
-			if len(userArray.Items) < 1 || userArray.Items[0].Cn != no.Cn {
+			if len(findUserResp.Return.User) < 1 || findUserResp.Return.User[0].Cn != no.Cn {
 				logrus.WithField("call", call).Warnf("could not find PBX object '%s'; skipping call", no.Cn)
 				return false
 			}
-			groups = userArray.Items[0].Groups.Items
+			groups = findUserResp.Return.User[0].Groups
 			userCache.Store(no.Cn, userCacheEntry{
 				groups:    groups,
 				timestamp: time.Now(),

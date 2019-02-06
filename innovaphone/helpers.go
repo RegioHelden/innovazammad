@@ -2,7 +2,6 @@ package innovaphone
 
 import (
 	"fmt"
-	"strings"
 )
 
 // State represents the call state information from the innovaphone PBX' perspective.
@@ -108,7 +107,7 @@ func (h Hold) String() string {
 
 // GetSourceAndDestination returns the call's source and destination
 func (call *CallInfo) GetSourceAndDestination() (src, dst *No, err error) {
-	for _, no := range call.No.Items {
+	for _, no := range call.No {
 		switch no.Type {
 		case "this":
 			dst = no
@@ -155,17 +154,8 @@ func (no *No) String() string {
 	if no == nil {
 		return "anonymous"
 	}
-	return no.E164
-}
-
-func (nos *NoArray) String() string {
-	info := make([]string, len(nos.Items))
-	for i, no := range nos.Items {
-		if no.Cn != "" {
-			info[i] = fmt.Sprintf("%s:%s (%s)", no.Type, no.E164, no.Cn)
-		} else {
-			info[i] = fmt.Sprintf("%s:%s", no.Type, no.E164)
-		}
+	if no.Cn != "" {
+		return fmt.Sprintf("%s:%s (%s)", no.Type, no.E164, no.Cn)
 	}
-	return strings.Join(info, ", ")
+	return fmt.Sprintf("%s:%s", no.Type, no.E164)
 }
