@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <definitions xmlns="http://schemas.xmlsoap.org/wsdl/" name="pbx" targetNamespace="http://innovaphone.com/pbx" xmlns:inno="http://innovaphone.com/pbx" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <documentation>This is the innovaphone PBX WSDL file version 500 (as returned in VersionResponse)</documentation>
     <types>
@@ -18,7 +18,6 @@
                         <xsd:sequence>
                             <xsd:element maxOccurs="unbounded" minOccurs="0" name="item" type="inno:Info"/>
                         </xsd:sequence>
-
                         <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="inno:Info[]"/>
                     </xsd:restriction>
                 </xsd:complexContent>
@@ -38,8 +37,7 @@
                 <xsd:complexContent>
                     <xsd:restriction base="SOAP-ENC:Array">
                         <xsd:sequence>
-
-                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="No" type="inno:No"/>
+                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="item" type="inno:No"/>
                         </xsd:sequence>
                         <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="inno:No[]"/>
                     </xsd:restriction>
@@ -48,35 +46,45 @@
 
             <xsd:complexType name="Group">
                 <xsd:sequence>
-
                     <xsd:element maxOccurs="1" minOccurs="1" name="group" type="xsd:string"/>
                     <xsd:element maxOccurs="1" minOccurs="1" name="active" type="xsd:boolean"/>
                 </xsd:sequence>
             </xsd:complexType>
+
             <xsd:complexType name="GroupArray">
                 <xsd:complexContent>
                     <xsd:restriction base="SOAP-ENC:Array">
                         <xsd:sequence>
-                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="groups" type="inno:Group"/>
-
+                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="item" type="inno:Group"/>
                         </xsd:sequence>
                         <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="inno:Group[]"/>
                     </xsd:restriction>
                 </xsd:complexContent>
             </xsd:complexType>
             
+            <xsd:complexType name="EmailArray">
+                <xsd:complexContent>
+                    <xsd:restriction base="SOAP-ENC:Array">
+                        <xsd:sequence>
+                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="item" type="xsd:string"/>
+                        </xsd:sequence>
+                        <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="xsd:string[]"/>
+                    </xsd:restriction>
+                </xsd:complexContent>
+            </xsd:complexType>
+
             <xsd:complexType name="Device">
                 <xsd:sequence>
                     <xsd:element maxOccurs="1" minOccurs="1" name="hw" type="xsd:string"/>
                     <xsd:element maxOccurs="1" minOccurs="1" name="text" type="xsd:string"/>
-
                 </xsd:sequence>
             </xsd:complexType>
+
             <xsd:complexType name="DeviceArray">
                 <xsd:complexContent>
                     <xsd:restriction base="SOAP-ENC:Array">
                         <xsd:sequence>
-                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="device" type="inno:Device"/>
+                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="item" type="inno:Device"/>
                         </xsd:sequence>
                         <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="inno:Device[]"/>
 
@@ -105,7 +113,7 @@
                 <xsd:complexContent>
                     <xsd:restriction base="SOAP-ENC:Array">
                         <xsd:sequence>
-                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="call" type="inno:CallInfo"/>
+                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="item" type="inno:CallInfo"/>
                         </xsd:sequence>
                         <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="inno:CallInfo[]"/>
                     </xsd:restriction>
@@ -152,11 +160,12 @@
               <xsd:enumeration value="working"/>
 
               <xsd:enumeration value="worship"/>
+              <xsd:enumeration value="dnd"/>
             </xsd:restriction>
           </xsd:simpleType>
           <xsd:complexType name="Presence">
             <xsd:sequence>
-              <xsd:element maxOccurs="1" minOccurs="1" name="status" type="inno:PresenceStatus"/>
+              <xsd:element maxOccurs="1" minOccurs="0" name="status" type="inno:PresenceStatus"/>
               <xsd:element maxOccurs="1" minOccurs="0" name="activity" type="inno:PresenceActivity"/>
               <xsd:element maxOccurs="1" minOccurs="0" name="note" type="xsd:string"/>
             </xsd:sequence>
@@ -164,29 +173,26 @@
           </xsd:complexType>
             <xsd:complexType name="UserInfo">
                 <xsd:sequence>
-                    <xsd:element maxOccurs="1" minOccurs="1" name="guid" type="xsd:string"/>
                     <xsd:element maxOccurs="1" minOccurs="1" name="active" type="xsd:boolean"/>
-                    <xsd:element maxOccurs="1" minOccurs="1" name="state" type="xsd:int"/>
-
-                    <xsd:element maxOccurs="1" minOccurs="1" name="channel" type="xsd:int"/>
-                    <xsd:element maxOccurs="1" minOccurs="1" name="alert" type="xsd:int"/>
-
                     <xsd:element maxOccurs="1" minOccurs="1" name="cn" type="xsd:string"/>
                     <xsd:element maxOccurs="1" minOccurs="1" name="dn" type="xsd:string"/>
                     <xsd:element maxOccurs="1" minOccurs="1" name="type" type="xsd:string"/>
                     <xsd:element maxOccurs="1" minOccurs="1" name="e164" type="xsd:string"/>
                     <xsd:element maxOccurs="1" minOccurs="1" name="h323" type="xsd:string"/>
-
-                    <xsd:element maxOccurs="1" minOccurs="1" name="presence" type="inno:Presence"/>
-
-                    <xsd:element maxOccurs="1" minOccurs="0" name="loc" type="xsd:string"/>
-
-                    <xsd:element maxOccurs="1" minOccurs="0" name="node" type="xsd:string"/>
-                    <xsd:element maxOccurs="1" minOccurs="0" name="nodenum" type="xsd:string"/>
-                    <xsd:element maxOccurs="1" minOccurs="0" name="object" type="xsd:string"/>
-                    <xsd:element maxOccurs="1" minOccurs="0" name="cfg" type="xsd:boolean"/>
-
+                    <xsd:element maxOccurs="1" minOccurs="1" name="state" type="xsd:int"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="channel" type="xsd:int"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="alert" type="xsd:int"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="guid" type="xsd:string"/>
                     <xsd:element maxOccurs="1" minOccurs="0" name="groups" type="inno:GroupArray"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="loc" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="node" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="object" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="nodenum" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="cfg" type="xsd:boolean"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="presence" type="inno:Presence"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="domain" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="h323email" type="xsd:boolean"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="email" type="inno:EmailArray"/>
                     <xsd:element maxOccurs="1" minOccurs="0" name="info" type="inno:InfoArray"/>
                 </xsd:sequence>
             </xsd:complexType>
@@ -195,7 +201,7 @@
                 <xsd:complexContent>
                     <xsd:restriction base="SOAP-ENC:Array">
                         <xsd:sequence>
-                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="user" type="inno:UserInfo"/>
+                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="item" type="inno:UserInfo"/>
                         </xsd:sequence>
                         <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="inno:UserInfo[]"/>
                     </xsd:restriction>
@@ -249,18 +255,18 @@
             <documentation>defines the supported innovaphone PBX WSDL file version, function return value e.g. in C#</documentation>
         </part>
         <part name="GatekeeperID" type="xsd:string">
-            <documentation>the PBX's gatekeeper ID</documentation>
+            <documentation>the PBX&apos;s gatekeeper ID</documentation>
 
         </part>
         <part name="Location" type="xsd:string">
-            <documentation>the PBX's location name</documentation>
+            <documentation>the PBX&apos;s location name</documentation>
         </part>
         <part name="FirmwareVersion" type="xsd:string">
-            <documentation>the PBX's platform firmware version (e.g. "V5.00 hotfix IP400[03-5315]")</documentation>
+            <documentation>the PBX&apos;s platform firmware version (e.g. &quot;V5.00 hotfix IP400[03-5315]&quot;)</documentation>
 
         </part>
         <part name="SerialNumber" type="xsd:string">
-            <documentation>the PBX's platform serial number (e.g. "00-90-33-00-00-2d")</documentation>
+            <documentation>the PBX&apos;s platform serial number (e.g. &quot;00-90-33-00-00-2d&quot;)</documentation>
         </part>
     </message>
 
@@ -519,7 +525,7 @@
     </message>
 
     <message name="UserFindDestinationResponse">
-	    <part name="return" type="xsd:boolean"/>
+        <part name="return" type="xsd:boolean"/>
         <part name="user" type="inno:UserInfo"/>
     </message>
 
@@ -540,6 +546,25 @@
         <part name="return" type="inno:UserInfoArray"/>
     </message>
 
+    <message name="UserLicenseRequest">
+        <part name="guid" type="xsd:string"/>
+        <part name="type" type="xsd:string"/>
+    </message>
+    <message name="UserLicenseResponse">
+        <part name="return" type="xsd:boolean"/>
+    </message>
+
+    <message name="SetPresenceRequest">
+        <part name="presence" type="inno:Presence"/>
+        <part name="im" type="xsd:boolean"/>
+        <part name="contact" type="xsd:string"/>
+        <part name="guid" type="xsd:string"/>
+        <part name="h323" type="xsd:string"/>
+    </message>
+    <message name="SetPresenceResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+
     <message name="LocationUrlRequest">
         <part name="v501" type="xsd:string"/>
         <part name="v700" type="xsd:string"/>
@@ -547,6 +572,7 @@
         <part name="vx1000" type="xsd:string"/>
 
         <part name="loc" type="xsd:string"/>
+        <part name="tls" type="xsd:boolean"/>
     </message>
     <message name="LocationUrlResponse">
         <part name="return" type="xsd:string"/>
@@ -690,6 +716,14 @@
         <operation name="FindUser">
             <input message="inno:FindUserRequest"/>
             <output message="inno:FindUserResponse"/>
+        </operation>
+        <operation name="UserLicense">
+            <input message="inno:UserLicenseRequest"/>
+            <output message="inno:UserLicenseResponse"/>
+        </operation>
+        <operation name="SetPresence">
+            <input message="inno:SetPresenceRequest"/>
+            <output message="inno:SetPresenceResponse"/>
         </operation>
         <operation name="LocationUrl">
             <input message="inno:LocationUrlRequest"/>
@@ -1029,8 +1063,30 @@
         </operation>
 
         <operation name="FindUser">
-
             <soap:operation soapAction="http://innovaphone.com/pbx#FindUser"/>
+
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="UserLicense">
+            <soap:operation soapAction="http://innovaphone.com/pbx#UserLicense"/>
+
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
+            </output>
+        </operation>
+
+        <operation name="SetPresence">
+
+            <soap:operation soapAction="http://innovaphone.com/pbx#SetPresence"/>
             <input>
                 <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://innovaphone.com/pbx" use="encoded"/>
             </input>
