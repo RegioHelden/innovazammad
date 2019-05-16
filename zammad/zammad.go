@@ -128,7 +128,7 @@ func (zs *Session) setOrUpdate(ctx context.Context, callID int, newEntry *callEn
 	}
 }
 
-// ShutdownIfEmpty is used to short-circuit the
+// ShutdownIfEmpty is used to short-circuit the call handling loop
 func (zs *Session) ShutdownIfEmpty() {
 	zs.Lock()
 	defer zs.Unlock()
