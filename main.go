@@ -85,7 +85,11 @@ func main() {
 		for {
 			select {
 			case call := <-calls:
-				zammadSession.Submit(shutdownCtx, call)
+				if err := zammadSession.Submit(shutdownCtx, call); err != nil {
+					logrus.WithFields(logrus.Fields{
+						"call": call,
+					}).Warn(err)
+				}
 			case err := <-errs:
 				logrus.Errorf("error while polling: %s", err)
 				connectionStats.Add("errors", 1)
