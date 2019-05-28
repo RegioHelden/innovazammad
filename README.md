@@ -49,9 +49,9 @@ The following options are available:
 |`--zammad.endpointurl` | URL to Zammad's 'CTI (generic)' endpoint. Can be found in Zammad's integration settings page. | _none_ |×|
 |`--zammad.trunkprefix` | Optional prefix to trim from the phone numbers received from the PBX. Normally necessary if calls come through a trunk line. | `0` ||
 |`--zammad.countrycode` | Country code to prepend to area-local phone numbers received from the PBX. | `49` ||
-|`--zammad.numberprefix` | Optional number to prepend to unqualified phone numbers received from the PBX. This should transform an internal extension into an E123 number. | `` ||
+|`--zammad.numberprefix` | Optional number to prepend to unqualified phone numbers received from the PBX. This should transform an internal extension into an E123 number. | ||
 
-Additionally, all flags can be provided via environment variables, by prefixing their names with `INNOVAZAMMAD_` and replacing any dot (`.`) with underscore (`_`). E.g.: `--pbx.url` becomes `INNOVAZAMMAD_PBX_URL`.
+The environment variable names can be created by prefixing the flag name with `INNOVAZAMMAD_` and replacing any dot (`.`) with underscore (`_`). E.g.: `--pbx.url` becomes `INNOVAZAMMAD_PBX_URL`.
 
 ## Compatibility
 
