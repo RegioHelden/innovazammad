@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	"strings"
 	"sync"
 
 	"github.com/google/uuid"
@@ -141,7 +140,7 @@ func (zs *Session) ShutdownIfEmpty() {
 func (zs *Session) Submit(ctx context.Context, call *innovaphone.CallInSession) error {
 	zs.stats.Add("events_total", 1)
 
-	src, dst, err := call.GetSourceAndDestination()
+	src, dst, user, err := call.GetSourceAndDestination()
 	if err != nil {
 		return err
 	}
@@ -165,17 +164,9 @@ func (zs *Session) Submit(ctx context.Context, call *innovaphone.CallInSession) 
 
 	content := url.Values{
 		"callId":    []string{entry.UUID.String()},
-		"from":      []string{normalizeNumber(src.E164)},
-		"to":        []string{normalizeNumber(dst.E164)},
+		"from":      []string{src.Normalize()},
+		"to":        []string{dst.Normalize()},
 		"direction": []string{dir.String()},
-	}
-
-	var user string
-	switch dir {
-	case innovaphone.DirectionInbound:
-		user = dst.Cn
-	case innovaphone.DirectionOutbound:
-		user = src.Cn
 	}
 
 	transition := stateTransition{curState: entry.State, newState: newState}
@@ -191,7 +182,7 @@ func (zs *Session) Submit(ctx context.Context, call *innovaphone.CallInSession) 
 		content.Set("event", "answer")
 		if dir == innovaphone.DirectionInbound {
 			content.Set("user", user)
-			content.Set("answeringNumber", normalizeNumber(dst.E164))
+			content.Set("answeringNumber", dst.Normalize())
 		}
 		entry.State = StateConnected
 	case stateTransition{StateRinging, innovaphone.StateDisconnectSent}:
@@ -229,11 +220,4 @@ func (zs *Session) Submit(ctx context.Context, call *innovaphone.CallInSession) 
 	zs.stats.Add("events_submitted", 1)
 	zs.setOrUpdate(ctx, call.Call, entry)
 	return nil
-}
-
-func normalizeNumber(n string) string {
-	if config.Global.Zammad.TrimFirstZero {
-		return strings.TrimPrefix(n, "0")
-	}
-	return n
 }

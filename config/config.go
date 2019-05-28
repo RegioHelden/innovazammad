@@ -28,6 +28,8 @@ type Config struct {
 	Zammad struct {
 		EndpointURL   string `desc:"URL to Zammad's 'CTI (generic)' endpoint"`
 		TrimFirstZero bool   `default:"true" desc:"whether to trim the first zero to normalize submitted phone numbers"`
+		CountryCode   int    `default:"49" desc:"Country code to prepend to unqualified phone numbers received from the PBX"`
+		NumberPrefix  string `default:"" desc:"Optional number to prepend to unqualified phone numbers received from the PBX. This should transform an internal extension into an E123 number."`
 	}
 }
 

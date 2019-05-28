@@ -138,7 +138,7 @@ func (session *Session) PollForever() (<-chan *CallInSession, <-chan error) {
 					sessionInterface: session,
 					CallInfo:         call,
 				}
-				src, dst, err := cis.GetSourceAndDestination()
+				src, dst, user, err := cis.GetSourceAndDestination()
 				if err != nil {
 					logrus.WithField("call", call).Warn(err)
 					continue
@@ -147,8 +147,9 @@ func (session *Session) PollForever() (<-chan *CallInSession, <-chan error) {
 
 				logrus.WithFields(logrus.Fields{
 					"call":      call,
-					"source":    src,
-					"dest":      dst,
+					"source":    src.Normalize(),
+					"dest":      dst.Normalize(),
+					"user":      user,
 					"direction": dir,
 					"state":     cis.GetState(),
 					"hold":      cis.GetHold(),
@@ -195,7 +196,7 @@ type userCacheEntry struct {
 // ShouldHandle decides whether a call involves any of the groups being filtered on (see Config.FilterOnGroup)
 func (call *CallInSession) ShouldHandle() bool {
 	if config.Global.PBX.FilterOnGroup != "" {
-		src, dst, err := call.GetSourceAndDestination()
+		src, dst, _, err := call.GetSourceAndDestination()
 		if err != nil {
 			logrus.WithField("call", call).Warn(err)
 			return false

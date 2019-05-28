@@ -2,6 +2,10 @@ package innovaphone
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
+
+	"github.com/regiohelden/innovazammad/config"
 )
 
 // State represents the call state information from the innovaphone PBX' perspective.
@@ -106,7 +110,7 @@ func (h Hold) String() string {
 }
 
 // GetSourceAndDestination returns the call's source and destination
-func (call *CallInfo) GetSourceAndDestination() (src, dst *No, err error) {
+func (call *CallInfo) GetSourceAndDestination() (src, dst *No, user string, err error) {
 	for _, no := range call.No {
 		switch no.Type {
 		case "this":
@@ -118,13 +122,16 @@ func (call *CallInfo) GetSourceAndDestination() (src, dst *No, err error) {
 
 	if call.GetDirection() == DirectionInbound {
 		src, dst = dst, src
+		user = src.Cn
+	} else {
+		user = dst.Cn
 	}
 
 	if src == nil || dst == nil {
-		return nil, nil, fmt.Errorf("call without src (%v) or dst (%v)", src, dst)
+		return nil, nil, "", fmt.Errorf("call without src (%v) or dst (%v)", src, dst)
 	}
 
-	return src, dst, nil
+	return src, dst, user, nil
 }
 
 // GetState returns the call's state
@@ -136,7 +143,7 @@ func (call *CallInfo) GetState() State {
 	return state
 }
 
-// GetDirection returns the call's direction (wither incoming or outgoing)
+// GetDirection returns the call's direction (either incoming or outgoing)
 func (call *CallInfo) GetDirection() Direction {
 	return Direction(call.State & 0x80)
 }
@@ -158,4 +165,18 @@ func (no *No) String() string {
 		return fmt.Sprintf("%s:%s (%s)", no.Type, no.E164, no.Cn)
 	}
 	return fmt.Sprintf("%s:%s", no.Type, no.E164)
+}
+
+// Normalize returns an E123 formatted version of the number as a string.
+// Local numbers are optionally prefixed with Config.Zammad.NumberPrefix, if they're not already in E123 format.
+func (no *No) Normalize() (n string) {
+	if config.Global.Zammad.TrimFirstZero {
+		n = strings.TrimPrefix(no.E164, "0")
+	}
+	if strings.HasPrefix(n, "0") {
+		n = fmt.Sprintf("%d%s", config.Global.Zammad.CountryCode, strings.TrimPrefix(n, "0"))
+	} else if no.Type == "this" && !strings.HasPrefix(n, strconv.Itoa(config.Global.Zammad.CountryCode)) {
+		n = fmt.Sprintf("%s%s", config.Global.Zammad.NumberPrefix, no.E164)
+	}
+	return n
 }
