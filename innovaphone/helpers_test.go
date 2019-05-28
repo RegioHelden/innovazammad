@@ -22,13 +22,13 @@ func TestNo_Normalize(t *testing.T) {
 	}{
 		{
 			"internal without prefix",
-			fields{Type: "this", E164: "123"},
+			fields{E164: "123"},
 			config.Config{},
 			"123",
 		},
 		{
 			"internal to prefixed",
-			fields{Type: "this", E164: "123"},
+			fields{E164: "123"},
 			config.Config{
 				Zammad: config.Zammad{NumberPrefix: "49456", CountryCode: 49},
 			},
@@ -36,7 +36,7 @@ func TestNo_Normalize(t *testing.T) {
 		},
 		{
 			"external with zero prefix",
-			fields{Type: "peer", E164: "00123456789"},
+			fields{E164: "00123456789"},
 			config.Config{
 				Zammad: config.Zammad{TrunkPrefix: "0", NumberPrefix: "49456", CountryCode: 49},
 			},
@@ -44,7 +44,7 @@ func TestNo_Normalize(t *testing.T) {
 		},
 		{
 			"external pre-normalized",
-			fields{Type: "peer", E164: "049123456789"},
+			fields{E164: "049123456789"},
 			config.Config{
 				Zammad: config.Zammad{TrunkPrefix: "0", NumberPrefix: "49456", CountryCode: 49},
 			},

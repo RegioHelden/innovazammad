@@ -176,7 +176,7 @@ func (no *No) Normalize() (n string) {
 	}
 	if strings.HasPrefix(n, "0") {
 		n = fmt.Sprintf("%d%s", config.Global.Zammad.CountryCode, strings.TrimPrefix(n, "0"))
-	} else if no.Type == "this" && !strings.HasPrefix(n, strconv.Itoa(config.Global.Zammad.CountryCode)) {
+	} else if len(n) <= len(config.Global.Zammad.NumberPrefix) && !strings.HasPrefix(n, strconv.Itoa(config.Global.Zammad.CountryCode)) {
 		n = fmt.Sprintf("%s%s", config.Global.Zammad.NumberPrefix, n)
 	}
 	return n
