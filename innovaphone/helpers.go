@@ -170,13 +170,14 @@ func (no *No) String() string {
 // Normalize returns an E123 formatted version of the number as a string.
 // Local numbers are optionally prefixed with Config.Zammad.NumberPrefix, if they're not already in E123 format.
 func (no *No) Normalize() (n string) {
-	if config.Global.Zammad.TrimFirstZero {
-		n = strings.TrimPrefix(no.E164, "0")
+	n = no.E164
+	if config.Global.Zammad.TrunkPrefix != "" {
+		n = strings.TrimPrefix(n, config.Global.Zammad.TrunkPrefix)
 	}
 	if strings.HasPrefix(n, "0") {
 		n = fmt.Sprintf("%d%s", config.Global.Zammad.CountryCode, strings.TrimPrefix(n, "0"))
 	} else if no.Type == "this" && !strings.HasPrefix(n, strconv.Itoa(config.Global.Zammad.CountryCode)) {
-		n = fmt.Sprintf("%s%s", config.Global.Zammad.NumberPrefix, no.E164)
+		n = fmt.Sprintf("%s%s", config.Global.Zammad.NumberPrefix, n)
 	}
 	return n
 }

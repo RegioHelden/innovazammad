@@ -34,7 +34,7 @@ Configuration can be supplied as flags, environment variables or in a configurat
 The following options are available:
 
 | Flag | Description | Default | Required? |
-|---|---|---|---|---|
+|---|---|---|---|
 |`--confpath` | Path to configuration file.  | `/etc/innovazammad.yaml` | |
 |`-l`, `--loglevel` | How much logging will be output to stdout (values as supported by [logrus](https://github.com/sirupsen/logrus)). | `warn` | |
 |`--graceperiod` | How long to wait for ongoing calls to finish before shutting down or restarting. Restarting may leave orphaned calls on the Zammad side. | `60s` ||
@@ -44,11 +44,11 @@ The following options are available:
 |`--pbx.pass` | Password for authentication with the PBX. | _none_ | × |
 |`--pbx.appname` | Application name used when connecting to the PBX (informational only). | `innovazammad` ||
 |`--pbx.monitoruser` | PBX user object for which events will be monitored. Possibly a 'trunk line'. | _none_ | × |
-|`--pbx.filterongroup | Only events for users in this group will be submitted to Zammad. If not provided, all calls will be submitted. | _none_ ||
-|`--pbx.groupcachetime| Time to cache group membership information used by `pbx.filterongroup`. Setting this to `0` causes group membership to be checked for every incoming event.| `300s` ||
-|`--zammad.endpointurl| URL to Zammad's 'CTI (generic)' endpoint. Can be found in Zammad's integration settings page. | _none_ |×|
-|`--zammad.trimfirstzero` | Whether to remove a first zero from incoming numbers from the PBX. This will probably be necessary for cases where calls come through a trunk line. | `true` ||
-|`--zammad.countrycode` | Country code to prepend to unqualified phone numbers received from the PBX. | `49` ||
+|`--pbx.filterongroup` | Only events for users in this group will be submitted to Zammad. If not provided, all calls will be submitted. | _none_ ||
+|`--pbx.groupcachetime` | Time to cache group membership information used by `pbx.filterongroup`. Setting this to `0` causes group membership to be checked for every incoming event.| `300s` ||
+|`--zammad.endpointurl` | URL to Zammad's 'CTI (generic)' endpoint. Can be found in Zammad's integration settings page. | _none_ |×|
+|`--zammad.trunkprefix` | Optional prefix to trim from the phone numbers received from the PBX. Normally necessary if calls come through a trunk line. | `0` ||
+|`--zammad.countrycode` | Country code to prepend to area-local phone numbers received from the PBX. | `49` ||
 |`--zammad.numberprefix` | Optional number to prepend to unqualified phone numbers received from the PBX. This should transform an internal extension into an E123 number. | `` ||
 
 Additionally, all flags can be provided via environment variables, by prefixing their names with `INNOVAZAMMAD_` and replacing any dot (`.`) with underscore (`_`). E.g.: `--pbx.url` becomes `INNOVAZAMMAD_PBX_URL`.
