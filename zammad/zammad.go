@@ -140,7 +140,7 @@ func (zs *Session) ShutdownIfEmpty() {
 func (zs *Session) Submit(ctx context.Context, call *innovaphone.CallInSession) error {
 	zs.stats.Add("events_total", 1)
 
-	src, dst, user, err := call.GetSourceAndDestination()
+	src, dst, err := call.GetSourceAndDestination()
 	if err != nil {
 		return err
 	}
@@ -167,6 +167,15 @@ func (zs *Session) Submit(ctx context.Context, call *innovaphone.CallInSession) 
 		"from":      []string{src.Normalize()},
 		"to":        []string{dst.Normalize()},
 		"direction": []string{dir.String()},
+	}
+
+	// "dir" here is session-based, not call-based
+	var user string
+	switch dir {
+	case innovaphone.DirectionInbound:
+		user = dst.Cn
+	case innovaphone.DirectionOutbound:
+		user = src.Cn
 	}
 
 	transition := stateTransition{curState: entry.State, newState: newState}
