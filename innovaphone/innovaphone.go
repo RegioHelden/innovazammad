@@ -16,6 +16,8 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+//go:generate wsdl2go -p innovaphone -i pbx.wsdl -o pbx.generated.go
+
 // Session keeps information about the current session to the innovaphone PBX
 type Session struct {
 	PbxPortType
