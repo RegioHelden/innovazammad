@@ -55,7 +55,7 @@ The environment variable names can be created by prefixing the flag name with `I
 
 ## Compatibility
 
-Currently `innovazammad` uses innovaphone's v11 SOAP API (see `innovaphone/pbx.wsdl`). Older PBX versions might not work.
+Currently `innovazammad` uses innovaphone's v11 and newer SOAP API (see `innovaphone/pbx.wsdl`). Older PBX versions might not work.
 
 On the Zammad side, it has been tested against the `2.9.x` branch.
 
