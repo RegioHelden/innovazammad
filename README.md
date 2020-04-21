@@ -38,13 +38,13 @@ The following options are available:
 |`--confpath` | Path to configuration file.  | `/etc/innovazammad.yaml` | |
 |`-l`, `--loglevel` | How much logging will be output to stdout (values as supported by [logrus](https://github.com/sirupsen/logrus)). | `warn` | |
 |`--graceperiod` | How long to wait for ongoing calls to finish before shutting down or restarting. Restarting may leave orphaned calls on the Zammad side. | `60s` ||
-|`--pbx.url` | Under which URL should `innovazammad` attempt to connect to the PBX. | _none_ | × |
+|`--pbx.url` | Under which URL should `innovazammad` attempt to connect to the PBX. Including protocol http or https. | _none_ | × |
 |`--pbx.endpointpath` | Path under `pbx.url` where the API is accessible. | `/PBX0/user.soap` ||
-|`--pbx.user` | User for authentication with the PBX. | _none_ | × |
+|`--pbx.user` | User for authentication with the PBX. To access the API you need to use an [Admin Account](https://wiki.innovaphone.com/index.php?title=Reference10:General/Admin#Additional_Administrator_Accounts). | _none_ | × |
 |`--pbx.pass` | Password for authentication with the PBX. | _none_ | × |
 |`--pbx.appname` | Application name used when connecting to the PBX (informational only). | `innovazammad` ||
 |`--pbx.monitoruser` | PBX user object for which events will be monitored. Possibly a 'trunk line'. | _none_ | × |
-|`--pbx.filterongroup` | Only events for users in this group will be submitted to Zammad. If not provided, all calls will be submitted. | _none_ ||
+|`--pbx.filterongroup` | Only events for users in this group will be submitted to Zammad. If not provided, all calls will be submitted. Only filtering one group is supported. | _none_ ||
 |`--pbx.groupcachetime` | Time to cache group membership information used by `pbx.filterongroup`. Setting this to `0` causes group membership to be checked for every incoming event.| `300s` ||
 |`--zammad.endpointurl` | URL to Zammad's 'CTI (generic)' endpoint. Can be found in Zammad's integration settings page. | _none_ |×|
 |`--zammad.trunkprefix` | Optional prefix to trim from the phone numbers received from the PBX. Normally necessary if calls come through a trunk line. | `0` ||
