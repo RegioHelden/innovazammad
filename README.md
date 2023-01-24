@@ -1,3 +1,7 @@
+# DEPRECATED
+
+**This project has been abandoned and will not see any further updates.**
+
 [![Build Status](https://travis-ci.org/RegioHelden/innovazammad.svg?branch=master)](https://travis-ci.org/RegioHelden/innovazammad)
 [![Go Report Card](https://goreportcard.com/badge/github.com/regiohelden/innovazammad)](https://goreportcard.com/report/github.com/regiohelden/innovazammad)
 
